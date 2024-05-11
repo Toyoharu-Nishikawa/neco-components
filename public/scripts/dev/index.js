@@ -6,6 +6,8 @@ const plotly = document.querySelector("neco-plotly")
 const mj = document.querySelector("neco-minijscad")
 const thr = document.querySelector("neco-three")
 
+const div = document.querySelector("div")
+const inp = document.querySelector("input")
 
 export const initialize = () => {
   readBtn.onread = (files) =>{

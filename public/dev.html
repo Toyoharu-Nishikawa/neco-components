@@ -13,13 +13,15 @@
     import "neco-components/fileReaderZone.js"
     import "neco-components/fileReaderButton.js"
     import "neco-components/button.js"
-//    import "neco-components/ace.js"
-//    import "neco-components/plotly.js"
-//    import "neco-components/minijscad.js"
+    import "neco-components/ace.js"
+    import "neco-components/plotly.js"
+    import "neco-components/minijscad.js"
     import "neco-components/three.js"
+    import "neco-components/table.js"
+    import "neco-components/tabs.js"
   </script>
 
-  <script type="module" src="./scripts/index.js"></script>
+  <script type="module" src="./scripts/dev.js"></script>
   <style>
     body{
       width: 100vw;
@@ -43,15 +45,18 @@
     height:400px;
     width:800px;
   }
-  neco-tab{
-    height:400px;
-    width:800px;
-  }
   neco-three{
     height:400px;
     width:800px;
   }
-
+  neco-table{
+    height:200px;
+    width:500px;
+  }
+  neco-tabs{
+    height:500px;
+    width:500px;
+  }
   #xx{
     height:400px;
     width:800px;
@@ -62,9 +67,31 @@
   <neco-button name="draw" data-text="draw"></neco-button>
   <neco-button name="clear" data-text="clear"></neco-button>
   <neco-file-reader-button multiple="multiple"></neco-file-reader-button>
+  <neco-tabs
+    data-tabs='["tokyo","osaka","fukuoka","okinawa"]'
+    data-pages='["<neco-ace></neco-ace>","<neco-plotly></neco-plotly>","<neco-minijscad></neco-minijscad>","<neco-ace></neco-ace>"]'
+  ></neco-tabs>
+  <neco-tabs
+    data-tabs='["tokyo","osaka","fukuoka"]'
+    data-pages='["<neco-plotly></neco-plotly>","<neco-ace></neco-ace>","<neco-minijscad></neco-minijscad>"]'
+  ></neco-tabs>
 
-  <neco-three></neco-three>
+
+
 <!--
+  <neco-three></neco-three>
+  <neco-table
+    data-format= '[
+      ["height", "<input>"],
+      ["weight", "<input>"],
+      ["BMI"   , "<output>"]
+    ]'
+    data-widht ='[150px,150px]'
+    data-height='[ 50px, 50px]'
+    data-font='16pt'
+    data-css=''
+  ></neco-table>
+
   <neco-plotly></neco-plotly>
   <neco-minijscad></neco-minijscad>
 
