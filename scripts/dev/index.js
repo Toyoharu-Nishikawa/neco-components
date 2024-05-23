@@ -1,28 +1,40 @@
 const clickBtnClear = document.querySelector("neco-button[name='clear']")
 const clickBtnDraw = document.querySelector("neco-button[name='draw']")
+const clickBtnPop = document.querySelector("neco-button[name='pop']")
+const clickBtnHide = document.querySelector("neco-button[name='hide']")
 const readBtn = document.querySelector("neco-file-reader-button")
 const editor = document.querySelector("neco-ace")
 const plotly = document.querySelector("neco-plotly")
 const mj = document.querySelector("neco-minijscad")
 const thr = document.querySelector("neco-three")
+const jsF = document.querySelector("neco-jsframe")
 
 const div = document.querySelector("div")
 const inp = document.querySelector("input")
+const tabs = document.querySelector("neco-tabs")
 
 export const initialize = () => {
-  readBtn.onread = (files) =>{
-    const file = files[0] 
-    const text = file.text
-    editor.value = text
-  }
-  clickBtnClear.onclick = () => {
-    //plotly.react()
-    //mj.style.width="300px"
-    //thr.style.width="300px"
-  }
-  clickBtnDraw.onclick = () => {
-    drawTHREE()
-  }
+    clickBtnPop.onclick = ()=>jsF.show()
+    clickBtnHide.onclick = ()=>jsF.hide()
+    console.log(tabs) 
+    console.log(tabs.shadowRoot) 
+    console.log(tabs.pages) 
+    const minijscad = tabs.pages[2].querySelector("neco-minijscad")
+    console.log(minijscad)
+
+//  readBtn.onread = (files) =>{
+//    const file = files[0] 
+//    const text = file.text
+//    editor.value = text
+//  }
+//  clickBtnClear.onclick = () => {
+//    //plotly.react()
+//    //mj.style.width="300px"
+//    //thr.style.width="300px"
+//  }
+//  clickBtnDraw.onclick = () => {
+//    drawTHREE()
+//  }
 }
 const drawTHREE = () => {
   const THREE = thr.THREE
