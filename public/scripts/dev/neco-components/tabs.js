@@ -35,7 +35,7 @@ const template = (params) => `
 }
 
 /*ラジオボタンを全て消す*/
-input[name="tab_item"] {
+input[name="${params.prefix}_tab_item"] {
   display: none;
 }
 
@@ -56,17 +56,26 @@ input[name="tab_item"] {
 
 /*選択されているタブのコンテンツのみを表示*/
 
-.tabs input:checked + .tab_item + .tab_content {
+.${params.prefix} .tabs input:checked + .tab_item + .tab_content {
   visibility: visible;
 }
 
 /*選択されているタブのスタイルを変える*/
-.tabs input:checked + .tab_item {
+.${params.prefix} .tabs input:checked + .tab_item {
   background-color: #5ab4bd;
   color: #fff;
 }
 </style>
 `
+// アルファベットの配列を作成
+const alphabets = "abcdefghijklmnopqrstuvwxyz".split("");
+
+// ランダムなインデックスを生成
+const getRandomIndex = () => Math.floor(Math.random() * alphabets.length)
+
+// ランダムなアルファベットを３文字生成して出力
+const printRandomAlphabets = (N) => [...Array(N)].reduce((p,c)=>p+=alphabets[getRandomIndex()],"")
+
 
 const customElem = class extends HTMLElement {
   constructor(){
@@ -75,12 +84,22 @@ const customElem = class extends HTMLElement {
   }
   connectedCallback() {
     const params = {
+      isShadow:  this.dataset?.isShadow ? (this.dataset.isShadow.toLowerCase()==="false" ? false:true): true ,
       tabs:  this.dataset.tabs,
       pages: this.dataset.pages,
     }
 
-    const shadow = this.attachShadow({mode: 'open'});
-    this.shadow=shadow
+    const prefix = printRandomAlphabets(6)
+    let shadow
+    const isShadow = params.isShadow
+    this.isShadow = isShadow
+    if(isShadow){
+      shadow = this.attachShadow({mode: 'open'});
+      this.shadow=shadow
+    }
+    const parentElement = isShadow ? shadow : this
+    const spanElem = document.createElement("span")
+    spanElem.className = prefix
     const tabs = JSON.parse(params.tabs)
     const pages = JSON.parse(params.pages)
     const tabsElem = document.createElement("div")
@@ -89,14 +108,15 @@ const customElem = class extends HTMLElement {
     const pN = pages.length
     console.log("tN",tN,params.tabs)
     
+    const pageNodes = []
     tabs.forEach((v,i)=>{
       const inputElem = document.createElement("input")
       inputElem.type="radio"
-      inputElem.name="tab_item"
+      inputElem.name=prefix+"_tab_item"
       if(i==0){
         inputElem.checked=true
       }
-      const id = "tab_" + String(i)
+      const id = prefix+"_tab_" + String(i)
       inputElem.id = id
       const labelElem = document.createElement("label")
       labelElem.className="tab_item"
@@ -113,29 +133,22 @@ const customElem = class extends HTMLElement {
       const nodes = [...d.body.childNodes]
       nodes.forEach(node=>divElem.appendChild(node))
       tabsElem.appendChild(divElem)
-
-
+      pageNodes.push(divElem)
     })
-//    pages.forEach((v,i)=>{
-//      const divElem = document.createElement("div")
-//      divElem.className = "tab_content"
-//      divElem.id = "page_"+String(i)
-//      const d = new DOMParser().parseFromString(v, "text/html")
-//      const nodes = [...d.body.childNodes]
-//      nodes.forEach(node=>divElem.appendChild(node))
-//      tabsElem.appendChild(divElem)
-//    })
-    const styleStringList = [...Array(tN)].map((v,i)=>`#tab_${i}:checked ~ #page_${i}`)
-    const styleString = styleStringList.join(",")+"{display:block;}"
+    spanElem.appendChild(tabsElem)
 
-    const styleParams = {styleString,tN}
+    const styleParams = {tN,prefix}
     const dom = new DOMParser().parseFromString(template(styleParams), "text/html")
-    //this.appendChild(dom.head.querySelector("style"))
-    //this.appendChild(tabsElem)
 
-    shadow.appendChild(dom.head.querySelector("style"))
-    shadow.appendChild(tabsElem)
+    parentElement.appendChild(dom.head.querySelector("style"))
+    parentElement.appendChild(spanElem)
+    this.parentElemen = parentElement
+    this.pageNodes = pageNodes
   }
+  get pages(){
+    return this.pageNodes
+  }
+
 }
 
 export default customElements.define(tagName, customElem)
