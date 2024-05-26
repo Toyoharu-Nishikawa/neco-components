@@ -1,14 +1,14 @@
-await import("../jsuites/dist/jsuites.js")
-await import("../jspreadsheet-ce/dist/index.js")
+await import("./modules/jsuites/dist/jsuites.js")
+console.log(jSuites)
+await import("./modules/jspreadsheet-ce/dist/index.js")
+console.log("error")
 
 
 const url = import.meta.url
-const cssMainPath = url.split("/").slice(0,-2).join("/")+"/jspreadsheet-ce/dist/jspreadsheet.css"
-const cssDatatablesPath = url.split("/").slice(0,-2).join("/")+"/jspreadsheet-ce/dist/jspreadsheet.datatables.css"
-const cssThemePath = url.split("/").slice(0,-2).join("/")+"/jspreadsheet-ce/dist/jspreadsheet.theme.css"
-const cssJsuitesPath = url.split("/").slice(0,-2).join("/")+"/jsuites/dist/jsuites.css"
-const cssPublicPath = "https://jsuites.net/docs/v4/jsuites.css"
-const cssPublic2Path = "https://bossanova.uk/jspreadsheet/v4/jexcel.css"
+const cssMainPath = url.split("/").slice(0,-1).join("/")+"/modules/jspreadsheet-ce/dist/jspreadsheet.css"
+const cssDatatablesPath = url.split("/").slice(0,-1).join("/")+"/modules/jspreadsheet-ce/dist/jspreadsheet.datatables.css"
+const cssThemePath = url.split("/").slice(0,-1).join("/")+"/modules/jspreadsheet-ce/dist/jspreadsheet.theme.css"
+const cssJsuitesPath = url.split("/").slice(0,-1).join("/")+"/modules/jsuites/dist/jsuites.css"
 
 const tagName = "neco-jspreadsheet"
 
@@ -25,9 +25,9 @@ const template = (params) => `
 </style>
 <link rel="stylesheet" href=${cssJsuitesPath}>
 <link rel="stylesheet" href=${cssMainPath}>
-<link rel="stylesheet" href=${cssDatatablesPath}>
 <div id="jspreadsheet"> </div>
 `
+//<link rel="stylesheet" href=${cssDatatablesPath}>
 //<link rel="stylesheet" href=${cssThemePath}>
 
 const customElem = class extends HTMLElement {
@@ -89,12 +89,12 @@ const columns= [
       const height = rect.height
       this.resize(width,height)
     })
-    resizeObserver.observe(shadow.host)
+    //resizeObserver.observe(shadow.host)
+    resizeObserver.observe(divElem)
   }
   resize(width,height){
-    this.jspreadsheet.setWidth(width)
-    this.jspreadsheet.setHeight(height)
-//    this.jspreadsheet.updateSettings({width,height})
+    this.jspreadsheet.content.style.width = width + "px"
+    this.jspreadsheet.content.style.height = height + "px"
   }
 }
 

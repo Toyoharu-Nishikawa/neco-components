@@ -23,11 +23,9 @@ const template = (params) => `
   font-size: 16px;
   text-align: center;
   color: #565656;
-  display: block;
   float: left;
   text-align: center;
   font-weight: bold;
-  transition: all 0.2s ease;
 }
 .tab_item:hover {
   cursor: pointer;
@@ -57,7 +55,7 @@ input[name="${params.prefix}_tab_item"] {
 /*選択されているタブのコンテンツのみを表示*/
 
 .${params.prefix} .tabs input:checked + .tab_item + .tab_content {
-  visibility: visible;
+  visibility: unset;
 }
 
 /*選択されているタブのスタイルを変える*/
@@ -84,7 +82,7 @@ const customElem = class extends HTMLElement {
   }
   connectedCallback() {
     const params = {
-      isShadow:  this.dataset?.isShadow ? (this.dataset.isShadow.toLowerCase()==="false" ? false:true): true ,
+      isShadow:  this.dataset?.isShadow ? (this.dataset.isShadow.toLowerCase()==="true" ? true:false): false ,
       tabs:  this.dataset.tabs,
       pages: this.dataset.pages,
     }
@@ -98,6 +96,8 @@ const customElem = class extends HTMLElement {
       this.shadow=shadow
     }
     const parentElement = isShadow ? shadow : this
+    const elementTarget = isShadow ? shadow.host : this
+
     const spanElem = document.createElement("span")
     spanElem.className = prefix
     const tabs = JSON.parse(params.tabs)
@@ -144,6 +144,15 @@ const customElem = class extends HTMLElement {
     parentElement.appendChild(spanElem)
     this.parentElemen = parentElement
     this.pageNodes = pageNodes
+
+//    const resizeObserver = new ResizeObserver((entries) => {
+//      const e = entries[0]
+//      const rect = e.target.getBoundingClientRect()
+//      const width  = rect.width
+//      const height = rect.height
+//      this.resize(width,height)
+//    })
+//    resizeObserver.observe(elementTarget)
   }
   get pages(){
     return this.pageNodes
