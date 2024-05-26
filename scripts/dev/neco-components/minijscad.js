@@ -10,7 +10,7 @@ div  {
 }
 
 </style>
-<div id="minijscad">
+<div>
 </div>
 `
 
@@ -20,13 +20,25 @@ const customElem = class extends HTMLElement {
     this.shadow
   }
   connectedCallback() {
-    const shadow = this.attachShadow({mode: 'open'});
-    this.shadow=shadow
-    const dom = new DOMParser().parseFromString(template(), "text/html")
-    shadow.appendChild(dom.head.querySelector("style"))
-    shadow.appendChild(dom.body.querySelector("div"))
+    const params = {
+      isShadow:  this.dataset?.isShadow ? (this.dataset.isShadow.toLowerCase()==="false" ? false:true): true ,
+      tabs:  this.dataset.tabs,
+      pages: this.dataset.pages,
+    }
+    let shadow
+    const isShadow = params.isShadow
+    this.isShadow = isShadow
+    if(isShadow){
+      shadow = this.attachShadow({mode: 'open'});
+      this.shadow=shadow
+    }
+    const parentElement = isShadow ? shadow : this
 
-    const divElem = shadow.querySelector("div")
+    const dom = new DOMParser().parseFromString(template(), "text/html")
+    parentElement.appendChild(dom.head.querySelector("style"))
+    parentElement.appendChild(dom.body.querySelector("div"))
+
+    const divElem = parentElement.querySelector("div")
     const width = divElem.getBoundingClientRect().width
     const height = divElem.getBoundingClientRect().height
   
