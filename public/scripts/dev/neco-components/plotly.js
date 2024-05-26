@@ -253,7 +253,7 @@ width: 100%;
     cursor:pointer
 }
 </style>
-<div id="plotly"></div>
+<div></div>
 `
 
 const customElem = class extends HTMLElement {
@@ -263,18 +263,27 @@ const customElem = class extends HTMLElement {
     this.plotly
   }
   async connectedCallback() {
-    const shadow = this.attachShadow({mode: 'open'});
-    this.shadow=shadow
+    const params = {
+      isShadow:  this.dataset?.isShadow ? (this.dataset.isShadow.toLowerCase()==="true" ? true:false): false ,
+    }
+    let shadow
+    const isShadow = params.isShadow
+    this.isShadow = isShadow
+    if(isShadow){
+      shadow = this.attachShadow({mode: 'open'});
+      this.shadow=shadow
+    }
+    const parentElement = isShadow ? shadow : this
+    const elementTarget = isShadow ? shadow.host : this
+
     const dom = new DOMParser().parseFromString(template(), "text/html")
-    shadow.appendChild(dom.head.querySelector("style"))
-    shadow.appendChild(dom.body.querySelector("div"))
-    const divElem = shadow.querySelector("#plotly")
+    parentElement.appendChild(dom.head.querySelector("style"))
+    parentElement.appendChild(dom.body.querySelector("div"))
+    const divElem = parentElement.querySelector("div")
     const data = []
     const layout = {
       autosize: true,
-      //height: 500,
       title: '',
-      //width: 800,
       xaxis: {
         autorange: true,
         type: 'linear'
@@ -294,70 +303,15 @@ const customElem = class extends HTMLElement {
     this.plotly=plotly
   }
   react(data, layout){
-    const divElem = this.shadow.querySelector("#plotly")
+    const divElem = this.ploty
     Plotly.react(divElem, data,layout)
   }
   relayout(layout){
-    const divElem = this.shadow.querySelector("#plotly")
+    const divElem = this.plotly
     Plotly.relayout(divElem, layout)
   }
-
 }
 
-const test = () =>{
-    const divElem = document.querySelector("#xx")
-    const  trace1 = {
-      x: ['1.4629541543408053', '1.449384764554683', '1.443271124323532',
-          '1.4357189805085815', '1.426728333109831', '1.4046113405089038',
-          '1.404467131323703', '1.3777133677122921', '1.2855256245554019',
-          '1.2480297808974994', '1.182693187236171', '1.0869666897654229',
-          '1.0990904606647236', '0.8837704923717853', '0.8837704923717853',
-          '0.756470897929133', '0.756470897929133', '0.5604875712810431',
-          '0.37012689943296184', '0.33488011769506265', '0.31332086846610796',
-          '0.2901978576275086', '0.2505442172906829', '0.25187336433201235',
-          '0.3130141282331893', '0.3329513338531367'], 
-      y: ['1.3529478271923225', '1.3586279251673754', '1.3562903568437001',
-          '1.339387939734049', '1.3079206738384206', '1.2924567603125694',
-          '1.307004694903538', '1.3034649045327376', '1.285373765624191',
-          '1.2559692540111211', '1.2081594707242795', '1.1140507570884464',
-          '1.1189881115780949', '0.9535602818389741', '0.9535602818389741',
-          '0.9017180596976648', '0.9017180596976648', '0.9491150666707611',
-          '1.0694743143644796', '1.0692546990396585', '1.0180713228728122',
-          '1.0227890620376396', '0.9995185750800757', '0.9642961784848334',
-          '0.8911930912116899', '0.8785661943190564'], 
-      marker: {size: 8}, 
-      mode: 'lines+markers', 
-      name: 'Foot-y [m]', 
-      type: 'scatter', 
-      uid: '0f9fa6'
-    };
-    const data = [trace1]
-    const layout = {
-      autosize: true,
-      //height: 500,
-      title: '',
-      //width: 800,
-      xaxis: {
-        autorange: true,
-        type: 'linear'
-      },
-      yaxis: {
-        autorange: true,
-        type: 'linear'
-      }
-    }
-    const plotly = Plotly.newPlot(divElem,data,layout,{
-      editable: true,
-      scrollZoom: true,
-      showLink: false,
-      displaylogo: false,
-      modeBarButtonsToRemove: ['sendDataToCloud']
-    })
 
-    divElem.on("plotly_click",() => {
-      console.log("changed")
-    })
-}
-//test()
 
 export default customElements.define(tagName, customElem)

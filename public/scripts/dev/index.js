@@ -8,19 +8,20 @@ const plotly = document.querySelector("neco-plotly")
 const mj = document.querySelector("neco-minijscad")
 const thr = document.querySelector("neco-three")
 const jsF = document.querySelector("neco-jsframe")
+const popup = document.querySelector("neco-popup")
 
 const div = document.querySelector("div")
 const inp = document.querySelector("input")
 const tabs = document.querySelector("neco-tabs")
 
 export const initialize = () => {
-    clickBtnPop.onclick = ()=>jsF.show()
-    clickBtnHide.onclick = ()=>jsF.hide()
-    console.log(tabs) 
-    console.log(tabs.shadowRoot) 
-    console.log(tabs.pages) 
-    const minijscad = tabs.pages[2].querySelector("neco-minijscad")
-    console.log(minijscad)
+    clickBtnPop.onclick = ()=>popup.show()
+    clickBtnHide.onclick = ()=>popup.hide()
+//    console.log(tabs) 
+//    console.log(tabs.shadowRoot) 
+//    console.log(tabs.pages) 
+//    const minijscad = tabs.pages[2].querySelector("neco-minijscad")
+//    console.log(minijscad)
 
 //  readBtn.onread = (files) =>{
 //    const file = files[0] 
