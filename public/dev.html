@@ -5,11 +5,10 @@
   <script type="importmap">
     {
       "imports": {
-        "neco-components/": "./scripts/dev/neco-components/"
+        "neco-components/": "./scripts/neco-components/"
       }
     }
   </script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
   <!--
   -->
   <script type="module" >
@@ -19,12 +18,13 @@
     import "neco-components/ace.js"
     import "neco-components/plotly.js"
     import "neco-components/minijscad.js"
-//    import "neco-components/three.js"
+    import "neco-components/three.js"
 //    import "neco-components/table.js"
     import "neco-components/tabs.js"
     import "neco-components/handsontable.js"
     import "neco-components/jspreadsheet.js"
-    import "neco-components/jsframe.js"
+    import "neco-components/popup.js"
+    import "neco-components/tabulator.js"
   </script>
   <script type="module" src="./scripts/dev.js"></script>
   <style>
@@ -70,12 +70,10 @@
     height:200px;
     width:500px;
   }
-  neco-jsframe{
-/*    height:100vh;
-    width:100vw;
-    */
+  neco-tabulator{
+    height:200px;
+    width:500px;
   }
-
 
   #xx{
     height:400px;
@@ -87,6 +85,33 @@
   <neco-button data-text="pop-up" name="pop"></neco-button>
   <neco-button data-text="hide" name="hide"></neco-button>
 
+  <neco-plotly></neco-plotly>
+  <neco-tabulator
+    data-headers='["val1","val2","val3"]'
+    data-data='[
+      ["x", "y","z"],
+      ["u", "v","w"]
+    ]'
+  ></neco-tabulator>
+  <neco-popup data-title='popup'>
+    <template>
+      <neco-tabs
+        data-tabs='["tokyo","osaka","fukuoka","okinawa","sappro"]'
+        data-pages='[
+          "<neco-ace></neco-ace>",
+          "<neco-jspreadsheet></neco-jspreadsheet>",
+          "<neco-minijscad></neco-minijscad>",
+          "<neco-tabulator></neco-tabulator>",
+          "<neco-plotly></neco-plotly>"
+        ]'
+      ></neco-tabs>
+    </template>
+  </neco-popup>
+
+
+
+
+<!--
   <neco-tabs
     data-is-shadow=false
     data-tabs='["tokyo","osaka","fukuoka","okinawa"]'
@@ -115,9 +140,6 @@
   ></neco-tabs>
 
 
-
-
-<!--
   <neco-handsontable
     data-is-shadow=false
     data-data = '
@@ -135,12 +157,6 @@
   ></neco-handsontable>
 
 
-
-  <neco-jsframe
-    data-is-shadow='false'
-    data-title='pop-up'
-    data-html='<neco-minijscad></neco-minijscad>'
-  ></neco-jsframe>
 
 
   <neco-tabs
