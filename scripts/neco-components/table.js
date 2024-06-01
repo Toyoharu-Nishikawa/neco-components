@@ -2,37 +2,57 @@ const tagName = "neco-table"
 
 const template = (params) => `
 <style>
-div {
-  color: #3e5358;
-  border-radius: 1px;
-  border: 1px solid #1495b5;
-  border-radius: 6px 6px 6px 6px;
-  margin: 10px 20px 10px 50px;
-  width: 100px;
-  height: 28px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+${params.widthStyleString}
+${params.heightStyleString}
+
+table {
+  border-spacing: 0;
+  table-layout: fixed;
+  box-sizing: content-box;
+  border-collapse: collapse; 
 }
-div:hover {
-  background: #1495b5;
-  color: #F5FFFA;
-  transition: 1.2s;
-  cursor: pointer;
-}
-div > a {
- margin:0;
- padding:0;
+tbody {
+  padding:0;
+  margin:0;
+  box-sizing:border-box;
+  table-layout: fixed;
 }
 
+td{
+  padding: 5px;
+  margin:0;
+  height: 100%;
+  table-layout: fixed;
+  box-sizing:border-box;
+
+  ${params.verticalLine   ? "border-left:1px solid;border-right:1px solid;":""}
+  ${params.horizontalLine ? "border-bottom:1px solid;border-top:1px solid;":""}
+}
+th{
+  background: ${params.headerBackground};
+  ${params.verticalLine   ? "border-left:1px solid;border-right:1px solid;":""}
+  ${params.horizontalLine ? "border-bottom:1px solid;border-top:1px solid;":""}
+}
+
+${params.evenBackground ? "tr:nth-child(eve){background:"+params.evenBackground+"}":""}
+${params.oddBackground  ? "tr:nth-child(odd){background:"+params.oddBackground+"}":""}
+
+td > output,
+td > input{
+  width: 100%; 
+  height: 100%; 
+  max-width:100%;
+  box-sizing:border-box;
+}
+
+td > output{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow:hidden;
+}
 </style>
-<link rel="stylesheet" href="sample.css">
-<table>
-  <tbody>
-  </tbody>
-</table>
 `
-const T = class {
+const Text = class {
   constructor(val){
     this.val = val
   }
@@ -43,7 +63,7 @@ const T = class {
     this.val.textContent = v
   }
 }
-const I = class {
+const IO = class {
   constructor(val){
     this.val = val
   }
@@ -63,47 +83,133 @@ const customElem = class extends HTMLElement {
   }
   connectedCallback() {
     const params = {
-      format:this.dataset.format,
+      isShadow:  this.dataset?.isShadow ? (this.dataset.isShadow.toLowerCase()==="false" ? false:true): true ,
+      caption:this.dataset.caption,
+      data:this.dataset.data,
+      header:this.dataset.header || "[]",
       width:this.dataset.width,
       height:this.dataset.height,
-      font:this.dataset.font,
+      verticalLine: this.dataset.verticalLine ? (this.dataset.verticalLine.toLowerCase()==="true" ? true:false): false,
+      horizontalLine: this.dataset.horizontalLine ? (this.dataset.horizontalLine.toLowerCase()==="true" ? true:false): false,
+      oddBackground: this.dataset.oddBackground,
+      evenBackground: this.dataset.evenBackground,
+      headerBackground: this.dataset.headerBackground,
       css:this.dataset.css,
     }
-    const shadow = this.attachShadow({mode: 'open'});
-    this.shadow=shadow
-    console.log(params.format)
-    const format = JSON.parse(params.format)
+    const isShadow = params.isShadow
+    this.isShadow = isShadow
+    let shadow
+    if(isShadow){
+      shadow = this.attachShadow({mode: 'open'});
+      this.shadow=shadow
+    }
+    const parentElement = isShadow ? shadow : this
+ 
+    const data = JSON.parse(params.data)
+    const header = JSON.parse(params.header)
     const tableElem = document.createElement("table")
     const tbodyElem = document.createElement("tbody")
-    format.forEach(tr=>{
+    const list = []
+    const obj = {}
+
+    if(params.caption){
+        const captionElem = document.createElement("caption")
+        captionElem.textContent = params.caption
+      tableElem.appendChild(captionElem)
+    }
+    if(header.length>0){
+    const trElemForH = document.createElement("tr")
+      header.forEach(h=>{
+        const thElem = document.createElement("th")
+        thElem.textContent = h
+        trElemForH.appendChild(thElem)
+      })
+      tbodyElem.appendChild(trElemForH)
+    }
+    data.forEach(tr=>{
       const trElem = document.createElement("tr")
       const trFragment = document.createDocumentFragment()
+      const inList = []
       tr.forEach(td=>{
         const tdElem = document.createElement("td")
-        const isHTML = td.match(/<("[^"]*"|\'[^\']*\'|[^\'">])*>/)
+        const isHTML = td.match(/<input.*>|<output.*>/)
         if(isHTML){
           const tdDom = new DOMParser().parseFromString(td, "text/html")
-          console.log("tdDOM",tdDom)
-          tdDom.body.childNodes.forEach(node=>tdElem.appendChild(node))
-          
-          //tdElem.appendChild(tdDom)
+          const ioElem = tdDom.body.childNodes[0]
+          tdElem.append(ioElem)
+          if(ioElem.tagName==="INPUT"){
+            ioElem.onchange = this.afterchange.bind(this)
+          }
+          const io = new IO(ioElem)
+          inList.push(io) 
+          const nameValue = ioElem.getAttribute("name")
+          if(nameValue){
+            obj[nameValue] = io
+          }
         }
         else{
-          //const tdDom = new DOMParser().parseFromString(td, "text/html")
-          //console.log("tdDOM",tdDom)
           tdElem.textContent = td
+          const text = new Text(td)
+          inList.push(text) 
         }
-        console.log("tdDom",td)
         trElem.appendChild(tdElem)
       }) 
+      list.push(inList)
       tbodyElem.appendChild(trElem)
     })
     tableElem.appendChild(tbodyElem)
- 
-    //const dom = new DOMParser().parseFromString(template(params), "text/html")
-    //shadow.appendChild(dom.head.querySelector("style"))
-    shadow.appendChild(tableElem)
+    if(params.css){
+      const link = document.createElement("link")
+      link.href = params.css
+      tabaleElem.appendChild(link)
+    }
+
+    let widthStyleString = ""
+    if(params.width){
+      const widthList = JSON.parse(params.width)
+      const styleStringList = widthList.map((v,i)=>`td:nth-child(${i+1}){width:${v};}`)
+      widthStyleString = styleStringList.reduce((p,c)=>p+c,"")
+    }
+    let heightStyleString = ""
+    if(params.height){
+      const heightList = JSON.parse(params.height)
+      const styleStringList = heightList.map((v,i)=>`tr:nth-child(${i+1}){height:${v};}`)
+      heightStyleString = styleStringList.reduce((p,c)=>p+c,"")
+    }
+
+    const styleParams ={
+      widthStyleString,
+      heightStyleString,
+      verticalLine:params.verticalLine,
+      horizontalLine:params.horizontalLine,
+      oddBackground:params.oddBackground,
+      evenBackground:params.evenBackground,
+      headerBackground:params.headerBackground,
+    }
+
+    const dom = new DOMParser().parseFromString(template(styleParams), "text/html")
+    parentElement.appendChild(dom.head.querySelector("style"))
+    parentElement.appendChild(tableElem)
+    this.list = list
+    this.obj  = obj
   }
+
+  get cells(){
+    return this.list 
+  }
+  get range(){
+    return this.obj
+  }
+  set onchange(func){
+    this.afterChangeFunc = func 
+  }
+  afterchange(e){
+    e.cells = this.cells
+    e.range = this.range
+    if(typeof this.afterChangeFunc ==="function"){
+      this.afterChangeFunc(e)
+    }
+  } 
 }
 
 export default customElements.define(tagName, customElem)

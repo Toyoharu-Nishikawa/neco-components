@@ -2,72 +2,9 @@
 <html lang="en-us">
 <head>
   <title>neco-components</title>
-  <script type="importmap">
-    {
-      "imports": {
-        "neco-components/": "./scripts/gui/node_modules/neco-components/"
-      }
-    }
-  </script>
-  <script type="module" >
-    import "neco-components/fileReaderZone.js"
-    import "neco-components/fileReaderButton.js"
-    import "neco-components/button.js"
-    import "neco-components/ace.js"
-    import "neco-components/plotly.js"
-    import "neco-components/minijscad.js"
-//    import "neco-components/three.js"
-  </script>
-
-  <script type="module" src="./scripts/index.js"></script>
-  <style>
-    body{
-      width: 100vw;
-      height: 100vh;
-      font-family:  san-serif;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-flow: column nowrap;
-      overflow: hidden;
-    }
-  neco-ace{
-    height:300px;
-    width:500px;
-  }
-  neco-plotly{
-    height:300px;
-    width:500px;
-  }
-  neco-minijscad{
-    height:400px;
-    width:800px;
-  }
-  neco-tab{
-    height:400px;
-    width:800px;
-  }
-  neco-three{
-    height:400px;
-    width:800px;
-  }
-
-  #xx{
-    height:400px;
-    width:800px;
-  }
-  </style>
 </head>
 <body>
-  <neco-button name="draw" data-text="draw"></neco-button>
-  <neco-button name="clear" data-text="clear"></neco-button>
-  <neco-file-reader-button></neco-file-reader-button>
-
-  <neco-ace></neco-ace>
-  <neco-plotly></neco-plotly>
-<!--
-  <neco-minijscad></neco-minijscad>
-  <neco-three></neco-three>
-  -->
+  <a href="./examples/simple_table/">simple table</a>
+  <a href="./examples/simple_layout/">simple layout</a>
 </body>
 </html>
