@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <title>neco-components</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "neco-components/": "../../scripts/neco-components/"
+      }
+    }
+  </script>
+  <script type="module" >
+   import "neco-components/table.js"
+  </script>
+  <style>
+    body{
+      width: 100vw;
+      height: 100vh;
+      font-family:  san-serif;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-flow: column nowrap;
+      overflow: hidden;
+    }
+    neco-table{
+      height:200px;
+      width:500px;
+    }
+  </style>
+</head>
+<body>
+  <neco-table
+    data-caption='Table BMI CALC.'
+    data-header='["item", "value","unit"]'
+    data-data= '[
+      ["height", "<input>", "[m]" ],
+      ["weight", "<input name=\"weight\">", "[kg]"],
+      ["BMI"   , "<output name=\"BMI\">","[-]" ]
+    ]'
+    data-width ='["100px","50px","50px"]'
+    data-height='["40px", "40px","40px"]'
+    data-vertical-line='false'
+    data-horizontal-line='true'
+    data-odd-background='#f0f0f0'
+    data-even-background='white'
+    data-header-background='gray'
+  ></neco-table>
+
+  <script type="module">
+    const table = document.querySelector("neco-table")
+    table.onchange=(e)=>{
+      const weight = Number(e.range.weight.value)
+      const height = Number(e.cells[0][1].value)
+      const BMItmp = weight/height**2
+      const BMI = Math.round(BMItmp*10)/10
+      e.range.BMI.value = BMI 
+    }
+  </script>
+</body>
+</html>
