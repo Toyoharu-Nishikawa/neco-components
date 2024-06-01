@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <title>neco-components</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "neco-components/": "../../scripts/neco-components/"
+      }
+    }
+  </script>
+  <script type="module" >
+    import "neco-components/header.js"
+    import "neco-components/footer.js"
+    import "neco-components/template.js"
+    import "neco-components/plotly.js"
+    import "neco-components/button.js"
+  </script>
+  <style>
+    body{
+      width: 100vw;
+      height: 100vh;
+      font-family:  san-serif;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-flow: column nowrap;
+      overflow: hidden;
+      background: #000066;
+      display:grid;
+      grid-template-rows: 50px 1fr 30px;
+      grid-template-columns: 300px 1fr;
+    }
+    neco-header{
+      grid-row: 1/2;
+      grid-column: 1/3;
+    }
+    neco-template.aside{
+      grid-row: 2/3;
+      grid-column: 1/2;
+    }
+    neco-template.main{
+      grid-row: 2/3;
+      grid-column: 2/3;
+    }
+    neco-footer{
+      grid-row: 3/4;
+      grid-column: 1/3;
+    }
+  </style>
+</head>
+<body>
+  <neco-header
+    data-title='plotly'
+    data-color='#FFFF66'
+  ></neco-header>
+
+  <neco-template class="aside">
+    <template>
+      <style>
+        :host{
+          display:flex;
+          flex-flow: column;
+        }
+        neco-button{
+          margin: 30px 40px;
+          width: 150px;
+          height: 50px;
+        }
+      </style>
+      <neco-button data-text=draw name="draw"></neco-button> 
+      <neco-button data-text=clear name="clear"></neco-button> 
+    </template>
+  </neco-template>
+
+  <neco-template class="main">
+    <template>
+      <style>
+        :host{
+          display:grid;
+          padding: 10px;
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: 1fr 1fr;
+          gap:10px
+        }
+        neco-plotly.left-top    { grid-row: 1/2; grid-column: 1/2;}
+        neco-plotly.right-top   { grid-row: 2/3; grid-column: 1/2;}
+        neco-plotly.left-bottom { grid-row: 1/2; grid-column: 2/3;}
+        neco-plotly.right-bottom{ grid-row: 2/3; grid-column: 2/3;}
+      </style>
+      <neco-plotly class="left-top"></neco-plotly>
+      <neco-plotly class="right-top"></neco-plotly>
+      <neco-plotly class="left-bottom"></neco-plotly>
+      <neco-plotly class="right-bottom"></neco-plotly>
+    </template>
+  </neco-template>
+
+  <neco-footer
+    data-title='plotly'
+    data-version='1.0.0'
+    data-auther='neco-components'
+    data-date-of-issue='2024'
+    data-color='white'
+  ></neco-footer>
+
+  <script type="module">
+    const aside  = document.querySelector("neco-template.aside")
+    const drawBtn  = aside.querySelector("neco-button[name=draw]")
+    const clearBtn  = aside.querySelector("neco-button[name=clear]")
+    const main = document.querySelector("neco-template.main")
+    const plotlyLT = main.querySelector("neco-plotly.left-top")
+    const plotlyRT = main.querySelector("neco-plotly.right-top")
+    const plotlyLB = main.querySelector("neco-plotly.left-bottom")
+    const plotlyRB = main.querySelector("neco-plotly.right-bottom")
+
+    drawBtn.onclick = () => {
+      const  trace1 = {
+        x: [0,1,2,3],
+        y: [2,3,6,7],
+        marker: {size: 8},
+        mode: 'lines+markers',
+        name: ' apple',
+        type: 'scatter',
+      }
+      const  trace2 = {
+        x: [0,1,2,3],
+        y: [2,5,10,7],
+        marker: {size: 8},
+        mode: 'lines+markers',
+        name: 'banana',
+        type: 'scatter',
+      }
+
+      const data = [trace1,trace2]
+      const layout = {
+        autosize: true,
+        title: '',
+        xaxis: {
+          autorange: true,
+          type: 'linear'
+        },
+        yaxis: {
+          autorange: true,
+          type: 'linear'
+        }
+      }
+      plotlyLT.react(data,layout)
+      plotlyRT.react(data,layout)
+      plotlyLB.react(data,layout)
+      plotlyRB.react(data,layout)
+    }
+    clearBtn.onclick = () => {
+      plotlyLT.react()
+      plotlyRT.react()
+      plotlyLB.react()
+      plotlyRB.react()
+    }
+  </script>
+</body>
+</html>

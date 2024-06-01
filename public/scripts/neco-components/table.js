@@ -132,7 +132,8 @@ const customElem = class extends HTMLElement {
       const inList = []
       tr.forEach(td=>{
         const tdElem = document.createElement("td")
-        const isHTML = td.match(/<input.*>|<output.*>/)
+     //   const isHTML = td.match(/<input.*>|<output.*>/)
+        const isHTML = td.match(/<("[^"]*"|\'[^\']*\'|[^\'">])*>/)
         if(isHTML){
           const tdDom = new DOMParser().parseFromString(td, "text/html")
           const ioElem = tdDom.body.childNodes[0]

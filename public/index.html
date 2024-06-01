@@ -2,9 +2,46 @@
 <html lang="en-us">
 <head>
   <title>neco-components</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "neco-components/": "./scripts/neco-components/"
+      }
+    }
+  </script>
+  <script type="module" >
+    import "neco-components/table.js"
+  </script>
 </head>
 <body>
-  <a href="./examples/simple_table/">simple table</a>
-  <a href="./examples/simple_layout/">simple layout</a>
-</body>
+  <neco-table
+    data-caption='Table example pages'
+    data-header='["No.", "pages", "LINK"]'
+    data-data= '[
+      ["1" , "layout"      , "<a href=\"./examples/simple_layout/\">simple layout</a>"],
+      ["2" , "table"       , "<a href=\"./examples/simple_table/\">simple table</a>"],
+      ["3" , "minjscad"    , "<a href=\"./examples/minijscad/\">minijscad</a>"],
+      ["4" , "plotly"      , "<a href=\"./examples/plotly/\">plotly</a>"],
+      ["5" , "three"       , "<a href=\"./examples/three/\">three</a>"],
+      ["6" , "ace editor"  , "<a href=\"./examples/ace/\">ace editor</a>"],
+      ["7" , "spread sheet", "<a href=\"./examples/jspreadsheet/\">jspreadsheet</a>"],
+      ["9" , "tabulator"   , "<a href=\"./examples/tabulator/\">tabulator</a>"],
+      ["10", "tab switch"  , "<a href=\"./examples/tabs/\">tabs</a>"],
+      ["11", "popup"       , "<a href=\"./examples/poup/\">popup</a>"]
+    ]'
+    data-width ='["50px", "150px","200px"]'
+    data-height='[
+      "40px", "40px","40px","40px", "40px",
+      "40px", "40px","40px","40px", "40px",
+      "40px"
+    ]'
+    data-vertical-line='false'
+    data-horizontal-line='true'
+    data-odd-background='#f0f0f0'
+    data-even-background='white'
+    data-header-background='gray'
+  ></neco-table>
+
+
+    </body>
 </html>
