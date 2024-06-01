@@ -1,7 +1,13 @@
 const tagName = "neco-button"
 const template = (params) => `
 <style>
+:host{
+  height: 100%;
+  width: 100%;
+}
 div {
+  height: 100%;
+  width: 100%;
   border: 1px solid #a9a9a9;
   border-radius: 6px 6px 6px 6px;
   
@@ -9,7 +15,6 @@ div {
   justify-content: center;
   align-items: center;
 	box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.25);
-	/*background-color: #4CAF50;*/
 
   background: -webkit-linear-gradient(top, #ebebeb, #d5d5d5);
 	color: #000;
@@ -17,9 +22,11 @@ div {
 }
 div:hover {
  	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.25);
-	transform: translateY(-0.1875em);
+	/*transform: translateY(-0.1875em);*/
+  border: 1px solid gray;
 }
 div > span {
+ user-select: none;
  margin:0;
  padding:0;
 }

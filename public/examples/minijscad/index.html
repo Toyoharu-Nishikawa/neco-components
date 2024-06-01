@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <title>neco-components</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "neco-components/": "../../scripts/neco-components/"
+      }
+    }
+  </script>
+  <script type="module" >
+    import "neco-components/header.js"
+    import "neco-components/footer.js"
+    import "neco-components/template.js"
+    import "neco-components/minijscad.js"
+    import "neco-components/button.js"
+  </script>
+  <style>
+    body{
+      width: 100vw;
+      height: 100vh;
+      font-family:  san-serif;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-flow: column nowrap;
+      overflow: hidden;
+      background: #000066;
+      display:grid;
+      grid-template-rows: 50px 1fr 30px;
+      grid-template-columns: 300px 1fr;
+
+    }
+    neco-header{
+      grid-row: 1/2;
+      grid-column: 1/3;
+    }
+    neco-template.aside{
+      grid-row: 2/3;
+      grid-column: 1/2;
+    }
+    neco-template.main{
+      grid-row: 2/3;
+      grid-column: 2/3;
+    }
+
+    neco-footer{
+      grid-row: 3/4;
+      grid-column: 1/3;
+    }
+  </style>
+</head>
+<body>
+  <neco-header
+    data-title='minijscad'
+    data-color='#FFFF66'
+  ></neco-header>
+
+  <neco-template class="aside">
+    <template>
+      <style>
+        :host{
+          display:flex;
+          flex-flow: column;
+        }
+        neco-button{
+          margin: 30px 40px;
+          width: 150px;
+          height: 50px;
+        }
+      </style>
+      <neco-button data-text=draw name="draw"></neco-button> 
+      <neco-button data-text=clear name="clear"></neco-button> 
+    </template>
+  </neco-template>
+
+  <neco-template class="main">
+    <template>
+      <style>
+        :host{
+          display:flex;
+          justify-content: center;
+          align-items: center;
+          padding: 10px;
+        }
+        neco-minijscad{
+          width: 100%; 
+          height: 100%; 
+        }
+      </style>
+      <neco-minijscad></neco-minijscad>
+    </template>
+  </neco-template>
+
+  <neco-footer
+    data-title='minijscad'
+    data-version='1.0.0'
+    data-auther='neco-components'
+    data-date-of-issue='2024'
+    data-color='white'
+  ></neco-footer>
+
+  <script type="module">
+    const aside  = document.querySelector("neco-template.aside")
+    const drawBtn  = aside.querySelector("neco-button[name=draw]")
+    const clearBtn  = aside.querySelector("neco-button[name=clear]")
+    const main = document.querySelector("neco-template.main")
+    const minijscad = main.querySelector("neco-minijscad")
+    const screen = minijscad.sketch.screen
+    const sheet0 = screen.addSheet("sheet0")
+
+    drawBtn.onclick = () => {
+      sheet0.addFig("circle",{center:[100,100],radius:50})
+      sheet0.addFig("circle",{center:[200,200],radius:50})
+      sheet0.addFig("circle",{center:[300,300],radius:50})
+      sheet0.addFig("circle",{center:[400,400],radius:50})
+    }
+    clearBtn.onclick = () => {
+      sheet0.removeAllFigs()
+    }
+  </script>
+</body>
+</html>

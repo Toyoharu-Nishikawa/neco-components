@@ -314,7 +314,7 @@ const customElem = class extends HTMLElement {
     //Plotly.Plots.resize(plotly)
   }
   react(data, layout){
-    const divElem = this.ploty
+    const divElem = this.plotly
     Plotly.react(divElem, data,layout)
   }
   relayout(layout){
