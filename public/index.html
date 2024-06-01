@@ -5,69 +5,43 @@
   <script type="importmap">
     {
       "imports": {
-        "neco-components/": "./scripts/gui/node_modules/neco-components/"
+        "neco-components/": "./scripts/neco-components/"
       }
     }
   </script>
   <script type="module" >
-    import "neco-components/fileReaderZone.js"
-    import "neco-components/fileReaderButton.js"
-    import "neco-components/button.js"
-    import "neco-components/ace.js"
-    import "neco-components/plotly.js"
-    import "neco-components/minijscad.js"
-//    import "neco-components/three.js"
+    import "neco-components/table.js"
   </script>
-
-  <script type="module" src="./scripts/index.js"></script>
-  <style>
-    body{
-      width: 100vw;
-      height: 100vh;
-      font-family:  san-serif;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-flow: column nowrap;
-      overflow: hidden;
-    }
-  neco-ace{
-    height:300px;
-    width:500px;
-  }
-  neco-plotly{
-    height:300px;
-    width:500px;
-  }
-  neco-minijscad{
-    height:400px;
-    width:800px;
-  }
-  neco-tab{
-    height:400px;
-    width:800px;
-  }
-  neco-three{
-    height:400px;
-    width:800px;
-  }
-
-  #xx{
-    height:400px;
-    width:800px;
-  }
-  </style>
 </head>
 <body>
-  <neco-button name="draw" data-text="draw"></neco-button>
-  <neco-button name="clear" data-text="clear"></neco-button>
-  <neco-file-reader-button></neco-file-reader-button>
+  <neco-table
+    data-caption='Table example pages'
+    data-header='["No.", "pages", "LINK"]'
+    data-data= '[
+      ["1" , "layout"      , "<a href=\"./examples/simple_layout/\">simple layout</a>"],
+      ["2" , "table"       , "<a href=\"./examples/simple_table/\">simple table</a>"],
+      ["3" , "minjscad"    , "<a href=\"./examples/minijscad/\">minijscad</a>"],
+      ["4" , "plotly"      , "<a href=\"./examples/plotly/\">plotly</a>"],
+      ["5" , "three"       , "<a href=\"./examples/three/\">three</a>"],
+      ["6" , "ace editor"  , "<a href=\"./examples/ace/\">ace editor</a>"],
+      ["7" , "spread sheet", "<a href=\"./examples/jspreadsheet/\">jspreadsheet</a>"],
+      ["9" , "tabulator"   , "<a href=\"./examples/tabulator/\">tabulator</a>"],
+      ["10", "tab switch"  , "<a href=\"./examples/tabs/\">tabs</a>"],
+      ["11", "popup"       , "<a href=\"./examples/poup/\">popup</a>"]
+    ]'
+    data-width ='["50px", "150px","200px"]'
+    data-height='[
+      "40px", "40px","40px","40px", "40px",
+      "40px", "40px","40px","40px", "40px",
+      "40px"
+    ]'
+    data-vertical-line='false'
+    data-horizontal-line='true'
+    data-odd-background='#f0f0f0'
+    data-even-background='white'
+    data-header-background='gray'
+  ></neco-table>
 
-  <neco-ace></neco-ace>
-  <neco-plotly></neco-plotly>
-<!--
-  <neco-minijscad></neco-minijscad>
-  <neco-three></neco-three>
-  -->
-</body>
+
+    </body>
 </html>
