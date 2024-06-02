@@ -19,7 +19,7 @@ footer small{
 </style>
 <footer>
   ${params.title  ? "<small>"+params.title+ "</small>":""}
-  ${params.version? "<small>version &nbsp"+params.version+"</small>":""}
+  ${params.version? "<small class=\"version\">version &nbsp"+params.version+"</small>":""}
   ${params.auther? "<small>Copyright &copy "+params.auther+"</small>":""}
   ${params.dateOfIssue? "<small>"+params.dateOfIssue+"</small>":""}
 </footer>
@@ -29,7 +29,7 @@ const customElem = class extends HTMLElement {
   constructor(){
     super()
     this.shadow
-    this.click
+    this._version
   }
   connectedCallback() {
     const params = {
@@ -42,9 +42,18 @@ const customElem = class extends HTMLElement {
     }
     const shadow = this.attachShadow({mode: 'open'});
     this.shadow=shadow
+    this._version=params.version
     const dom = new DOMParser().parseFromString(template(params), "text/html")
     shadow.appendChild(dom.head.querySelector("style"))
     shadow.appendChild(dom.body.querySelector("footer"))
+  }
+  get version(){
+    return this._version
+  }
+  set version(version){
+    this._version = version
+    const versionElem = this.shadow.querySelector("footer small.version")
+    versionElem.textContent = version
   }
 }
 export default customElements.define(tagName, customElem)
