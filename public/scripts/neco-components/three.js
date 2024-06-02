@@ -6,9 +6,13 @@ import {TrackballControls} from "./modules/three/example/jsm/controls/TrackballC
 const tagName = "neco-three"
 const template = (params) => `
 <style>
+:host{
+  width: 100%;
+  height: 100%;
+}
 #three{
-height: 100%;
-width: 100%;
+  height: 100%;
+  width: 100%;
 }
 canvas{
   background-image: linear-gradient(#333366, #CCCCCC);
@@ -28,6 +32,10 @@ const customElem = class extends HTMLElement {
     this.THREE = THREE
   }
   async connectedCallback() {
+    const params = {
+      showAxes:      this.dataset.showAxes ? (this.dataset.showAxes.toLowerCase()==="false" ? false:true): true,
+      showGridHelper:this.dataset.showGridHelper ? (this.dataset.showGridHelper.toLowerCase()==="false" ? false:true): true,
+    } 
     const shadow = this.attachShadow({mode: 'open'});
     this.shadow=shadow
     const dom = new DOMParser().parseFromString(template(), "text/html")
@@ -54,7 +62,7 @@ const customElem = class extends HTMLElement {
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
     })
-    renderer.setSize(width, height)
+    renderer.setSize(width, height,false)
     renderer.shadowMap.enabled = true
     this.renderer = renderer
     divElem.appendChild(renderer.domElement)
@@ -66,11 +74,15 @@ const customElem = class extends HTMLElement {
     controls.panSpeed=1.5
     this.controls = controls
 
-    const axes = new THREE.AxesHelper(100);
-    scene.add(axes)
+    if(params.showAxes){
+      const axes = new THREE.AxesHelper(100)
+      scene.add(axes)
+    }
 
-    const gridHelper = new THREE.GridHelper( 50, 50 )
-    scene.add( gridHelper )
+    if(params.showGridHelper){
+      const gridHelper = new THREE.GridHelper( 50, 50 )
+      scene.add( gridHelper )
+    }
 
     const light = new THREE.AmbientLight(0xFFFFFF, 1.0);
     scene.add(light);
@@ -99,11 +111,16 @@ const customElem = class extends HTMLElement {
       const height = rect.height
       this.resize(width,height)  
     })
-    resizeObserver.observe(divElem)
+    resizeObserver.observe(divElem, {box: 'content-box'})
   }
   resize(width,height){
-    this.renderer.setSize(width, height);
-    this.camera.aspect = width/height
+    this.renderer.setSize(width, height)
+    const aspect = width/height
+    this.camera.aspect = aspect
+    this.camera.left = width/-20
+    this.camera.right = width/20
+    this.camera.top = height/20
+    this.camera.bottom = height/-20
     this.camera.updateProjectionMatrix()
   }
   testCube(){
