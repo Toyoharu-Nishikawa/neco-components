@@ -1,10 +1,4 @@
 const tagName = "neco-template"
-const template = (params) => `
-<style>
-:host{
-  100%;
-}
-`
 
 const customElem = class extends HTMLElement {
   constructor(){
@@ -30,6 +24,8 @@ const customElem = class extends HTMLElement {
     const templateElem = this.querySelector("template")
     const clone = templateElem.content.cloneNode(true);
     parentElement.appendChild(clone)
+
+
     this.setQuerySelector()
   }
   setQuerySelector(query){

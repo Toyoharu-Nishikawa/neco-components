@@ -58,7 +58,7 @@ const customElem = class extends HTMLElement {
     return this.editor.getValue()
   }
   get value(){
-    return this.getValue
+    return this.getValue()
   }
   setValue(text){
     this.editor.setValue(text)
