@@ -12,7 +12,7 @@ div {
 </div>
 `
 
-const customElem = class extends HTMLElement {
+export const customElem = class extends HTMLElement {
   constructor(){
     super()
   }
@@ -53,4 +53,4 @@ const customElem = class extends HTMLElement {
   }
 }
 
-export default customElements.define(tagName, customElem)
+customElements.define(tagName, customElem)
