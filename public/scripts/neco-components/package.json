@@ -9,7 +9,7 @@
     "tabulator-tables": "^6.2.1"
   },
   "name": "neco-components",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

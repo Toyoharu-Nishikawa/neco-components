@@ -162,7 +162,8 @@ const customElem = class extends HTMLElement {
     if(params.css){
       const link = document.createElement("link")
       link.href = params.css
-      tabaleElem.appendChild(link)
+      link.rel = "stylesheet"
+      tableElem.appendChild(link)
     }
 
     let widthStyleString = ""
