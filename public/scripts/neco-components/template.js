@@ -1,6 +1,6 @@
 const tagName = "neco-template"
 
-const customElem = class extends HTMLElement {
+export const customElem = class extends HTMLElement {
   constructor(){
     super()
     this.shadow
@@ -32,4 +32,4 @@ const customElem = class extends HTMLElement {
     this.querySelector = (query) => this.parentElem.querySelector(query)
   }
 }
-export default customElements.define(tagName, customElem)
+customElements.define(tagName, customElem)

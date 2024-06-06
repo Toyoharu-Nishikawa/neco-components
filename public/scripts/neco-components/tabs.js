@@ -75,7 +75,7 @@ const getRandomIndex = () => Math.floor(Math.random() * alphabets.length)
 const printRandomAlphabets = (N) => [...Array(N)].reduce((p,c)=>p+=alphabets[getRandomIndex()],"")
 
 
-const customElem = class extends HTMLElement {
+export const customElem = class extends HTMLElement {
   constructor(){
     super()
     this.shadow
@@ -160,4 +160,4 @@ const customElem = class extends HTMLElement {
 
 }
 
-export default customElements.define(tagName, customElem)
+customElements.define(tagName, customElem)
