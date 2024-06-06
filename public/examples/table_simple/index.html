@@ -10,7 +10,7 @@
     }
   </script>
   <script type="module" >
-   import "neco-components/table.js"
+   import "neco-components/tableSimple.js"
   </script>
   <style>
     body{
@@ -30,7 +30,7 @@
   </style>
 </head>
 <body>
-  <neco-table
+  <neco-table-simple
     data-caption='Table BMI CALC.'
     data-header='["item", "value","unit"]'
     data-data= '[
@@ -45,7 +45,7 @@
     data-odd-background='#f0f0f0'
     data-even-background='white'
     data-header-background='gray'
-  ></neco-table>
+  ></neco-table-simple>
 
   <script type="module">
     const table = document.querySelector("neco-table")
