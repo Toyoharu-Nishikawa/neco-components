@@ -1,4 +1,4 @@
-const tagName = "neco-table"
+const tagName = "neco-table-simple"
 
 const template = (params) => `
 <style>
@@ -84,6 +84,9 @@ export const customElem = class extends HTMLElement {
   connectedCallback() {
     const params = {
       isShadow:  this.dataset?.isShadow ? (this.dataset.isShadow.toLowerCase()==="false" ? false:true): true ,
+      caption:this.dataset.caption,
+      data:this.dataset.data,
+      header:this.dataset.header || "[]",
       width:this.dataset.width,
       height:this.dataset.height,
       verticalLine: this.dataset.verticalLine ? (this.dataset.verticalLine.toLowerCase()==="true" ? true:false): false,
@@ -101,43 +104,67 @@ export const customElem = class extends HTMLElement {
       this.shadow=shadow
     }
     const parentElement = isShadow ? shadow : this
-    this.parentElem = parentElement
-
-    const templateElem = this.querySelector("template")
-    const clone = templateElem.content.cloneNode(true);
-    parentElement.appendChild(clone)
-
-
+ 
+    const data = JSON.parse(params.data)
+    const header = JSON.parse(params.header)
+    const tableElem = document.createElement("table")
+    const tbodyElem = document.createElement("tbody")
     const list = []
     const obj = {}
 
-    const trElems = parentElement.querySelectorAll("table tr")
-    const trElemNodes = [...trElems]
-    trElems.forEach(tr=>{
+    if(params.caption){
+        const captionElem = document.createElement("caption")
+        captionElem.textContent = params.caption
+      tableElem.appendChild(captionElem)
+    }
+    if(header.length>0){
+    const trElemForH = document.createElement("tr")
+      header.forEach(h=>{
+        const thElem = document.createElement("th")
+        thElem.textContent = h
+        trElemForH.appendChild(thElem)
+      })
+      tbodyElem.appendChild(trElemForH)
+    }
+    data.forEach(tr=>{
+      const trElem = document.createElement("tr")
+      const trFragment = document.createDocumentFragment()
       const inList = []
-      const tdElems = [...tr.children]
-      tdElems.forEach(tdElem=>{
-        const td = [...tdElem.children]
-        if(td.length>0){
-          td.forEach(elem=>{
-            if(elem.tagName==="INPUT"){
-              elem.onchange = this.afterchange.bind(this)
-            }
-            const io = new IO(elem)
-            inList.push(io) 
-            const nameValue = elem.getAttribute("name")
-            if(nameValue){
-              obj[nameValue] = io
-            }
-          })
+      tr.forEach(td=>{
+        const tdElem = document.createElement("td")
+     //   const isHTML = td.match(/<input.*>|<output.*>/)
+        const isHTML = td.match(/<("[^"]*"|\'[^\']*\'|[^\'">])*>/)
+        if(isHTML){
+          const tdDom = new DOMParser().parseFromString(td, "text/html")
+          const ioElem = tdDom.body.childNodes[0]
+          tdElem.append(ioElem)
+          if(ioElem.tagName==="INPUT"){
+            ioElem.onchange = this.afterchange.bind(this)
+          }
+          const io = new IO(ioElem)
+          inList.push(io) 
+          const nameValue = ioElem.getAttribute("name")
+          if(nameValue){
+            obj[nameValue] = io
+          }
         }
         else{
+          tdElem.textContent = td
           const text = new Text(td)
           inList.push(text) 
         }
+        trElem.appendChild(tdElem)
       }) 
       list.push(inList)
+      tbodyElem.appendChild(trElem)
     })
+    tableElem.appendChild(tbodyElem)
+    if(params.css){
+      const link = document.createElement("link")
+      link.href = params.css
+      link.rel = "stylesheet"
+      tableElem.appendChild(link)
+    }
 
     let widthStyleString = ""
     if(params.width){
@@ -164,11 +191,12 @@ export const customElem = class extends HTMLElement {
 
     const dom = new DOMParser().parseFromString(template(styleParams), "text/html")
     parentElement.appendChild(dom.head.querySelector("style"))
+    parentElement.appendChild(tableElem)
     this.list = list
     this.obj  = obj
   }
 
-  get cell(){
+  get cells(){
     return this.list 
   }
   get range(){
@@ -178,7 +206,7 @@ export const customElem = class extends HTMLElement {
     this.afterChangeFunc = func 
   }
   afterchange(e){
-    e.cell = this.cell
+    e.cells = this.cells
     e.range = this.range
     if(typeof this.afterChangeFunc ==="function"){
       this.afterChangeFunc(e)

@@ -13,9 +13,9 @@
     import "neco-components/header.js"
     import "neco-components/footer.js"
     import "neco-components/template.js"
-    import "neco-components/jspreadsheet.js"
-    import "neco-components/button.js"
     import "neco-components/fileReaderButton.js"
+    import "neco-components/button.js"
+    import "neco-components/tabsSimple.js"
   </script>
   <style>
     body{
@@ -54,7 +54,7 @@
 </head>
 <body>
   <neco-header
-    data-title='jspreadsheet'
+    data-title='tabs'
     data-color='#FFFF66'
   ></neco-header>
 
@@ -97,17 +97,20 @@
           padding: 10px;
           overflow:hidden;
         }
-        neco-jspreadsheet{
+        neco-tabs-simple{
           width: 100%; 
           height: 100%; 
         }
       </style>
-      <neco-jspreadsheet></neco-jspreadsheet>
+      <neco-tabs-simple
+        data-tabs='["tab A", "tab B", "tab C"]'
+        data-pages='["<div><p>hello</p></div>", "<div><p>good moring</p></div>", "<div><p>good night</p></div>"]'
+      ></neco-tabs-simple>
     </template>
   </neco-template>
 
   <neco-footer
-    data-title='jspreadsheet'
+    data-title='tabs'
     data-version='1.0.0'
     data-auther='neco-components'
     data-date-of-issue='2024'
@@ -120,51 +123,22 @@
     const saveBtn  = aside.querySelector("neco-button[name=save]")
     const runBtn  = aside.querySelector("neco-button[name=run]")
     const main = document.querySelector("neco-template.main")
-    const jspreadsheet = main.querySelector("neco-jspreadsheet")
-
-    const columns = [
-      { title:'Model', width:300 },
-      { title:'Price', width:80 },
-      { title:'Model', width:100 }
-    ]
-    const data = [
-      ['Mazda', 2001, 2000],
-      ['Pegeout', 2010, 5000],
-      ['Honda Fit', 2009, 3000],
-      ['Honda CRV', 2010, 6000],
-    ]
-    jspreadsheet.contents=Object({data,columns})
+    const tabs = main.querySelector("neco-tabs-simple")
 
     fileReadBtn.onread = (files) => {
       const text = files[0].text
-      const csv = csvParse(text)
-      const headers = csv[0]
-      const data = csv.slice(1)
-      const columns = headers.map(v=>Object({title:v}))
-      jspreadsheet.contents=Object({data,columns})
+      const contents = JSON.parse(text)
+      tabs.pages.forEach((v,i)=>v.querySelector("p").textContent=contents[i])
     }
-    saveBtn.onclick = () => {
-      const jsp = jspreadsheet.jspreadsheet
-      const data = jsp.getData()
-      const headers = jsp.getHeaders()
-      const text = headers + "\n" 
-                 + data.map(v=>v.join(",")).join("\n")
 
-      saveAs(text,"output.csv") 
+    saveBtn.onclick = () => {
+      const contents = tabs.pages.map(v=>v.querySelector("p").textContent)
+      const text = JSON.stringify(contents,null,"  ")
+      saveAs(text,"output.json") 
     }
     runBtn.onclick = async() => {
-      const columns = [
-        { title:'Animal', width:300 },
-        { title:'Birth day', width:80 },
-        { title:'Weight', width:100 }
-      ]
-      const data = [
-        ['Lion', 2001, 200],
-        ['Panda', 2010, 300],
-        ['Dog', 2009, 10],
-        ['Pig', 2010, 200],
-      ]
-      jspreadsheet.contents = Object({data,columns}) 
+      const contents = ["apple", "banana","orange"]
+      tabs.pages.forEach((v,i)=>v.querySelector("p").textContent=contents[i])
     }
 
     const saveAs = (text, fileName) => {
@@ -178,14 +152,6 @@
       a.click()
       document.body.removeChild(a)
     }
-    const csvParse = csv => csv
-      .split(/\r\n|\n|\r/) //split by line feed codes
-      .filter((k)=>k.match(/[^,\s\f\n\r\t\v]/)) //remove empty lines
-      .map((k)=>k.trim() //remove white spaces of begining and end of line
-        .replace(/,\s+/g,",") //remove white spaces
-        .split(",") //split by cannma
-        .map((l)=>isNaN(l)? l:parseFloat(l)) //convert string to flot
-      )
   </script>
 </body>
 </html>

@@ -10,24 +10,26 @@
     }
   </script>
   <script type="module" >
-    import "neco-components/table.js"
+    import "neco-components/tableSimple.js"
   </script>
 </head>
 <body>
-  <neco-table
-    data-caption='Table pages of example'
+  <neco-table-simple
+    data-caption='list of example pages'
     data-header='["No.", "pages", "LINK"]'
     data-data= '[
-      [ "1", "layout"      , "<a href=\"./examples/simple_layout/\">simple layout</a>"],
-      [ "2", "table"       , "<a href=\"./examples/simple_table/\">simple table</a>"],
-      [ "3", "minjscad"    , "<a href=\"./examples/minijscad/\">minijscad</a>"],
-      [ "4", "plotly"      , "<a href=\"./examples/plotly/\">plotly</a>"],
-      [ "5", "three"       , "<a href=\"./examples/three/\">three</a>"],
-      [ "6", "ace editor"  , "<a href=\"./examples/ace/\">ace editor</a>"],
-      [ "7", "spread sheet", "<a href=\"./examples/jspreadsheet/\">jspreadsheet</a>"],
-      [ "8", "tabulator"   , "<a href=\"./examples/tabulator/\">tabulator</a>"],
-      [ "9", "tab switch"  , "<a href=\"./examples/tabs/\">tabs</a>"],
-      ["10", "popup"       , "<a href=\"./examples/poup/\">popup</a>"]
+      [ "1", "table"       , "<a href=\"./examples/table_simple/\">simple table</a>"],
+      [ "2", "layout"      , "<a href=\"./examples/layout/\">layout</a>"],
+      [ "3", "table"       , "<a href=\"./examples/table/\">table</a>"],
+      [ "4", "minjscad"    , "<a href=\"./examples/minijscad/\">minijscad</a>"],
+      [ "5", "plotly"      , "<a href=\"./examples/plotly/\">plotly</a>"],
+      [ "6", "three"       , "<a href=\"./examples/three/\">three</a>"],
+      [ "7", "ace editor"  , "<a href=\"./examples/ace/\">ace editor</a>"],
+      [ "8", "spread sheet", "<a href=\"./examples/jspreadsheet/\">jspreadsheet</a>"],
+      [ "9", "tabulator"   , "<a href=\"./examples/tabulator/\">tabulator</a>"],
+      ["10", "tab switch"  , "<a href=\"./examples/tabs_simple/\">tabs simple</a>"],
+      ["11", "tab switch"  , "<a href=\"./examples/tabs/\">tabs</a>"],
+      ["12", "popup"       , "<a href=\"./examples/poup/\">popup</a>"]
     ]'
     data-width ='["50px", "150px","200px"]'
     data-height='[
@@ -40,6 +42,6 @@
     data-odd-background='#f0f0f0'
     data-even-background='white'
     data-header-background='gray'
-  ></neco-table>
+  ></neco-table-simple>
 </body>
 </html>
