@@ -58,12 +58,12 @@ const customElem = class extends HTMLElement {
     this.divElem = divElem
     //const data = params.data ?  JSON.parse(params.data): null
     //const colHeaders = params.colHeaders ? JSON.parse(params.colHeaders): true
-    const rect = shadow.host.getBoundingClientRect()
-    const tableWidth  = rect.width +"px"
-    const tableHeight = rect.height + "px"
+//    const rect = shadow.host.getBoundingClientRect()
+//    const tableWidth  = rect.width +"px"
+//    const tableHeight = rect.height + "px"
  
-    const data = JSON.parse(params.data)
-    const columns = JSON.parse(params.columns)
+//    const data = JSON.parse(params.data)
+//    const columns = JSON.parse(params.columns)
     const contents = this._contents
 
     if(contents){
@@ -79,7 +79,18 @@ const customElem = class extends HTMLElement {
   }
   setContents(contents){
     this.jspreadsheet?.destroy()
-    contents.root = this.shadow
+    const rect = this.divElem.getBoundingClientRect()
+    const width  = rect.width
+    const height = rect.height
+ 
+    const target = {
+      root : this.shadow,
+      tableOverflow : true,
+      tableWidth : width,
+      tableHeight : height,
+    }
+    const mergedContents = Object.assign(target, contents)
+
     const jsp = jspreadsheet(this.divElem, contents) 
     const resizeObserver = new ResizeObserver((entries) => {
       const e = entries[0]
@@ -88,8 +99,8 @@ const customElem = class extends HTMLElement {
       const height = rect.height
       this.resize(width,height)
     })
-    resizeObserver.observe(this.divElem)
     this.jspreadsheet=jsp
+    resizeObserver.observe(this.divElem)
   }
   resize(width,height){
     this.jspreadsheet.content.style.width = width + "px"
