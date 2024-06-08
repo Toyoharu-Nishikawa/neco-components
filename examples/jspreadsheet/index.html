@@ -122,15 +122,49 @@
     const main = document.querySelector("neco-template.main")
     const jspreadsheet = main.querySelector("neco-jspreadsheet")
 
+    const columns = [
+      { title:'Model', width:300 },
+      { title:'Price', width:80 },
+      { title:'Model', width:100 }
+    ]
+    const data = [
+      ['Mazda', 2001, 2000],
+      ['Pegeout', 2010, 5000],
+      ['Honda Fit', 2009, 3000],
+      ['Honda CRV', 2010, 6000],
+    ]
+    jspreadsheet.contents=Object({data,columns})
+
     fileReadBtn.onread = (files) => {
       const text = files[0].text
-      //ace.value = text
+      const csv = csvParse(text)
+      const headers = csv[0]
+      const data = csv.slice(1)
+      const columns = headers.map(v=>Object({title:v}))
+      jspreadsheet.contents=Object({data,columns})
     }
     saveBtn.onclick = () => {
-      //const text = ace.value
-      saveAs(text,"output.txt") 
+      const jsp = jspreadsheet.jspreadsheet
+      const data = jsp.getData()
+      const headers = jsp.getHeaders()
+      const text = headers + "\n" 
+                 + data.map(v=>v.join(",")).join("\n")
+
+      saveAs(text,"output.csv") 
     }
     runBtn.onclick = async() => {
+      const columns = [
+        { title:'Animal', width:300 },
+        { title:'Birth day', width:80 },
+        { title:'Weight', width:100 }
+      ]
+      const data = [
+        ['Lion', 2001, 200],
+        ['Panda', 2010, 300],
+        ['Dog', 2009, 10],
+        ['Pig', 2010, 200],
+      ]
+      jspreadsheet.contents = Object({data,columns}) 
     }
 
     const saveAs = (text, fileName) => {
@@ -144,6 +178,14 @@
       a.click()
       document.body.removeChild(a)
     }
+    const csvParse = csv => csv
+      .split(/\r\n|\n|\r/) //split by line feed codes
+      .filter((k)=>k.match(/[^,\s\f\n\r\t\v]/)) //remove empty lines
+      .map((k)=>k.trim() //remove white spaces of begining and end of line
+        .replace(/,\s+/g,",") //remove white spaces
+        .split(",") //split by cannma
+        .map((l)=>isNaN(l)? l:parseFloat(l)) //convert string to flot
+      )
   </script>
 </body>
 </html>
