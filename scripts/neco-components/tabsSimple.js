@@ -1,4 +1,4 @@
-const tagName = "neco-tabs"
+const tagName = "neco-tabs-simple"
 const template = (params) => `
 <style>
 .tabs {
@@ -98,15 +98,10 @@ export const customElem = class extends HTMLElement {
     const parentElement = isShadow ? shadow : this
     const elementTarget = isShadow ? shadow.host : this
 
-    const templateElem = this.querySelector("template")
-    const clone = templateElem.content.cloneNode(true);
-    const tabs  = clone.querySelectorAll("tabs > tab")
-    const pages = clone.querySelectorAll("pages > page")
-    console.log(tabs)
-    console.log(pages)
-
     const spanElem = document.createElement("span")
     spanElem.className = prefix
+    const tabs = JSON.parse(params.tabs)
+    const pages = JSON.parse(params.pages)
     const tabsElem = document.createElement("div")
     tabsElem.className = "tabs"
     const tN = tabs.length
@@ -125,18 +120,17 @@ export const customElem = class extends HTMLElement {
       const labelElem = document.createElement("label")
       labelElem.className="tab_item"
       labelElem.htmlFor = id
-      if(typeof v === String){
-        labelElem.textContent = v
-      }
-      else{
-        labelElem.appendChild(v)
-      }
+      labelElem.textContent = v
       tabsElem.appendChild(inputElem)
       tabsElem.appendChild(labelElem)
-      inputElem.onchange=()=>{}
+      inputElem.onchange=()=>{
+      }
       const divElem = document.createElement("div")
       divElem.className = "tab_content"
-      divElem.appendChild(pages[i])
+//      divElem.id = "page_"+String(i)
+      const d = new DOMParser().parseFromString(pages[i], "text/html")
+      const nodes = [...d.body.childNodes]
+      nodes.forEach(node=>divElem.appendChild(node))
       tabsElem.appendChild(divElem)
       pageNodes.push(divElem)
     })
@@ -150,6 +144,14 @@ export const customElem = class extends HTMLElement {
     this.parentElemen = parentElement
     this.pageNodes = pageNodes
 
+//    const resizeObserver = new ResizeObserver((entries) => {
+//      const e = entries[0]
+//      const rect = e.target.getBoundingClientRect()
+//      const width  = rect.width
+//      const height = rect.height
+//      this.resize(width,height)
+//    })
+//    resizeObserver.observe(elementTarget)
   }
   get pages(){
     return this.pageNodes
