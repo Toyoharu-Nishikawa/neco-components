@@ -4,13 +4,13 @@ const tagName = "neco-popup"
 const HEADER_HEIGHT = 30
 const template = (params) => `
 <style>
-div.neco-popup-parent{
+.neco-popup-parent{
   top:0;
   left:0;
   width:0;
   height:0;
 }
-div.neco-popup-child{
+.neco-popup-child{
   position:absolute;
   display:flex;
   flex-flow: column;
@@ -19,7 +19,7 @@ div.neco-popup-child{
 
 
 }
-div.neco-popup-header {
+.neco-popup-header {
   height: ${HEADER_HEIGHT}px;
   line-height: ${HEADER_HEIGHT}px;
   width: 100%;
@@ -41,20 +41,21 @@ div.neco-popup-header {
   align-items: center;
 }
 
-div.neco-popup-header span{
+.neco-popup-header span{
   padding: 0 16px;
   user-select: none;
 }
 
-div.neco-popup-main {
- background: white;
- width:auto;
- flex:1;
- padding: 8px;
- border-bottom-left-radius: 6px;
- border-bottom-right-radius: 6px;
+.neco-popup-main {
+  background: white;
+  width:auto;
+  flex:1;
+  padding: 8px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+/*  display:contents;*/
 }
-div.neco-popup-hide-button{
+.neco-popup-hide-button{
   position:absolute;
   right: 6px;
   top: 2px;
@@ -80,8 +81,8 @@ div.neco-popup-hide-button{
   transform: rotate(90deg);
 }
 
-div.neco-popup-hide-button:hover .neco-popup-cross,
-div.neco-popup-hide-button:hover .neco-popup-cross::before
+.neco-popup-hide-button:hover .neco-popup-cross,
+.neco-popup-hide-button:hover .neco-popup-cross::before
 {
   background: red;
 }
@@ -89,6 +90,7 @@ div.neco-popup-hide-button:hover .neco-popup-cross::before
 .neco-popup-invisible {
   visibility: hidden;
 }
+
 </style>
 <div class="neco-popup-parent">
   <div class="neco-popup-child" style="top:${params.top};left:${params.left};width:${params.width};height:${params.height};">
@@ -98,7 +100,9 @@ div.neco-popup-hide-button:hover .neco-popup-cross::before
   </div>
 </div>
 `
+//
 
+let Z_INDEX = 9999
 export const customElem = class extends HTMLElement {
   constructor(){
     super()
@@ -107,7 +111,7 @@ export const customElem = class extends HTMLElement {
   }
   connectedCallback() {
     const params = {
-      isShadow:  this.dataset?.isShadow ? (this.dataset.isShadow.toLowerCase()==="true" ? true:false): false ,
+      isShadow:  this.dataset?.isShadow ? (this.dataset.isShadow.toLowerCase()==="false" ? false:true): true ,
       title:this.dataset.title ?? "popup",
       top: this.dataset.top ?? "100px",
       left: this.dataset.left ?? "100px",
@@ -120,7 +124,7 @@ export const customElem = class extends HTMLElement {
       shadow = this.attachShadow({mode: 'open'});
       this.shadow=shadow
     }
-    const parentElement =isShadow ? shadow : this
+    const parentElem =isShadow ? shadow : this
     const elementTarget = isShadow ? shadow.host : this
 
 
@@ -128,18 +132,23 @@ export const customElem = class extends HTMLElement {
     const clone = templateElem.content.cloneNode(true);
 
     const dom = new DOMParser().parseFromString(template(params), "text/html")
-    parentElement.appendChild(dom.head.querySelector("style"))
-    parentElement.appendChild(dom.body.querySelector("div"))
+    parentElem.appendChild(dom.head.querySelector("style"))
+    parentElem.appendChild(dom.body.querySelector("div"))
 
 
-    const childElem = parentElement.querySelector("div.neco-popup-child")
-    const headerElem = parentElement.querySelector("div.neco-popup-header")
-    const hideBtElem = parentElement.querySelector("div.neco-popup-hide-button")
-    const mainElem = parentElement.querySelector("div.neco-popup-main")
+    const childElem = parentElem.querySelector("div.neco-popup-child")
+    const headerElem = parentElem.querySelector("div.neco-popup-header")
+    const hideBtElem = parentElem.querySelector("div.neco-popup-hide-button")
+    const mainElem = parentElem.querySelector("div.neco-popup-main")
     mainElem.appendChild(clone)
+
+    Z_INDEX++
+    childElem.style.zIndex = Z_INDEX
+
     this.childElem = childElem
     this.mainElem = mainElem
     this.headerElem = headerElem
+    this.parentElem = parentElem
 
     const pointerMoveFunc = (e)=>{
       if(e.buttons){
@@ -253,14 +262,22 @@ export const customElem = class extends HTMLElement {
       e.target.setPointerCapture(e.pointerId)
     }
 
-    mainElem.on = mouseMove
-    mainElem.onpointermove = mouseMove
-    mainElem.onmousedown = mouseDown
+    const moveToFront = (e) =>{
+      const elem = e.target
+      ++Z_INDEX
+      childElem.style.zIndex = Z_INDEX
+    }
+
+    mainElem.addEventListener("pointermove", mouseMove)
+    mainElem.addEventListener("mousedown", mouseDown)
     document.addEventListener("mouseup", mouseUp)
 
     hideBtElem.onclick = this.hide.bind(this)
+    childElem.onmousedown = moveToFront
+    mainElem.addEventListener("mousedown", moveToFront)
 
     this.hide()
+    this.setQuerySelector()
   }
   resize(width, height){
      const mainHeight = height - HEADER_HEIGHT
@@ -272,8 +289,14 @@ export const customElem = class extends HTMLElement {
     this.childElem.classList.add("neco-popup-invisible")
   }
   show(){
+    ++Z_INDEX
+    this.childElem.style.zIndex = Z_INDEX
     this.childElem.classList.remove("neco-popup-invisible")
   }
+  setQuerySelector(query){
+    this.querySelector = (query) => this.parentElem.querySelector(query)
+  }
+
 }
 
 customElements.define(tagName, customElem)
