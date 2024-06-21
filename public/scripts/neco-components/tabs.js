@@ -82,7 +82,7 @@ export const customElem = class extends HTMLElement {
   }
   connectedCallback() {
     const params = {
-      isShadow:  this.dataset?.isShadow ? (this.dataset.isShadow.toLowerCase()==="true" ? true:false): false ,
+      isShadow:  this.dataset?.isShadow ? (this.dataset.isShadow.toLowerCase()==="false" ? false:true): true ,
       tabs:  this.dataset.tabs,
       pages: this.dataset.pages,
     }
