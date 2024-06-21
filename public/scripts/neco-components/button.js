@@ -4,10 +4,13 @@ const template = (params) => `
 :host{
   height: 100%;
   width: 100%;
+  display:block; 
 }
 div {
+    
   height: 100%;
   width: 100%;
+  
   border: 1px solid #a9a9a9;
   border-radius: 6px 6px 6px 6px;
   
