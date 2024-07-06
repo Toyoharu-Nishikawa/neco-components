@@ -105,20 +105,26 @@
       <neco-tabs>
         <template>
           <style>
-            tab.first{
+            tab.t-first{
               color: red;
             }
+            page.p-first{
+              color: red;
+            }
+            page.p-second{
+              color: blue;
+            }
           </style>
-          <tab class="first">tab A</tab>
-          <tab>tab B</tab>
-          <tab>tab C</tab>
-          <page>
+          <tab class="t-first">tab A</tab>
+          <tab class="t-second">tab B</tab>
+          <tab class="t-third">tab C</tab>
+          <page class="p-first">
             <div><p>hello</p></div>
           </page>
-          <page>
+          <page class="p-second">
             <div><p>good morning</p></div>
           </page>
-          <page>
+          <page class="p-third">
             <div><p>good night</p></div>
           </page>
         </template>
