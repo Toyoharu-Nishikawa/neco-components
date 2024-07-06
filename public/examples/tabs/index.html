@@ -104,22 +104,23 @@
       </style>
       <neco-tabs>
         <template>
-          <tabs>
-            <tab>tab A</tab>
-            <tab>tab B</tab>
-            <tab>tab C</tab>
-          </tabs>
-          <pages>
-            <page>
-              <div><p>hello</p></div>
-            </page>
-            <page>
-              <div><p>good morning</p></div>
-            </page>
-            <page>
-              <div><p>good night</p></div>
-            </page>
-          </pages>
+          <style>
+            tab.first{
+              color: red;
+            }
+          </style>
+          <tab class="first">tab A</tab>
+          <tab>tab B</tab>
+          <tab>tab C</tab>
+          <page>
+            <div><p>hello</p></div>
+          </page>
+          <page>
+            <div><p>good morning</p></div>
+          </page>
+          <page>
+            <div><p>good night</p></div>
+          </page>
         </template>
       </neco-tabs>
     </template>
