@@ -100,10 +100,10 @@ export const customElem = class extends HTMLElement {
 
     const templateElem = this.querySelector("template")
     const clone = templateElem.content.cloneNode(true);
-    const tabs  = clone.querySelectorAll("tabs > tab")
-    const pages = clone.querySelectorAll("pages > page")
-    console.log(tabs)
-    console.log(pages)
+    const tabs  = clone.querySelectorAll("tab")
+    const pages = clone.querySelectorAll("page")
+
+    const style  = clone.querySelector("style")
 
     const spanElem = document.createElement("span")
     spanElem.className = prefix
@@ -141,6 +141,7 @@ export const customElem = class extends HTMLElement {
       pageNodes.push(divElem)
     })
     spanElem.appendChild(tabsElem)
+    spanElem.appendChild(style)
 
     const styleParams = {tN,prefix}
     const dom = new DOMParser().parseFromString(template(styleParams), "text/html")
