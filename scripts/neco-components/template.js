@@ -28,7 +28,7 @@ export const customElem = class extends HTMLElement {
 
     this.setQuerySelector()
   }
-  setQuerySelector(query){
+  setQuerySelector(){
     this.querySelector = (query) => this.parentElem.querySelector(query)
   }
 }
