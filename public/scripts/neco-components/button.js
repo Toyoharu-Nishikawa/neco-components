@@ -61,7 +61,7 @@ export const customElem = class extends HTMLElement {
   }
   async clickHandler(e){
     e.stopPropagation()
-    const elem     = this.shadow.querySelector("div")
+    const elem = this.shadow.querySelector("div")
     if(typeof this.click ==="function"){
       this.click(e)
     }
