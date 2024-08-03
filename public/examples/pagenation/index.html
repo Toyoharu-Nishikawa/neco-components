@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <title>neco-components</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "neco-components/": "../../scripts/neco-components/"
+      }
+    }
+  </script>
+  <script type="module" >
+    import "neco-components/header.js"
+    import "neco-components/pagenation.js"
+    import "neco-components/footer.js"
+  </script>
+  <style>
+
+    body{
+      width: 100vw;
+      height: 100vh;
+      font-family:  san-serif;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-flow: column nowrap;
+      overflow: hidden;
+      display:grid;
+      grid-template-rows: 50px 1fr 30px;
+    }
+    neco-header{
+      grid-row: 1/2;
+    }
+    main{
+      grid-row: 2/3;
+    }
+    neco-footer{
+      grid-row: 3/4;
+    }
+  </style>
+</head>
+<body>
+  <neco-header
+    data-title='pagenation'
+    data-color='#3E5358'
+  ></neco-header>
+
+  <main>
+    <template shadowrootmode="open">
+      <style>
+        :host{
+          display:grid;
+          grid-template-rows: 50px 50px 50px 1fr;
+          grid-template-columns: 1fr 300px 500px 300px 1fr;
+        }
+        neco-pagenation{
+          text-align: center;
+          grid-row: 2/3;
+          grid-column: 3/4;
+        }
+        p{
+          text-align:center;
+          grid-row: 3/4;
+          grid-column: 3/4;
+        }
+      </style>
+      <neco-pagenation
+        data-current-page="3"
+        data-total-pages="10"
+        data-pagenation-icons="5"
+      >
+      </neco-pagenation>
+      <p></p>
+    </template>
+  </main>
+
+  <neco-footer
+    data-title='pagenation'
+    data-version='1.0.0'
+    data-auther='neco-components'
+    data-date-of-issue='2024'
+    data-color='#3E5358'
+  ></neco-footer>
+
+
+  <script type="module">
+
+    const main = document.querySelector("main")
+    const pagenation = main.shadowRoot.querySelector("neco-pagenation")
+    const p          = main.shadowRoot.querySelector("p")
+    pagenation.callback = (currentPage, pagenationIcons, totalPages) =>{
+      p.textContent="Page. "+currentPage
+    }
+  </script>
+</body>
+</html>
