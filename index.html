@@ -12,10 +12,16 @@
   <script type="module" >
     import "neco-components/tableSimple.js"
   </script>
+  <style>
+    body {
+      display: grid;
+      gap: 50px;
+    }
+  </style>
 </head>
 <body>
   <neco-table-simple
-    data-caption='list of example pages'
+    data-caption='list of basic example pages'
     data-header='["No.", "pages", "LINK"]'
     data-data= '[
       [ "1", "table"       , "<a href=\"./examples/table_simple/\">simple table</a>"],
@@ -32,7 +38,8 @@
       ["12", "popup"       , "<a href=\"./examples/popup/\">popup</a>"],
       ["13", "nav"         , "<a href=\"./examples/nav/\">nav</a>"],
       ["14", "drop zone"   , "<a href=\"./examples/dropzone/\">drop zone</a>"],
-      ["15", "pagenation"  , "<a href=\"./examples/pagenation/\">pagenation</a>"]
+      ["15", "pagenation"  , "<a href=\"./examples/pagenation/\">pagenation</a>"],
+      ["16", "search bar"  , "<a href=\"./examples/searchbar/\">search bar</a>"]
     ]'
     data-width ='["50px", "150px","200px"]'
     data-height='[
@@ -46,5 +53,27 @@
     data-even-background='white'
     data-header-background='gray'
   ></neco-table-simple>
+
+  <neco-table-simple
+    data-caption='list of practical example pages'
+    data-header='["No.", "pages", "LINK"]'
+    data-data= '[
+      [ "1", "architecture", "<a href=\"./examples/architecture/\">architecture</a>"],
+      [ "2", "web contents", "<a href=\"./examples/webcontents/\">web contents</a>"],
+      [ "3", "engineering", "<a href=\"./examples/engineering/\">engineering</a>"]
+    ]'
+    data-width ='["50px", "150px","200px"]'
+    data-height='[
+      "40px", "40px","40px","40px", "40px",
+      "40px", "40px","40px","40px", "40px",
+      "40px", "40px", "40px"
+    ]'
+    data-vertical-line='false'
+    data-horizontal-line='true'
+    data-odd-background='#FFFFCC'
+    data-even-background='white'
+    data-header-background='#FF9933'
+  ></neco-table-simple>
+
 </body>
 </html>

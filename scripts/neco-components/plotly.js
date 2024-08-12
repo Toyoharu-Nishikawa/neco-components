@@ -302,6 +302,7 @@ export const customElem = class extends HTMLElement {
         type: 'linear'
       }
     }
+
     const plotly =  await Plotly.newPlot(divElem,data,layout,{
       editable: true,
       scrollZoom: true,
@@ -313,6 +314,9 @@ export const customElem = class extends HTMLElement {
     this.plotly=plotly
     //Plotly.Plots.resize(plotly)
   }
+  getData(){
+    return this.plotly.data
+  }
   react(data, layout){
     const divElem = this.plotly
     Plotly.react(divElem, data,layout)
@@ -320,6 +324,22 @@ export const customElem = class extends HTMLElement {
   relayout(layout){
     const divElem = this.plotly
     Plotly.relayout(divElem, layout)
+  }
+  restyle(update, list){
+    const divElem = this.plotly
+    Plotly.relayout(divElem, update,list)
+  }
+  update(data,layout, list){
+    const divElem = this.plotly
+    Plotly.update(divElem, data,layout,list)
+  }
+  deleteTraces(list){
+    const divElem = this.plotly
+    Plotly.deleteTraces(divElem, list)
+  }
+  addTraces(traces, number){
+    const divElem = this.plotly
+    Plotly.addTraces(divElem, traces, number)
   }
 }
 
