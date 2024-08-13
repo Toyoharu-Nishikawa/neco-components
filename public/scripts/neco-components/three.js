@@ -31,7 +31,7 @@ export const customElem = class extends HTMLElement {
     this.controls
     this.THREE = THREE
   }
-  async connectedCallback() {
+  connectedCallback() {
     const params = {
       showAxes:      this.dataset.showAxes ? (this.dataset.showAxes.toLowerCase()==="false" ? false:true): true,
       showGridHelper:this.dataset.showGridHelper ? (this.dataset.showGridHelper.toLowerCase()==="false" ? false:true): true,

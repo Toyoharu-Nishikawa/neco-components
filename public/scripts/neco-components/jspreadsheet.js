@@ -16,10 +16,12 @@ const template = (params) => `
   */
 }
 #jspreadsheet{
-/*
+  display:block;
+  /*
   height: 100%;
   width: 100%;
-  */
+*/
+  
 }
 </style>
 <link rel="stylesheet" href=${cssJsuitesPath}>
@@ -29,7 +31,7 @@ const template = (params) => `
 //<link rel="stylesheet" href=${cssThemePath}>
 //<link rel="stylesheet" href=${cssDatatablesPath}>
 
-const customElem = class extends HTMLElement {
+export const customElem = class extends HTMLElement {
   constructor(){
     super()
     this.shadow
@@ -56,7 +58,6 @@ const customElem = class extends HTMLElement {
     return this._contents
   }
   set contents(contents){
-    //this._contents = contents
     this.setContents(contents)
   }
   setContents(contents){
@@ -104,4 +105,4 @@ const customElem = class extends HTMLElement {
 
 }
 
-export default customElements.define(tagName, customElem)
+customElements.define(tagName, customElem)
