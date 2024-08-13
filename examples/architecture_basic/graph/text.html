@@ -1,0 +1,25 @@
+    <script type="importmap">
+      {
+        "imports": {
+          "neco-components/": "/neco-components/scripts/neco-components/"
+        }
+      }
+    </script>
+    <script type="module" >
+      import "neco-components/plotly.js"
+    </script>
+
+    <style>
+      :host{
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+      neco-plotly{
+        width: 100%;
+        height: 100%;
+      }
+
+    </style>
+    <neco-plotly></neco-plotly>

@@ -261,13 +261,13 @@ const template = (params) => `
 <div id="plotly"></div>
 `
 
-export const customElem = class extends HTMLElement {
+export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
     this.shadow
     this.plotly
   }
-  async connectedCallback() {
+  connectedCallback() {
     const params = {
       isShadow:  this.dataset?.isShadow ? (this.dataset.isShadow.toLowerCase()==="false" ? false:true): true ,
     }
@@ -302,8 +302,7 @@ export const customElem = class extends HTMLElement {
         type: 'linear'
       }
     }
-
-    const plotly =  await Plotly.newPlot(divElem,data,layout,{
+    Plotly.newPlot(divElem,data,layout,{
       editable: true,
       scrollZoom: true,
       showLink: false,
@@ -311,8 +310,8 @@ export const customElem = class extends HTMLElement {
       responsive: true,
       modeBarButtonsToRemove: ['sendDataToCloud']
     })
-    this.plotly=plotly
-    //Plotly.Plots.resize(plotly)
+
+    this.plotly=divElem
   }
   getData(){
     return this.plotly.data
@@ -343,6 +342,4 @@ export const customElem = class extends HTMLElement {
   }
 }
 
-
-
-customElements.define(tagName, customElem)
+customElements.define(tagName, CustomElem)
