@@ -1,6 +1,6 @@
-const tagName = "neco-table-simple"
+export const TAG_NAME = "neco-table-simple"
 
-const template = (params) => `
+const createHTML = (params) => `
 <style>
 ${params.widthStyleString}
 ${params.heightStyleString}
@@ -75,7 +75,7 @@ const IO = class {
   }
 }
 
-export const customElem = class extends HTMLElement {
+export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
     this.shadow
@@ -96,15 +96,17 @@ export const customElem = class extends HTMLElement {
       headerBackground: this.dataset.headerBackground,
       css:this.dataset.css,
     }
-    const isShadow = params.isShadow
-    this.isShadow = isShadow
-    let shadow
-    if(isShadow){
-      shadow = this.attachShadow({mode: 'open'});
-      this.shadow=shadow
-    }
-    const parentElement = isShadow ? shadow : this
+    //const isShadow = params.isShadow
+    //this.isShadow = isShadow
+    //let shadow
+    //if(isShadow){
+    //  shadow = this.attachShadow({mode: 'open'});
+    //  this.shadow=shadow
+    //}
+    //const parentElement = isShadow ? shadow : this
  
+    const shadow = this.attachShadow({mode: 'open'});
+    this.shadow=shadow
     const data = JSON.parse(params.data)
     const header = JSON.parse(params.header)
     const tableElem = document.createElement("table")
@@ -189,9 +191,13 @@ export const customElem = class extends HTMLElement {
       headerBackground:params.headerBackground,
     }
 
-    const dom = new DOMParser().parseFromString(template(styleParams), "text/html")
-    parentElement.appendChild(dom.head.querySelector("style"))
-    parentElement.appendChild(tableElem)
+    //const dom = new DOMParser().parseFromString(template(styleParams), "text/html")
+    //parentElement.appendChild(dom.head.querySelector("style"))
+    //parentElement.appendChild(tableElem)
+    const HTML = createHTML(styleParams)
+    shadow.setHTMLUnsafe(HTML)
+    shadow.appendChild(tableElem)
+
     this.list = list
     this.obj  = obj
   }
@@ -214,4 +220,4 @@ export const customElem = class extends HTMLElement {
   } 
 }
 
-customElements.define(tagName, customElem)
+customElements.define(TAG_NAME, CustomElem)

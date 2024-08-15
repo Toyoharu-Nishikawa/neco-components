@@ -3,8 +3,8 @@
 import * as THREE from "./modules/three/build/three.module.min.js" 
 import {TrackballControls} from "./modules/three/example/jsm/controls/TrackballControls.js" 
 
-const tagName = "neco-three"
-const template = (params) => `
+export const TAG_NAME = "neco-three"
+const createHTML = (params) => `
 <style>
 :host{
   width: 100%;
@@ -21,7 +21,7 @@ canvas{
 <div id="three"></div>
 `
 
-export const customElem = class extends HTMLElement {
+export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
     this.shadow
@@ -38,9 +38,9 @@ export const customElem = class extends HTMLElement {
     } 
     const shadow = this.attachShadow({mode: 'open'});
     this.shadow=shadow
-    const dom = new DOMParser().parseFromString(template(), "text/html")
-    shadow.appendChild(dom.head.querySelector("style"))
-    shadow.appendChild(dom.body.querySelector("div"))
+    const HTML = createHTML()
+    shadow.setHTMLUnsafe(HTML)
+
     const divElem = shadow.querySelector("#three")
 
     const width = divElem.clientWidth
@@ -138,4 +138,4 @@ export const customElem = class extends HTMLElement {
   }
 }
 
-customElements.define(tagName, customElem)
+customElements.define(TAG_NAME, CustomElem)

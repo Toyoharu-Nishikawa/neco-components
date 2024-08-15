@@ -1,5 +1,5 @@
-const tagName = "neco-tabs"
-const template = (params) => `
+export const TAG_NAME = "neco-tabs"
+const createHTML = (params) => `
 <style>
 .tabs {
   background-color: #fff;
@@ -75,7 +75,7 @@ const getRandomIndex = () => Math.floor(Math.random() * alphabets.length)
 const printRandomAlphabets = (N) => [...Array(N)].reduce((p,c)=>p+=alphabets[getRandomIndex()],"")
 
 
-export const customElem = class extends HTMLElement {
+export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
     this.shadow
@@ -144,10 +144,10 @@ export const customElem = class extends HTMLElement {
     spanElem.appendChild(style)
 
     const styleParams = {tN,prefix}
-    const dom = new DOMParser().parseFromString(template(styleParams), "text/html")
-
-    parentElement.appendChild(dom.head.querySelector("style"))
+    const HTML = createHTML(styleParams)
+    parentElement.setHTMLUnsafe(HTML)
     parentElement.appendChild(spanElem)
+
     this.parentElemen = parentElement
     this.pageNodes = pageNodes
 
@@ -158,4 +158,4 @@ export const customElem = class extends HTMLElement {
 
 }
 
-customElements.define(tagName, customElem)
+customElements.define(TAG_NAME, CustomElem)

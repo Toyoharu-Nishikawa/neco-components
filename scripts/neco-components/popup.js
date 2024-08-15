@@ -1,8 +1,8 @@
-const tagName = "neco-popup"
+export const TAG_NAME = "neco-popup"
 
 
 const HEADER_HEIGHT = 30
-const template = (params) => `
+const createHTML = (params) => `
 <style>
 .neco-popup-parent{
   top:0;
@@ -103,7 +103,7 @@ const template = (params) => `
 //
 
 let Z_INDEX = 9999
-export const customElem = class extends HTMLElement {
+export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
     this.shadow
@@ -131,9 +131,11 @@ export const customElem = class extends HTMLElement {
     const templateElem = this.querySelector("template")
     const clone = templateElem.content.cloneNode(true);
 
-    const dom = new DOMParser().parseFromString(template(params), "text/html")
-    parentElem.appendChild(dom.head.querySelector("style"))
-    parentElem.appendChild(dom.body.querySelector("div"))
+    const HTML = createHTML(params)
+    parentElem.setHTMLUnsafe(HTML)
+    //const dom = new DOMParser().parseFromString(HTML, "text/html")
+    //parentElem.appendChild(dom.head.querySelector("style"))
+    //parentElem.appendChild(dom.body.querySelector("div"))
 
 
     const childElem = parentElem.querySelector("div.neco-popup-child")
@@ -299,4 +301,4 @@ export const customElem = class extends HTMLElement {
 
 }
 
-customElements.define(tagName, customElem)
+customElements.define(TAG_NAME, CustomElem)

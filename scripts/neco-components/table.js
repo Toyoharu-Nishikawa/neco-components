@@ -1,6 +1,6 @@
-const tagName = "neco-table"
+export const TAG_NAME = "neco-table"
 
-const template = (params) => `
+const createHTML = (params) => `
 <style>
 ${params.widthStyleString}
 ${params.heightStyleString}
@@ -75,7 +75,7 @@ const IO = class {
   }
 }
 
-export const customElem = class extends HTMLElement {
+export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
     this.shadow
@@ -102,6 +102,31 @@ export const customElem = class extends HTMLElement {
     }
     const parentElement = isShadow ? shadow : this
     this.parentElem = parentElement
+
+    let widthStyleString = ""
+    if(params.width){
+      const widthList = JSON.parse(params.width)
+      const styleStringList = widthList.map((v,i)=>`td:nth-child(${i+1}){width:${v};}`)
+      widthStyleString = styleStringList.reduce((p,c)=>p+c,"")
+    }
+    let heightStyleString = ""
+    if(params.height){
+      const heightList = JSON.parse(params.height)
+      const styleStringList = heightList.map((v,i)=>`tr:nth-child(${i+1}){height:${v};}`)
+      heightStyleString = styleStringList.reduce((p,c)=>p+c,"")
+    }
+
+    const styleParams ={
+      widthStyleString,
+      heightStyleString,
+      verticalLine:params.verticalLine,
+      horizontalLine:params.horizontalLine,
+      oddBackground:params.oddBackground,
+      evenBackground:params.evenBackground,
+      headerBackground:params.headerBackground,
+    }
+    const HTML = createHTML(styleParams)
+    parentElement.setHTMLUnsafe(HTML)
 
     const templateElem = this.querySelector("template")
     const clone = templateElem.content.cloneNode(true);
@@ -139,31 +164,6 @@ export const customElem = class extends HTMLElement {
       list.push(inList)
     })
 
-    let widthStyleString = ""
-    if(params.width){
-      const widthList = JSON.parse(params.width)
-      const styleStringList = widthList.map((v,i)=>`td:nth-child(${i+1}){width:${v};}`)
-      widthStyleString = styleStringList.reduce((p,c)=>p+c,"")
-    }
-    let heightStyleString = ""
-    if(params.height){
-      const heightList = JSON.parse(params.height)
-      const styleStringList = heightList.map((v,i)=>`tr:nth-child(${i+1}){height:${v};}`)
-      heightStyleString = styleStringList.reduce((p,c)=>p+c,"")
-    }
-
-    const styleParams ={
-      widthStyleString,
-      heightStyleString,
-      verticalLine:params.verticalLine,
-      horizontalLine:params.horizontalLine,
-      oddBackground:params.oddBackground,
-      evenBackground:params.evenBackground,
-      headerBackground:params.headerBackground,
-    }
-
-    const dom = new DOMParser().parseFromString(template(styleParams), "text/html")
-    parentElement.appendChild(dom.head.querySelector("style"))
     this.list = list
     this.obj  = obj
   }
@@ -186,4 +186,4 @@ export const customElem = class extends HTMLElement {
   } 
 }
 
-customElements.define(tagName, customElem)
+customElements.define(TAG_NAME, CustomElem)

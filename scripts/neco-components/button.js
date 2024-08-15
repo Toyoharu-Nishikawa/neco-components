@@ -1,5 +1,6 @@
-const tagName = "neco-button"
-const template = (params) => `
+export const TAG_NAME = "neco-button"
+
+const createHTML = (params) => `
 <style>
 :host{
   height: 100%;
@@ -39,11 +40,9 @@ div > span {
 </div>
 `
 
-export const customElem = class extends HTMLElement {
+export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
-    this.shadow
-    this.click
   }
   connectedCallback() {
     const params = {
@@ -51,9 +50,10 @@ export const customElem = class extends HTMLElement {
     }
     const shadow = this.attachShadow({mode: 'open'});
     this.shadow=shadow
-    const dom = new DOMParser().parseFromString(template(params), "text/html")
-    shadow.appendChild(dom.head.querySelector("style"))
-    shadow.appendChild(dom.body.querySelector("div"))
+
+    const HTML = createHTML(params)
+    shadow.setHTMLUnsafe(HTML)
+
     shadow.querySelector("div").onclick = this.clickHandler.bind(this)
   }
   set onclick(func){
@@ -68,4 +68,4 @@ export const customElem = class extends HTMLElement {
   }
 }
 
-customElements.define(tagName, customElem)
+customElements.define(TAG_NAME, CustomElem)

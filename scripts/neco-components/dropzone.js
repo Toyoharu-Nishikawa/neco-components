@@ -1,5 +1,5 @@
-const tagName = "neco-dropzone"
-const template = (params) => `
+export const TAG_NAME = "neco-dropzone"
+const createHTML = (params) => `
 <style>
 div {
   width: 100%;
@@ -36,15 +36,17 @@ object {
 </div>
 `
 
-export const customElem = class extends HTMLElement {
+export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
   }
   connectedCallback() {
     const shadow = this.attachShadow({mode: 'open'});
-    const dom = new DOMParser().parseFromString(template(), "text/html")
-    shadow.appendChild(dom.head.querySelector("style"))
-    shadow.appendChild(dom.body.querySelector("div"))
+    //const dom = new DOMParser().parseFromString(template(), "text/html")
+    //shadow.appendChild(dom.head.querySelector("style"))
+    //shadow.appendChild(dom.body.querySelector("div"))
+    const HTML = createHTML()
+    shadow.setHTMLUnsafe(HTML)
 
     const elem = shadow.querySelector("div")
     elem.ondrop = this.dropHandler.bind(this)
@@ -108,4 +110,4 @@ export const customElem = class extends HTMLElement {
   }
 }
 
-customElements.define(tagName, customElem)
+customElements.define(TAG_NAME, CustomElem)

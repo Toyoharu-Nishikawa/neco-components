@@ -3,9 +3,9 @@ import "../handsontable/dist/handsontable.full.js"
 const url = import.meta.url
 const cssPath = url.split("/").slice(0,-2).join("/")+"/handsontable/dist/handsontable.full.css"
 
-const tagName = "neco-handsontable"
+export const TAG_NAME = "neco-handsontable"
 
-const template = (params) => `
+const createHTML= (params) => `
 <style>
 
 #handsontable{
@@ -18,7 +18,7 @@ const template = (params) => `
 </div>
 `
 
-export const customElem = class extends HTMLElement {
+export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
     this.shadow
@@ -40,7 +40,7 @@ export const customElem = class extends HTMLElement {
     const parentElement = isShadow ? shadow : this
     const elementTarget = isShadow ? shadow.host : this
 
-    const dom = new DOMParser().parseFromString(template(), "text/html")
+    const dom = new DOMParser().parseFromString(createHTML(), "text/html")
 
     parentElement.appendChild(dom.head.querySelector("style"))
     parentElement.appendChild(dom.head.querySelector("link"))
@@ -77,4 +77,4 @@ export const customElem = class extends HTMLElement {
   }
 }
 
-customElements.define(tagName, customElem)
+customElements.define(TAG_NAME, CustomElem)

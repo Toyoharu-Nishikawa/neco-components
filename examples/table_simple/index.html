@@ -34,7 +34,7 @@
     data-caption='Table BMI CALC.'
     data-header='["item", "value","unit"]'
     data-data= '[
-      ["height", "<input>", "[m]" ],
+      ["height", "<input>", "[cm]" ],
       ["weight", "<input name=\"weight\">", "[kg]"],
       ["BMI"   , "<output name=\"BMI\">","[-]" ]
     ]'
@@ -48,10 +48,10 @@
   ></neco-table-simple>
 
   <script type="module">
-    const table = document.querySelector("neco-table")
+    const table = document.querySelector("neco-table-simple")
     table.onchange=(e)=>{
       const weight = Number(e.range.weight.value)
-      const height = Number(e.cells[0][1].value)
+      const height = Number(e.cells[0][1].value)/100
       const BMItmp = weight/height**2
       const BMI = Math.round(BMItmp*10)/10
       e.range.BMI.value = BMI 
