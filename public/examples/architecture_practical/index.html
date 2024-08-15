@@ -1,85 +1,19 @@
 <head>
-  <title>neco-components</title>
+  <title>my-graph-area</title>
   <style>
     body {
-      width: 100vw;
-      height: 100vh;
+      width: 1200px;
+      height: 800px;
       padding: 0;
       margin: 0;
     }
   </style> 
+  <script type="importmap">
+    {
+      "imports": {
+        "neco-components/": "/neco-components/scripts/neco-components/"
+      }
+    }
+  </script>
+  <script type="module" src="./test.js"></script>
 </head>
-
-<my-architecture>
-  <template shadowrootmode="open">
-    <script type="importmap">
-      {
-        "imports": {
-          "neco-components/": "../../scripts/neco-components/"
-        }
-      }
-    </script>
-    <script type="module" >
-      import "neco-components/header.js"
-      import "neco-components/searchbar.js"
-      import "neco-components/footer.js"
-    </script>
-
-    <style>
-      :host{
-        width: 100%;
-        height: 100%;
-        padding: 0;
-        margin: 0;
-        font-family:  san-serif;
-        display: flex;
-        flex-flow: column nowrap;
-        overflow: hidden;
-        display:grid;
-        grid-template-rows: 50px 1fr 30px;
-      }
-      neco-header{
-        grid-row: 1/2;
-      }
-      main{
-        grid-row: 2/3;
-      }
-      neco-footer{
-        grid-row: 3/4;
-      }
-    </style>
-
-    <neco-header
-      data-title='architecture'
-      data-color='#3E5358'
-    ></neco-header>
-  
-    <my-main>
-      <template shadowrootmode="open">
-        <style>
-          :host{
-            display:grid;
-            grid-template-rows: 50px 50px 50px 1fr;
-            grid-template-columns: 1fr 300px 500px 300px 1fr;
-          }
-          neco-search-bar{
-            text-align: center;
-            grid-row: 2/3;
-            grid-column: 3/4;
-          }
-        </style>
-
-        <neco-search-bar></neco-search-bar>
-      </template>
-    </my-main>
-  
-    <neco-footer
-      data-title='artchitecture'
-      data-version='1.0.0'
-      data-auther='neco-components'
-      data-date-of-issue='2024'
-      data-color='#3E5358'
-    ></neco-footer>
-    <script type="module" src="./index.js"></script>
-  </template>
-</my-architecture>

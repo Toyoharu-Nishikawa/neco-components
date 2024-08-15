@@ -7,8 +7,8 @@ const cssDatatablesPath = url.split("/").slice(0,-1).join("/")+"/modules/jspread
 const cssThemePath = url.split("/").slice(0,-1).join("/")+"/modules/jspreadsheet-ce/dist/jspreadsheet.theme.css"
 const cssJsuitesPath = url.split("/").slice(0,-1).join("/")+"/modules/jsuites/dist/jsuites.css"
 
-const tagName = "neco-jspreadsheet"
-const template = (params) => `
+export const TAG_NAME = "neco-jspreadsheet"
+const createHTML = (params) => `
 <style>
 :host{
 /*  height: 100%;
@@ -31,10 +31,9 @@ const template = (params) => `
 //<link rel="stylesheet" href=${cssThemePath}>
 //<link rel="stylesheet" href=${cssDatatablesPath}>
 
-export const customElem = class extends HTMLElement {
+export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
-    this.shadow
   }
   connectedCallback() {
     const defaultData = [["","",""],["","",""],["","",""]]
@@ -44,13 +43,12 @@ export const customElem = class extends HTMLElement {
       {type:"text", title:"C"},
     ]
 
-    const shadow = this.attachShadow({mode: 'open'});
+    const shadow = this.attachShadow({mode: 'open'})
     this.shadow=shadow
-    const dom = new DOMParser().parseFromString(template(), "text/html")
-    shadow.appendChild(dom.head.querySelector("style"))
-    const links = [...dom.head.querySelectorAll("link")]
-    links.forEach(v=>shadow.appendChild(v))
-    shadow.appendChild(dom.body.querySelector("div"))
+
+    const HTML = createHTML() 
+    shadow.setHTMLUnsafe(HTML)
+
     const divElem = shadow.querySelector("#jspreadsheet")
     this.divElem = divElem
   }
@@ -105,4 +103,4 @@ export const customElem = class extends HTMLElement {
 
 }
 
-customElements.define(tagName, customElem)
+customElements.define(TAG_NAME, CustomElem)

@@ -1,5 +1,5 @@
 <head>
-  <title>my-graph</title>
+  <title>my-scatter</title>
   <style>
     body {
       width: 500px;
@@ -15,45 +15,7 @@
       }
     }
   </script>
-
+  <script type="module" src="./test.js"></script>
 </head>
 
-<my-scatter>
-  <template shadowrootmode="open">
 
-    <script type="module" src="./index.js"></script>
-
-    <style>
-      :host{
-        width: 100%;
-        height: 100%;
-        padding: 0;
-        margin: 0;
-        overflow: hidden;
-        display:grid;
-        grid-template-rows: 30px 290px 30px 120px 30px;
-        grid-template-columns: 30px 290px 30px 120px 30px;
-        border: 1px solid black;
-        border-radius: 30px;
-        box-sizing: border-box; 
-      }
-      my-graph{
-        grid-row: 2/3; 
-        grid-column: 2/5; 
-      }
-      my-sheet{
-        grid-row: 4/5; 
-        grid-column: 2/3; 
-      }
-      neco-button{
-        grid-row: 4/5; 
-        grid-column: 4/5; 
-      }
-    </style>
-
-    <my-graph></my-graph>
-    <my-sheet></my-sheet>
-    <neco-button data-text=reset></neco-button>
-
-  </template>
-</my-scatter>

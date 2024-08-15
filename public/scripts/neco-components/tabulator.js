@@ -5,9 +5,9 @@ const url = import.meta.url
 const cssMainPath = url.split("/").slice(0,-2).join("/")+"/tabulator-tables/dist/css/tabulator.css"
 
 
-const tagName = "neco-tabulator"
+export const TAG_NAME = "neco-tabulator"
 
-const template = (params) => `
+const createHTML = (params) => `
 <style>
 :host{
   height: 100%;
@@ -22,7 +22,7 @@ const template = (params) => `
 <div id="tabulator"> </div>
 `
 
-export const customElem = class extends HTMLElement {
+export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
     this.shadow
@@ -44,11 +44,8 @@ export const customElem = class extends HTMLElement {
     const parentElement = isShadow ? shadow : this
     const elementTarget = isShadow ? shadow.host : this
 
-    const dom = new DOMParser().parseFromString(template(), "text/html")
-    parentElement.appendChild(dom.head.querySelector("style"))
-    const links = [...dom.head.querySelectorAll("link")]
-    links.forEach(v=>shadow.appendChild(v))
-    parentElement.appendChild(dom.body.querySelector("div"))
+    const HTML = createHTML()
+    parentElement.setHTMLUnsafe(HTML)
     const divElem = parentElement.querySelector("div")
     this.divElem = divElem
 
@@ -93,4 +90,4 @@ export const customElem = class extends HTMLElement {
 //  }
 }
 
-customElements.define(tagName, customElem)
+customElements.define(TAG_NAME, CustomElem)

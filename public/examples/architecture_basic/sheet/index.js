@@ -1,7 +1,7 @@
 import "neco-components/jspreadsheet.js"
 
 export const TAG_NAME = 'my-sheet'
-const HTML_TEXT = `
+const createHTML = (params) =>`
 <style>
   neco-jspreadsheet{
     width: 290px;
@@ -29,10 +29,9 @@ export class CustomElem extends HTMLElement {
     this.isJSshadow = !shadow
     if (!shadow) {
       console.log("there wasn't one. create a new Shadow Root:")
-      shadow = this.attachShadow({
-        mode: 'open'
-      })
-      shadow.setHTMLUnsafe(HTML_TEXT) 
+      shadow = this.attachShadow({mode: 'open'})
+      const HTML = createHTML()
+      shadow.setHTMLUnsafe(HTML) 
     }
 
     this.shadow = shadow
@@ -81,6 +80,3 @@ export class CustomElem extends HTMLElement {
 }
 
 customElements.define(TAG_NAME, CustomElem)
-
-
-

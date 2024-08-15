@@ -2,8 +2,35 @@ import "neco-components/button.js"
 import "./sheet/index.js"
 import "./graph/index.js"
 
-const TAG_NAME = 'my-scatter'
-const wait = t => new Promise(resolve => setTimeout(resolve, t))
+export const TAG_NAME = 'my-scatter'
+const HTML_TEXT = `
+<style>
+  :host{
+    display: grid;
+    grid-template-rows: 30px 290px 30px 120px 30px;
+    grid-template-columns: 30px 290px 30px 120px 30px;
+    border: 1px solid black;
+    border-radius: 30px;
+    box-sizing: border-box; 
+  }
+  my-graph{
+    grid-row: 2/3; 
+    grid-column: 2/5; 
+  }
+  my-sheet{
+    grid-row: 4/5; 
+    grid-column: 2/3; 
+  }
+  neco-button{
+    grid-row: 4/5; 
+    grid-column: 4/5; 
+  }
+</style>
+
+<my-graph></my-graph>
+<my-sheet></my-sheet>
+<neco-button data-text=reset></neco-button>
+`
 
 export class CustomElem extends HTMLElement {
   constructor() {
@@ -14,21 +41,14 @@ export class CustomElem extends HTMLElement {
       [2,4],
     ]
   }
-  async connectedCallback() {
+  connectedCallback() {
     const internals = this.attachInternals()
 
     // check for a Declarative Shadow Root:
     let shadow = internals.shadowRoot
     if (!shadow) {
-      console.log("there wasn't one. create a new Shadow Root:")
-      shadow = this.attachShadow({
-        mode: 'open'
-      })
-
-     const url = import.meta.url.split("/").slice(0,-1).join("/") + "/index.html"
-     const res = await fetch(url)
-     const html = await res.text()
-     shadow.setHTMLUnsafe(html) 
+      shadow = this.attachShadow({mode: 'open'})
+      shadow.setHTMLUnsafe(HTML_TEXT) 
     }
 
     this.shadow = shadow
@@ -39,16 +59,16 @@ export class CustomElem extends HTMLElement {
  
     this.initialize()
 
-    const INITIAL_DATA = this.getIniData() 
-    this.setData(INITIAL_DATA)
-
-    this.sheetElem.onafterchanges = this.bindData.bind(this)
-    this.btn.onclick              = this.reset.bind(this)
+    const data = this.getIniData() 
+    this.setData(data)
+  }
+  test(){
   }
   initialize(){
-    console.log("initialize")
     this.sheetElem.initialize()
     this.graphElem.initialize()
+    this.sheetElem.onafterchanges = this.bindData.bind(this)
+    this.btn.onclick              = this.reset.bind(this)
   }
   setData(data){
     this.sheetElem.setData(data)

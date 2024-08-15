@@ -1,5 +1,5 @@
-const tagName = "neco-nav"
-const template = (params) => `
+export const TAG_NAME = "neco-nav"
+const createHTML = (params) => `
 <style>
 
 @charset "UTF-8";
@@ -313,7 +313,7 @@ a {
 </style>
 `
 
-export const customElem = class extends HTMLElement {
+export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
     this.shadow
@@ -336,8 +336,8 @@ export const customElem = class extends HTMLElement {
     const templateElem = this.querySelector("template")
     const clone = templateElem.content.cloneNode(true);
 
-    const dom = new DOMParser().parseFromString(template(params), "text/html")
-    parentElem.appendChild(dom.head.querySelector("style"))
+    const HTML = createHTML(params)
+    parentElem.setHTMLUnsafe(HTML)
 
     parentElem.appendChild(clone)
     this.parentElem = parentElem
@@ -349,4 +349,4 @@ export const customElem = class extends HTMLElement {
   }
 }
 
-customElements.define(tagName, customElem)
+customElements.define(TAG_NAME, CustomElem)

@@ -1,8 +1,8 @@
 import {MiniJscad} from "../minijscad/index.js"
 
 
-const tagName = "neco-minijscad"
-const template = (params) => `
+export const TAG_NAME = "neco-minijscad"
+const createHTML = (params) => `
 <style>
 div  {
   height:100%;
@@ -14,31 +14,17 @@ div  {
 </div>
 `
 
-export const customElem = class extends HTMLElement {
+export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
-    this.shadow
   }
   connectedCallback() {
-    const params = {
-      isShadow:  this.dataset?.isShadow ? (this.dataset.isShadow.toLowerCase()==="false" ? false:true): true ,
-      tabs:  this.dataset.tabs,
-      pages: this.dataset.pages,
-    }
-    let shadow
-    const isShadow = params.isShadow
-    this.isShadow = isShadow
-    if(isShadow){
-      shadow = this.attachShadow({mode: 'open'});
-      this.shadow=shadow
-    }
-    const parentElement = isShadow ? shadow : this
+    const shadow = this.attachShadow({mode: 'open'});
+    this.shadow=shadow
+    const HTML = createHTML()
+    this.shadow.setHTMLUnsafe(HTML)
 
-    const dom = new DOMParser().parseFromString(template(), "text/html")
-    parentElement.appendChild(dom.head.querySelector("style"))
-    parentElement.appendChild(dom.body.querySelector("div"))
-
-    const divElem = parentElement.querySelector("div")
+    const divElem = shadow.querySelector("div")
     const width = divElem.getBoundingClientRect().width
     const height = divElem.getBoundingClientRect().height
   
@@ -71,4 +57,4 @@ export const customElem = class extends HTMLElement {
   }
 }
 
-customElements.define(tagName, customElem)
+customElements.define(TAG_NAME, CustomElem)

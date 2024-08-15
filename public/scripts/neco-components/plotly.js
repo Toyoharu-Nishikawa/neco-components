@@ -1,7 +1,7 @@
 import '../plotly.js-dist-min/plotly.min.js'
 
-const tagName = "neco-plotly"
-const defaultCSS = (params) => `
+export const TAG_NAME = "neco-plotly"
+const createDEFAULT_CSS = (params) => `
 <style>
 .js-plotly-plot .plotly,.js-plotly-plot .plotly div {
     direction:ltr;
@@ -251,7 +251,7 @@ const defaultCSS = (params) => `
 </style>
 `
 
-const template = (params) => `
+const createHTML = (params) => `
 <style>
 #plotly{
   height: 100%;
@@ -268,27 +268,13 @@ export const CustomElem = class extends HTMLElement {
     this.plotly
   }
   connectedCallback() {
-    const params = {
-      isShadow:  this.dataset?.isShadow ? (this.dataset.isShadow.toLowerCase()==="false" ? false:true): true ,
-    }
-    let shadow
-    const isShadow = params.isShadow
-    this.isShadow = isShadow
-    if(isShadow){
-      shadow = this.attachShadow({mode: 'open'});
-      this.shadow=shadow
-    }
-    const parentElement = isShadow ? shadow : this
-    const elementTarget = isShadow ? shadow.host : this
+    const shadow = this.attachShadow({mode: 'open'})
+    this.shadow=shadow
+ 
+    const HTML = createDEFAULT_CSS() +createHTML()
+    shadow.setHTMLUnsafe(HTML)
 
-    const domDefault = new DOMParser().parseFromString(defaultCSS(), "text/html")
-    const dom = new DOMParser().parseFromString(template(), "text/html")
-    if(isShadow){
-      parentElement.appendChild(domDefault.head.querySelector("style"))
-    }
-    parentElement.appendChild(dom.head.querySelector("style"))
-    parentElement.appendChild(dom.body.querySelector("div"))
-    const divElem = parentElement.querySelector("div")
+    const divElem = shadow.querySelector("div")
     const data = []
     const layout = {
       autosize: true,
@@ -342,4 +328,4 @@ export const CustomElem = class extends HTMLElement {
   }
 }
 
-customElements.define(tagName, CustomElem)
+customElements.define(TAG_NAME, CustomElem)

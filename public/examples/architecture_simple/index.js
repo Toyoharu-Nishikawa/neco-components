@@ -1,49 +1,53 @@
-/*---------*/
-const url = import.meta.url
-const path = url.split("/").slice(0,-1).join("/")
-const htmlURL = path +  "/index.html"
-const html = await fetch(htmlURL) 
-/*----------*/
-
+import "neco-components/button.js"
+import "neco-components/jspreadsheet.js"
+import "neco-components/plotly.js"
+ 
 const TAG_NAME = 'my-scatter'
+
+const INITIAL_DATA = [
+  [0,0],
+  [1,1],
+  [2,4],
+]
 
 export class CustomElem extends HTMLElement {
   constructor() {
     super()
-    this.INITIAL_DATA = [
-      [0,0],
-      [1,1],
-      [2,4],
-    ]
+
   }
   connectedCallback() {
-    const INITIAL_DATA = this.getIniData() 
     const internals = this.attachInternals()
 
     // check for a Declarative Shadow Root:
     let shadow = internals.shadowRoot
     if (!shadow) {
       console.log("there wasn't one. create a new Shadow Root:")
-      shadow = this.attachShadow({
-        mode: 'open'
-      })
-     shadow.setHTMLUnsafe(html) 
+      throw new Error("You cannot access from other than declarative shadow dom")
     }
 
     this.shadow = shadow
 
-    this.jspElem    = this.shadow.querySelector("neco-jspreadsheet")
-    this.plotlyElem = this.shadow.querySelector("neco-plotly")
-    this.btn        = this.shadow.querySelector("neco-button")
+    this.sheetElem = this.shadow.querySelector("neco-jspreadsheet")
+    this.graphElem = this.shadow.querySelector("neco-plotly")
+    this.btn       = this.shadow.querySelector("neco-button")
 
     this.initialize()
-    this.setData(INITIAL_DATA)
 
-    this.jspElem.jsp.onafterchanges = this.bindData.bind(this)
-    this.btn.onclick                = this.reset.bind(this)
+    const data = this.getIniData() 
+    this.setData(data)
   }
-  initializePlot(){
-    const plotlyElem = this.plotlyElem
+  initialize(){
+    this.initializeSheet()
+    this.initializeGraph()
+    this.sheetElem.jsp.onafterchanges = this.bindData.bind(this)
+    this.btn.onclick                  = this.reset.bind(this)
+  }
+  setData(data){
+    this.setDataToSheet(data)
+    this.setDataToGraph(data)
+  }
+  initializeGraph(){
+    const plotlyElem = this.graphElem
     const traces = []
     const layout = {
       title: 'sample graph',
@@ -60,8 +64,8 @@ export class CustomElem extends HTMLElement {
     }
     plotlyElem.react(traces, layout)
   }
-  plot(data){
-    const plotlyElem = this.plotlyElem
+  setDataToGraph(data){
+    const graphElem = this.graphElem
     const trace1 = {
       x: data.map(v=>v[0]),
       y: data.map(v=>v[1]),
@@ -70,11 +74,11 @@ export class CustomElem extends HTMLElement {
       type: 'scatter',
     }
     const traces = [trace1]
-    const pData = plotlyElem.getData()
+    const pData = graphElem.getData()
     if(pData.length>0) {
-      plotlyElem.deleteTraces([0])
+      graphElem.deleteTraces([0])
     }
-    plotlyElem.addTraces(traces)
+    graphElem.addTraces(traces)
   }
 
   initializeSheet(data){
@@ -88,29 +92,20 @@ export class CustomElem extends HTMLElement {
         columns,
         tableOverflow
     }
-    this.jspElem.setContents(contents)
+    this.sheetElem.setContents(contents)
   }
   setDataToSheet(data){
-    this.jspElem.setData(data)
+    this.sheetElem.setData(data)
   }
   getDataFromSheet(data){
-    return this.jspElem.getData()
-  }
-  initialize(){
-    this.initializeSheet()
-    this.initializePlot()
-  }
-  setData(data){
-    this.setDataToSheet(data)
-    this.plot(data)
+    return this.sheetElem.getData()
   }
   bindData(){
     const data = this.getDataFromSheet()
-    this.plot(data)
+    this.setDataToGraph(data)
   }
   getIniData(){
-    const INITIAL_DATA = structuredClone(this.INITIAL_DATA)
-    return INITIAL_DATA
+    return structuredClone(INITIAL_DATA)
   }
   reset(){
     const data = this.getIniData()

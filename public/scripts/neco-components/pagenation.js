@@ -1,5 +1,5 @@
-const tagName = "neco-pagenation"
-const template = (params) => `
+export const TAG_NAME = "neco-pagenation"
+const createHTML = (params) => `
 <style>
 
 div {
@@ -36,7 +36,7 @@ div.pageNotFound {
 </div>
 `
 
-export const customElem = class extends HTMLElement {
+export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
     this.shadow
@@ -50,9 +50,12 @@ export const customElem = class extends HTMLElement {
     }
     const shadow = this.attachShadow({mode: 'open'});
     this.shadow=shadow
-    const dom = new DOMParser().parseFromString(template(params), "text/html")
-    shadow.appendChild(dom.head.querySelector("style"))
-    shadow.appendChild(dom.body.querySelector("div"))
+    //const dom = new DOMParser().parseFromString(template(params), "text/html")
+    //shadow.appendChild(dom.head.querySelector("style"))
+    //shadow.appendChild(dom.body.querySelector("div"))
+    const HTML = createHTML()
+    shadow.setHTMLUnsafe(HTML)
+
     const elem = shadow.querySelector("div")
     this.elem = elem
 
@@ -133,4 +136,4 @@ export const customElem = class extends HTMLElement {
   }
 }
 
-customElements.define(tagName, customElem)
+customElements.define(TAG_NAME, CustomElem)
