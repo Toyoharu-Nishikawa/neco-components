@@ -8,6 +8,12 @@ const tag = import.meta.url.split("/")?.slice(3,-1)?.join("-") ?? "origin"
 export const TAG_NAME = "my-" + tag 
 
 const createHTML = () =>  `
+<style>
+  :host{
+    width: 500px;
+    height: 500px;
+  }
+</style>
 <${TT}>
   <style>
     :host(main){

@@ -85,15 +85,18 @@ a {
 	position: relative;
 	width: 100%;
 	height: 100%;
-	max-width: 1000px;
+	/*max-width: 1000px;*/
 	margin: 0 auto;
+
+	background: rgb(29, 33, 19);
+  z-index: 9999;
 }
 
 .menu > li {
 	float: left;
-	width: 25%;
-	height: 50px;
-	line-height: 50px;
+	width: 150px;
+	height: 30px;
+	line-height: 30px;
 	background: rgb(29, 33, 19);
 }
 
@@ -171,7 +174,7 @@ a {
 
 .menu__single .menu__second-level {
   position: absolute;
-  top: 40px;
+  top: 20px;
   width: 100%;
   background: #072A24;
   -webkit-transition: .2s ease;
@@ -181,7 +184,7 @@ a {
 }
 
 .menu__single:hover > .menu__second-level {
-  top: 50px;
+  top: 30px;
   visibility: visible;
   opacity: 1;
 }
@@ -196,7 +199,7 @@ a {
 
 .menu__multi .menu__second-level {
   position: absolute;
-  top: 40px;
+  top: 20px;
   width: 100%;
   background: #072A24;
   -webkit-transition: all .2s ease;
@@ -207,7 +210,7 @@ a {
 }
 
 .menu__multi:hover .menu__second-level {
-  top: 50px;
+  top: 30px;
   visibility: visible;
   opacity: 1;
 }
@@ -333,13 +336,12 @@ export const CustomElem = class extends HTMLElement {
     const parentElem = isShadow ? shadow : this
     const elementTarget = isShadow ? shadow.host : this
 
-    const templateElem = this.querySelector("template")
-    const clone = templateElem.content.cloneNode(true);
+    const innerHTML = this.innerHTML 
 
-    const HTML = createHTML(params)
+    const templateHTML = createHTML(params)
+    const HTML =  templateHTML + innerHTML
     parentElem.setHTMLUnsafe(HTML)
 
-    parentElem.appendChild(clone)
     this.parentElem = parentElem
     this.setQuerySelector()
   }

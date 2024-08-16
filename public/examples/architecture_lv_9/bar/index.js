@@ -1,7 +1,7 @@
 import {TAG_NAME as TB} from "neco-components/button/index.js"
 import {TAG_NAME as TS} from "./sheet/index.js"
 import {TAG_NAME as TG} from "./graph/index.js"
-import {TAG_NAME as TT} from "../template/index.js"
+import {TAG_NAME as TT} from "../template/card/index.js"
 
 
 const tag = import.meta.url.split("/")?.slice(3,-1)?.join("-") ?? "origin"
@@ -14,6 +14,7 @@ const createHTML = () => `
     height: 500px;
   }
 </style>
+
 <${TT}>
   <style>
     :host(main){
