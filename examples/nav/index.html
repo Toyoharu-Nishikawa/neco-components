@@ -10,9 +10,9 @@
     }
   </script>
   <script type="module" >
-    import "neco-components/header.js"
-    import "neco-components/footer.js"
-    import "neco-components/nav.js"
+    import "neco-components/header/index.js"
+    import "neco-components/footer/index.js"
+    import "neco-components/nav/index.js"
   </script>
   <style>
     body{
@@ -160,10 +160,9 @@
   ></neco-footer>
 
   <script type="module">
-    const main = document.querySelector("main") 
-    const nav = document.querySelector("neco-nav") 
+    const main   = document.querySelector("main") 
+    const nav    = document.querySelector("neco-nav") 
     const aTags  = nav.querySelectorAll("a")
-    console.log(aTags)
     aTags.forEach(v=>{
       v.onclick = (e)=>{
         const target = e.target
