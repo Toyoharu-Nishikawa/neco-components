@@ -10,12 +10,11 @@
     }
   </script>
   <script type="module" >
-    import "neco-components/header.js"
-    import "neco-components/footer.js"
-    import "neco-components/template.js"
-    import "neco-components/jspreadsheet.js"
-    import "neco-components/button.js"
-    import "neco-components/fileReaderButton.js"
+    import "neco-components/header/index.js"
+    import "neco-components/footer/index.js"
+    import "neco-components/jspreadsheet/index.js"
+    import "neco-components/button/index.js"
+    import "neco-components/file-reader-button/index.js"
   </script>
   <style>
     body{
@@ -37,11 +36,11 @@
       grid-row: 1/2;
       grid-column: 1/3;
     }
-    neco-template.aside{
+    my-aside{
       grid-row: 2/3;
       grid-column: 1/2;
     }
-    neco-template.main{
+    my-main{
       grid-row: 2/3;
       grid-column: 2/3;
     }
@@ -58,8 +57,8 @@
     data-color='#FFFF66'
   ></neco-header>
 
-  <neco-template class="aside">
-    <template>
+  <my-aside>
+    <template shadowrootmode="open">
       <style>
         :host{
           display:flex;
@@ -85,10 +84,10 @@
       <neco-button data-text="save" name="save"></neco-button> 
       <neco-button data-text="run" name="run"></neco-button> 
     </template>
-  </neco-template>
+  </my-aside>
 
-  <neco-template class="main">
-    <template>
+  <my-main>
+    <template shadowrootmode="open">
       <style>
         :host{
           display:flex;
@@ -104,7 +103,7 @@
       </style>
       <neco-jspreadsheet></neco-jspreadsheet>
     </template>
-  </neco-template>
+  </my-main>
 
   <neco-footer
     data-title='jspreadsheet'
@@ -115,12 +114,12 @@
   ></neco-footer>
 
   <script type="module">
-    const aside  = document.querySelector("neco-template.aside")
-    const fileReadBtn  = aside.querySelector("neco-file-reader-button")
-    const saveBtn  = aside.querySelector("neco-button[name=save]")
-    const runBtn  = aside.querySelector("neco-button[name=run]")
-    const main = document.querySelector("neco-template.main")
-    const jspreadsheet = main.querySelector("neco-jspreadsheet")
+    const aside        = document.querySelector("my-aside")
+    const fileReadBtn  = aside.shadowRoot.querySelector("neco-file-reader-button")
+    const saveBtn      = aside.shadowRoot.querySelector("neco-button[name=save]")
+    const runBtn       = aside.shadowRoot.querySelector("neco-button[name=run]")
+    const main         = document.querySelector("my-main")
+    const jspreadsheet = main.shadowRoot.querySelector("neco-jspreadsheet")
 
     const columns = [
       { title:'Model', width:300 },

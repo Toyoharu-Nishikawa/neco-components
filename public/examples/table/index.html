@@ -10,9 +10,9 @@
     }
   </script>
   <script type="module" >
-    import "neco-components/header.js"
-    import "neco-components/table.js"
-    import "neco-components/footer.js"
+    import "neco-components/header/index.js"
+    import "neco-components/table/index.js"
+    import "neco-components/footer/index.js"
   </script>
   <style>
 
@@ -62,42 +62,40 @@
     data-even-background='white'
     data-header-background='gray'
     -->
-    <template> 
-      <style>
-        caption,
-        table tr{
-          font-size: 16pt;
-          color: white;
-        }
+    <style>
+      caption,
+      table tr{
+        font-size: 16pt;
+        color: white;
+      }
 
-        table thead th{
-          border-bottom: 3px double white;
-          border-top: 3px double white;
-        }
-        table td{
-          text-align:center;
-        }
-      </style>
-      <table>
-        <caption>Table BMI CALC 2</caption>
-        <thead>
-          <tr>
-            <th>item</th> <th>value</th> <th>unit</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>height</td> <td><input name="height"></td> <td>[cm]</td>
-          </tr>
-          <tr>
-            <td>weight</td> <td><input name="weight"></td> <td>[kg]</td>
-          </tr>
-          <tr>
-            <td>BMI</td> <td><output name="BMI"></td> <td>[-]</td>
-          </tr>
-        </tbody>
-      </table>
-    </template> 
+      table thead th{
+        border-bottom: 3px double white;
+        border-top: 3px double white;
+      }
+      table td{
+        text-align:center;
+      }
+    </style>
+    <table>
+      <caption>Table BMI CALC 2</caption>
+      <thead>
+        <tr>
+          <th>item</th> <th>value</th> <th>unit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>height</td> <td><input name="height"></td> <td>[cm]</td>
+        </tr>
+        <tr>
+          <td>weight</td> <td><input name="weight"></td> <td>[kg]</td>
+        </tr>
+        <tr>
+          <td>BMI</td> <td><output name="BMI"></td> <td>[-]</td>
+        </tr>
+      </tbody>
+    </table>
   </neco-table>
 
   <neco-footer
