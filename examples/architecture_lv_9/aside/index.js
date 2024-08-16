@@ -1,5 +1,4 @@
-import {TAG_NAME as TS} from "./scatter/index.js"
-import {TAG_NAME as TB} from "./bar/index.js"
+import {TAG_NAME as NB} from "neco-components/button/index.js"
 
 const tag = import.meta.url.split("/")?.slice(3,-1)?.join("-") ?? "origin"
 export const TAG_NAME = "my-" + tag 
@@ -7,13 +6,19 @@ export const TAG_NAME = "my-" + tag
 const createHTML = () =>`
 <style>
   :host{
+    padding: 30px;
     display: flex;
-    flex-flow: row;
-    gap: 50px;
+    flex-flow: column; 
+    gap: 30px;
+  }
+  ${NB}{
+    width: 120px;
+    height: 40px;
   }
 </style>
-<${TS}></${TS}>
-<${TB}></${TB}>
+<${NB} data-text="add scatter"></${NB}>
+<${NB} data-text="add bar"></${NB}>
+<${NB} data-text="clear all"></${NB}>
 `
 
 export class CustomElem extends HTMLElement {
@@ -35,9 +40,6 @@ export class CustomElem extends HTMLElement {
     }
     console.log("!!! setHTML!!!", TAG_NAME)
     this.shadow = shadow
-
-    this.scatterElem  = this.shadow.querySelector(TS)
-    this.barElem  = this.shadow.querySelector(TB)
   }
   test(){
     console.log("test")

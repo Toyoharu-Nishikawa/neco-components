@@ -1,19 +1,20 @@
 import {TAG_NAME as TB} from "neco-components/button/index.js"
 import {TAG_NAME as TS} from "./sheet/index.js"
 import {TAG_NAME as TG} from "./graph/index.js"
-import {TAG_NAME as TT} from "../template/index.js"
+import {TAG_NAME as TT} from "../template/card/index.js"
 
 
 const tag = import.meta.url.split("/")?.slice(3,-1)?.join("-") ?? "origin"
 export const TAG_NAME = "my-" + tag 
 
-const createHTML = () => `
+const createHTML = () =>  `
 <style>
   :host{
     width: 500px;
     height: 500px;
   }
 </style>
+
 <${TT}>
   <style>
     :host(main){
@@ -38,12 +39,11 @@ const createHTML = () => `
   <${TS}></${TS}>
   <${TB} data-text=reset></${TB}>
 </${TT}>
-
 `
 const INITIAL_DATA = [
-  ["Lion"    , 3, 2],
-  ["Elephant", 1, 2],
-  ["Zebra"   , 5, 2],
+  [0,0],
+  [1,1],
+  [2,4],
 ]
 
 export class CustomElem extends HTMLElement {
@@ -67,9 +67,9 @@ export class CustomElem extends HTMLElement {
     const template = this.shadow.querySelector(TT)
     this.template = template
 
-    this.graphElem  = this.shadow.querySelector(TT).main.querySelector(TG)
-    this.sheetElem  = this.shadow.querySelector(TT).main.querySelector(TS)
-    this.btnElem    = this.shadow.querySelector(TT).main.querySelector(TB)
+    this.graphElem  = template.main.querySelector(TG)
+    this.sheetElem  = template.main.querySelector(TS)
+    this.btnElem    = template.main.querySelector(TB)
 
     template.setElem(this.graphElem, this.sheetElem, this.btnElem) 
     template.setIniData(INITIAL_DATA) 
@@ -77,10 +77,9 @@ export class CustomElem extends HTMLElement {
     template.initialize()
     const data = this.template.getIniData()
     template.setData(data)
-
   }
   test(){
-    console.log("bar test")
+    console.log("scatter test")
   }
 }
 

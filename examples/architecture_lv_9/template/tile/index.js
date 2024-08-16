@@ -1,19 +1,17 @@
-import {TAG_NAME as TS} from "./scatter/index.js"
-import {TAG_NAME as TB} from "./bar/index.js"
-
 const tag = import.meta.url.split("/")?.slice(3,-1)?.join("-") ?? "origin"
 export const TAG_NAME = "my-" + tag 
+const baseURL = import.meta.url.split("/").slice(0,-1).join("/")
 
-const createHTML = () =>`
+
+const createHTML = () =>  `
 <style>
   :host{
+    padding: 30px;
     display: flex;
     flex-flow: row;
     gap: 50px;
   }
 </style>
-<${TS}></${TS}>
-<${TB}></${TB}>
 `
 
 export class CustomElem extends HTMLElement {
@@ -23,10 +21,7 @@ export class CustomElem extends HTMLElement {
   }
   connectedCallback() {
     console.log("!!! connected !!!", TAG_NAME)
-
     const internals = this.attachInternals()
-
-    // check for a Declarative Shadow Root:
     let shadow = internals.shadowRoot
     if (!shadow) {
       shadow = this.attachShadow({mode: 'open'})
@@ -35,12 +30,22 @@ export class CustomElem extends HTMLElement {
     }
     console.log("!!! setHTML!!!", TAG_NAME)
     this.shadow = shadow
-
-    this.scatterElem  = this.shadow.querySelector(TS)
-    this.barElem  = this.shadow.querySelector(TB)
   }
   test(){
     console.log("test")
+    const elem1 = document.createElement("div")
+    elem1.textContent = "hello"
+    this.addElem(elem1)
+
+    const elem2 = document.createElement("div")
+    elem2.textContent = "good morning"
+    this.addElem(elem2)
+  }
+  addElem(elem){
+    this.shadow.appendChild(elem)
+  }
+  removeElem(elem){
+    this.shadow.removeChild(elem)
   }
 }
 

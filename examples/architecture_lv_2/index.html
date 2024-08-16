@@ -1,0 +1,153 @@
+<head>
+  <title>my-scatter</title>
+  <style>
+    body {
+      width: 500px;
+      height: 500px;
+      padding: 0;
+      margin: 0;
+    }
+  </style> 
+  <script type="importmap">
+    {
+      "imports": {
+        "neco-components/": "/neco-components/scripts/neco-components/"
+      }
+    }
+  </script>
+  <script type="module">
+    import "neco-components/button/index.js"
+    import "neco-components/jspreadsheet/index.js"
+    import "neco-components/plotly/index.js"
+  </script>
+</head>
+
+<my-scatter>
+  <template shadowrootmode="open">
+    <style>
+      :host{
+        display:grid;
+        grid-template-rows: 30px 290px 30px 120px 30px;
+        grid-template-columns: 30px 290px 30px 120px 30px;
+        border: 1px solid black;
+        border-radius: 30px;
+        box-sizing: border-box; 
+      }
+      neco-plotly{
+        grid-row: 2/3; 
+        grid-column: 2/5; 
+      }
+      neco-jspreadsheet{
+        grid-row: 4/5; 
+        grid-column: 2/3; 
+      }
+      neco-button{
+        grid-row: 4/5; 
+        grid-column: 4/5; 
+      }
+    </style>
+
+    <neco-plotly></neco-plotly>
+    <neco-jspreadsheet></neco-jspreadsheet>
+    <neco-button data-text=reset></neco-button>
+  </template>
+</my-scatter>
+
+<script type="module">
+  const INITIAL_DATA = [
+    [0,0],
+    [1,1],
+    [2,4],
+  ]
+  const scatter   = document.querySelector("my-scatter")
+  const sheetElem = scatter.shadowRoot.querySelector("neco-jspreadsheet")
+  const graphElem = scatter.shadowRoot.querySelector("neco-plotly")
+  const btnElem   = scatter.shadowRoot.querySelector("neco-button")
+
+  const initialize = () => {
+    initializeSheet()
+    initializeGraph()
+    sheetElem.jsp.onafterchanges = bindData
+    btnElem.onclick              = reset
+  }
+
+  const setData = (data) => {
+    setDataToSheet(data)
+    setDataToGraph(data)
+  }
+
+  const initializeGraph = () =>{
+    const traces = []
+    const layout = {
+      title: 'sample graph',
+      xaxis: {
+        autorange: true,
+        title: 'x [-]',
+        type: 'linear'
+      },
+      yaxis: {
+        autorange: true,
+        title: 'y [-]',
+        type: 'linear'
+      }
+    }
+    graphElem.react(traces, layout)
+  }
+
+  const setDataToGraph = (data) => {
+    const trace1 = {
+      x: data.map(v=>v[0]),
+      y: data.map(v=>v[1]),
+      marker: {size: 8},
+      mode: 'lines+markers',
+      type: 'scatter',
+    }
+    const traces = [trace1]
+    const pData = graphElem.getData()
+    if(pData.length>0) {
+      graphElem.deleteTraces([0])
+    }
+    graphElem.addTraces(traces)
+  }
+
+  const initializeSheet = (data) => {
+    const columns = [
+      { title:'x' , width:100 },
+      { title:'y' , width:100  },
+    ]
+    const tableOverflow = true 
+    const contents = {
+        data,
+        columns,
+        tableOverflow
+    }
+    sheetElem.setContents(contents)
+  }
+
+  const setDataToSheet = (data) => {
+    sheetElem.setData(data)
+  }
+
+  const getDataFromSheet = (data) => {
+    return sheetElem.getData()
+  }
+
+  const bindData = () => {
+    const data = getDataFromSheet()
+    setDataToGraph(data)
+  }
+
+  const getIniData = () => {
+    return structuredClone(INITIAL_DATA)
+  }
+
+  const reset = () => {
+    const data = getIniData()
+    setData(data)
+  }
+
+  initialize()
+  const data = getIniData() 
+  setData(data)
+
+</script>

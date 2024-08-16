@@ -23,7 +23,8 @@ const createHTML = () =>  `
     height: 30px;
   }
   div:hover {
-    background-image: url(${baseURL}/images/close2.svg)
+    background-image: url(${baseURL}/images/close2.svg);
+    cursor: pointer;
   }
   main{
     grid-row: 3/4; 
