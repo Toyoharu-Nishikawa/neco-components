@@ -1,0 +1,26 @@
+body {
+  width: 500px;
+  height: 500px;
+  padding: 0;
+  margin: 0;
+
+ display:grid;
+ grid-template-rows: 30px 290px 30px 120px 30px;
+ grid-template-columns: 30px 290px 30px 120px 30px;
+ border: 1px solid black;
+ border-radius: 30px;
+ box-sizing: border-box; 
+}
+neco-plotly{
+  grid-row: 2/3; 
+  grid-column: 2/5; 
+}
+neco-jspreadsheet{
+  grid-row: 4/5; 
+  grid-column: 2/3; 
+}
+neco-button{
+  grid-row: 4/5; 
+  grid-column: 4/5; 
+}
+

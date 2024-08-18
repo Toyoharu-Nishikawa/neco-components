@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <title>neco-components</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "neco-components/": "../../scripts/neco-components/"
+      }
+    }
+  </script>
+  <script type="module" >
+    import "neco-components/header/index.js"
+    import "neco-components/footer/index.js"
+  </script>
+  <style>
+    body{
+      width: 100vw;
+      height: 100vh;
+      font-family:  san-serif;
+      padding: 0;
+      margin: 0;
+      display:grid;
+      grid-template-rows: 50px 1fr 30px;
+    }
+    neco-header{
+      grid-row: 1/2;
+      background: blue;
+    }
+    my-main{
+      grid-row: 2/3;
+      background: green;
+    }
+    neco-footer{
+      grid-row: 3/4;
+      background: gray;
+    }
+  </style>
+</head>
+<body>
+  <neco-header
+    data-title='one column'
+    data-color='#FFFF66'
+  ></neco-header>
+
+  <my-main>
+    <template shadowrootmode="open">
+    </template>
+  </my-main>
+
+  <neco-footer
+    data-title='one column'
+    data-version='1.0.0'
+    data-auther='neco-components'
+    data-date-of-issue='2024'
+    data-color='white'
+  ></neco-footer>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<head>
+  <title>neco-components</title>
+  <style>
+    body {
+      width: 100vw;
+      height: 100vh;
+      padding: 0;
+      margin: 0;
+    }
+  </style> 
+</head>
+
+<search-bar>
+  <template shadowrootmode="open">
+    <script type="importmap">
+      {
+        "imports": {
+          "neco-components/": "../../scripts/neco-components/"
+        }
+      }
+    </script>
+    <script type="module" >
+      import "neco-components/header/index.js"
+      import "neco-components/footer/index.js"
+      import "neco-components/searchbar/index.js"
+    </script>
+
+    <style>
+      :host{
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        font-family:  san-serif;
+        display: flex;
+        flex-flow: column nowrap;
+        overflow: hidden;
+        display:grid;
+        grid-template-rows: 50px 1fr 30px;
+      }
+      neco-header{
+        grid-row: 1/2;
+      }
+      main{
+        grid-row: 2/3;
+      }
+      neco-footer{
+        grid-row: 3/4;
+      }
+    </style>
+
+    <body>
+      <neco-header
+        data-title='search bar'
+        data-color='#3E5358'
+      ></neco-header>
+    
+      <main>
+        <template shadowrootmode="open">
+          <style>
+            :host{
+              display:grid;
+              grid-template-rows: 50px 50px 50px 1fr;
+              grid-template-columns: 1fr 300px 500px 300px 1fr;
+            }
+            neco-search-bar{
+              text-align: center;
+              grid-row: 2/3;
+              grid-column: 3/4;
+            }
+          </style>
+
+          <neco-search-bar></neco-search-bar>
+        </template>
+      </main>
+    
+      <neco-footer
+        data-title='search bar'
+        data-version='1.0.0'
+        data-auther='neco-components'
+        data-date-of-issue='2024'
+        data-color='#3E5358'
+      ></neco-footer>
+    
+    
+      <script type="module">
+        class CustomElem extends HTMLElement {
+          constructor() {
+            super()
+        
+            const internals = this.attachInternals()
+        
+            // check for a Declarative Shadow Root:
+            let shadow = internals.shadowRoot
+            if (!shadow) {
+              // there wasn't one. create a new Shadow Root:
+              shadow = this.attachShadow({
+                mode: 'open'
+              })
+              console.log("!!!!!!SHADOW DOM ERROR !!!!!!!!")
+            }
+        
+            // in either case, wire up our event listener:
+            const main = shadow.querySelector("main")
+            const searchbar = main.shadowRoot.querySelector("neco-search-bar")
+            searchbar.onenter = (text) =>{
+              console.log("text",text)
+            }
+          }
+        }
+        customElements.define('search-bar', CustomElem)
+      </script>
+    </body>
+  </template>
+</search-bar>

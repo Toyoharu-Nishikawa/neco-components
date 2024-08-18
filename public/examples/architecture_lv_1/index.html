@@ -1,0 +1,23 @@
+<head>
+  <title>my-scatter</title>
+  <style o></style> 
+  <link rel="stylesheet" href="./styles/index.css" type="text/css">
+  <script type="importmap">
+    {
+      "imports": {
+        "neco-components/": "/neco-components/scripts/neco-components/"
+      }
+    }
+  </script>
+  <script type="module">
+    import "neco-components/plotly/index.js"
+    import "neco-components/jspreadsheet/index.js"
+    import "neco-components/button/index.js"
+  </script>
+  <script type="module" src="./scripts/index.js"></script>
+</head>
+<body>
+  <neco-plotly></neco-plotly>
+  <neco-jspreadsheet></neco-jspreadsheet>
+  <neco-button data-text=reset></neco-button>
+</body>

@@ -1,0 +1,24 @@
+<head>
+  <title>template</title>
+  <style>
+    body {
+      width: 500px;
+      height: 500px;
+      padding: 0;
+      margin: 0;
+    }
+  </style> 
+  <script type="importmap">
+    {
+      "imports": {
+        "neco-components/": "/neco-components/scripts/neco-components/"
+      }
+    }
+  </script>
+  <script type="module">
+    import {TAG_NAME} from "./index.js"
+    const elem = document.createElement(TAG_NAME)
+    document.body.appendChild(elem)
+    elem.test()
+  </script>
+</head>

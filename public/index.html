@@ -10,12 +10,18 @@
     }
   </script>
   <script type="module" >
-    import "neco-components/tableSimple.js"
+    import "neco-components/table-simple/index.js"
   </script>
+  <style>
+    body {
+      display: grid;
+      gap: 50px;
+    }
+  </style>
 </head>
 <body>
   <neco-table-simple
-    data-caption='list of example pages'
+    data-caption='Basic example pages'
     data-header='["No.", "pages", "LINK"]'
     data-data= '[
       [ "1", "table"       , "<a href=\"./examples/table_simple/\">simple table</a>"],
@@ -30,11 +36,16 @@
       ["10", "tab switch"  , "<a href=\"./examples/tabs_simple/\">tabs simple</a>"],
       ["11", "tab switch"  , "<a href=\"./examples/tabs/\">tabs</a>"],
       ["12", "popup"       , "<a href=\"./examples/popup/\">popup</a>"],
-      ["13", "nav"         , "<a href=\"./examples/nav/\">nav</a>"],
+      ["13", "navigation"  , "<a href=\"./examples/nav/\">nav</a>"],
       ["14", "drop zone"   , "<a href=\"./examples/dropzone/\">drop zone</a>"],
-      ["15", "pagenation"  , "<a href=\"./examples/pagenation/\">pagenation</a>"]
+      ["15", "pagenation"  , "<a href=\"./examples/pagenation/\">pagenation</a>"],
+      ["16", "search bar"  , "<a href=\"./examples/searchbar/\">search bar</a>"],
+      ["17", "icon"        , "<a href=\"./examples/icon/\">icon</a>"],
+      ["18", "icon button" , "<a href=\"./examples/icon_button/\">icon button</a>"],
+      ["19", "file reader" , "<a href=\"./examples/file_reader_button/\">file reader button</a>"],
+      ["20", "file reader" , "<a href=\"./examples/file_reader_wrapper/\">file reader wrapper</a>"]
     ]'
-    data-width ='["50px", "150px","200px"]'
+    data-width ='["50px", "200px","220px"]'
     data-height='[
       "40px", "40px","40px","40px", "40px",
       "40px", "40px","40px","40px", "40px",
@@ -46,5 +57,59 @@
     data-even-background='white'
     data-header-background='gray'
   ></neco-table-simple>
+
+  <neco-table-simple
+    data-caption='Samples of layout'
+    data-header='["No.", "pages", "LINK"]'
+    data-data= '[
+      ["1", "one column"     , "<a href=\"./examples/one_column/\">one column</a>"],
+      ["2", "two column  "   , "<a href=\"./examples/two_column/\">two column</a>"],
+      ["3", "three column"   , "<a href=\"./examples/three_column/\">three column</a>"],
+      ["4", "orthodox style" , "<a href=\"./examples/orthodox_style/\">orthodox style</a>"],
+      ["5", "square tile pattern" , "<a href=\"./examples/square_tile_pattern/\">square tile pattern</a>"]
+    ]'
+    data-width ='["50px", "200px","220px"]'
+    data-height='[
+      "40px", "40px","40px","40px", "40px",
+      "40px", "40px","40px","40px", "40px",
+      "40px", "40px", "40px"
+    ]'
+    data-vertical-line='false'
+    data-horizontal-line='true'
+    data-odd-background='#CCFFCC'
+    data-even-background='white'
+    data-header-background='#66FF66'
+  ></neco-table-simple>
+
+
+  <neco-table-simple
+    data-caption='Tutorial for learning architecture'
+    data-header='["No.", "pages", "LINK"]'
+    data-data= '[
+      [ "1", "architecture", "<a href=\"./examples/architecture_lv_1/\">Lv.1 view model style</a>"],
+      [ "2", "architecture", "<a href=\"./examples/architecture_lv_2/\">Lv.2 signle file style</a>"],
+      [ "3", "architecture", "<a href=\"./examples/architecture_lv_3/\">Lv.3 single component</a>"],
+      [ "4", "architecture", "<a href=\"./examples/architecture_lv_4/\">Lv.4 multi components</a>"],
+      [ "5", "architecture", "<a href=\"./examples/architecture_lv_5/\">Lv.5 hierarchy structure</a>"],
+      [ "6", "architecture", "<a href=\"./examples/architecture_lv_6/\">Lv.6 low-level template</a>"],
+      [ "7", "architecture", "<a href=\"./examples/architecture_lv_7/\">Lv.7 high-level template</a>"],
+      [ "8", "architecture", "<a href=\"./examples/architecture_lv_8/\">Lv.8 template in template</a>"],
+      [ "9", "architecture", "<a href=\"./examples/architecture_lv_9/\">Lv.9 layout</a>"],
+      ["10", "architecture", "<a href=\"./examples/architecture_lv_10/\">Lv.10 complete version</a>"]
+    ]'
+    data-width ='["50px", "200px","220px"]'
+    data-height='[
+      "40px", "40px","40px","40px", "40px",
+      "40px", "40px","40px","40px", "40px",
+      "40px", "40px", "40px"
+    ]'
+    data-vertical-line='false'
+    data-horizontal-line='true'
+    data-odd-background='#FFFFCC'
+    data-even-background='white'
+    data-header-background='#FF9933'
+  ></neco-table-simple>
+
+
 </body>
 </html>

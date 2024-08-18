@@ -10,9 +10,9 @@
     }
   </script>
   <script type="module" >
-    import "neco-components/header.js"
-    import "neco-components/footer.js"
-    import "neco-components/nav.js"
+    import "neco-components/header/index.js"
+    import "neco-components/footer/index.js"
+    import "neco-components/nav/index.js"
   </script>
   <style>
     body{
@@ -26,7 +26,7 @@
       overflow: hidden;
       background: #000066;
       display:grid;
-      grid-template-rows: 50px 50px 1fr 30px;
+      grid-template-rows: 50px 30px 1fr 30px;
       grid-template-columns: 300px 1fr;
 
     }
@@ -60,91 +60,96 @@
 
 
   <neco-nav>
-    <template>
-      <ul class="menu">
-        <li class="menu__none"><a href="#">Menu none</a></li>
+    <style>
+    .menu > li {
+      width: 200px;
+      height: 30px;
+      line-height: 30px;
+    }
+    </style>
+    <ul class="menu">
+      <li class="menu__none"><a href="#">Menu none</a></li>
 
-        <li class="menu__multi">
-          <a href="#" class="init-bottom">Menu multi level</a>
-          <ul class="menu__second-level">
-            <li>
-              <a href="#" class="init-right">Child Menu 1</a>
-              <ul class="menu__third-level">
-                <li>
-                  <a href="#" class="init-right">Grandchild Menu 1-1</a>
-                  <ul class="menu__fourth-level">
-                    <li><a href="#">Great-Grandchild Menu 1-1-1</a></li>
-                    <li><a href="#">Great-Grandchild Menu 1-1-2</a></li>
-                    <li><a href="#">Great-Grandchild Menu 1-1-3</a></li>
-                  </ul>
-                </li>
-                <li><a href="#">Grandchild Menu 1-2</a></li>
-                <li><a href="#">Grandchild Menu 1-3</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="#" class="init-right">Child Menu 2</a>
-              <ul class="menu__third-level">
-                <li><a href="#">Grandchild Menu 2-1</a></li>
-                <li>
-                  <a href="#" class="init-right">Grandchild Menu 2-2</a>
-                  <ul class="menu__fourth-level">
-                    <li><a href="#">Great-Grandchild Menu 2-2-1</a></li>
-                    <li><a href="#">Great-Grandchild Menu 2-2-2</a></li>
-                    <li><a href="#">Great-Grandchild Menu 2-2-3</a></li>
-                  </ul>
-                </li>
-                <li><a href="#">Grandchild Menu2-2</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="#" class="init-right">Child Menu 3</a>
-              <ul class="menu__third-level">
-                <li><a href="#">Grandchild Menu 3-1</a></li>
-                <li><a href="#">Grandchild Menu 3-2</a></li>
-                <li>
-                  <a href="#" class="init-right">Grandchild Menu 3-3</a>
-                  <ul class="menu__fourth-level">
-                    <li><a href="#">Great-Grandchild Menu 3-3-1</a></li>
-                    <li><a href="#">Great-Grandchild Menu 3-3-2</a></li>
-                    <li><a href="#">Great-Grandchild Menu 3-3-3</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
+      <li class="menu__multi">
+        <a href="#" class="init-bottom">Menu multi level</a>
+        <ul class="menu__second-level">
+          <li>
+            <a href="#" class="init-right">Child Menu 1</a>
+            <ul class="menu__third-level">
+              <li>
+                <a href="#" class="init-right">Grandchild Menu 1-1</a>
+                <ul class="menu__fourth-level">
+                  <li><a href="#">Great-Grandchild Menu 1-1-1</a></li>
+                  <li><a href="#">Great-Grandchild Menu 1-1-2</a></li>
+                  <li><a href="#">Great-Grandchild Menu 1-1-3</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Grandchild Menu 1-2</a></li>
+              <li><a href="#">Grandchild Menu 1-3</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" class="init-right">Child Menu 2</a>
+            <ul class="menu__third-level">
+              <li><a href="#">Grandchild Menu 2-1</a></li>
+              <li>
+                <a href="#" class="init-right">Grandchild Menu 2-2</a>
+                <ul class="menu__fourth-level">
+                  <li><a href="#">Great-Grandchild Menu 2-2-1</a></li>
+                  <li><a href="#">Great-Grandchild Menu 2-2-2</a></li>
+                  <li><a href="#">Great-Grandchild Menu 2-2-3</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Grandchild Menu2-2</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" class="init-right">Child Menu 3</a>
+            <ul class="menu__third-level">
+              <li><a href="#">Grandchild Menu 3-1</a></li>
+              <li><a href="#">Grandchild Menu 3-2</a></li>
+              <li>
+                <a href="#" class="init-right">Grandchild Menu 3-3</a>
+                <ul class="menu__fourth-level">
+                  <li><a href="#">Great-Grandchild Menu 3-3-1</a></li>
+                  <li><a href="#">Great-Grandchild Menu 3-3-2</a></li>
+                  <li><a href="#">Great-Grandchild Menu 3-3-3</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
 
 
-        <li class="menu__mega">
-          <a href="#" class="init-bottom">Menu mega</a>
-          <ul class="menu__second-level">
-            <li><a href="#">Child Menu 1</a></li>
-            <li><a href="#">Child Menu 2</a></li>
-            <li><a href="#">Child Menu 3</a></li>
-            <li><a href="#">Child Menu 4</a></li>
-            <li><a href="#">Child Menu 5</a></li>
-            <li><a href="#">Child Menu 6</a></li>
-            <li><a href="#">Child Menu 7</a></li>
-            <li><a href="#">Child Menu 8</a></li>
-            <li><a href="#">Child Menu 9</a></li>
-            <li><a href="#">Child Menu 10</a></li>
-            <li><a href="#">Child Menu 11</a></li>
-            <li><a href="#">Child Menu 12</a></li>
-            <li><a href="#">Child Menu 13</a></li>
-          </ul>
-        </li>
+      <li class="menu__mega">
+        <a href="#" class="init-bottom">Menu mega</a>
+        <ul class="menu__second-level">
+          <li><a href="#">Child Menu 1</a></li>
+          <li><a href="#">Child Menu 2</a></li>
+          <li><a href="#">Child Menu 3</a></li>
+          <li><a href="#">Child Menu 4</a></li>
+          <li><a href="#">Child Menu 5</a></li>
+          <li><a href="#">Child Menu 6</a></li>
+          <li><a href="#">Child Menu 7</a></li>
+          <li><a href="#">Child Menu 8</a></li>
+          <li><a href="#">Child Menu 9</a></li>
+          <li><a href="#">Child Menu 10</a></li>
+          <li><a href="#">Child Menu 11</a></li>
+          <li><a href="#">Child Menu 12</a></li>
+          <li><a href="#">Child Menu 13</a></li>
+        </ul>
+      </li>
 
-        <li class="menu__single">
-          <a href="#" class="init-bottom">Menu single</a>
-          <ul class="menu__second-level">
-            <li><a href="#">Child Menu 1</a></li>
-            <li><a href="#">Child Menu 2</a></li>
-            <li><a href="#">Child Menu 3</a></li>
-          </ul>
-        </li>
-      </ul>
-    </template>
+      <li class="menu__single">
+        <a href="#" class="init-bottom">Menu single</a>
+        <ul class="menu__second-level">
+          <li><a href="#">Child Menu 1</a></li>
+          <li><a href="#">Child Menu 2</a></li>
+          <li><a href="#">Child Menu 3</a></li>
+        </ul>
+      </li>
+    </ul>
   </neco-nav>
 
   <main>
@@ -160,10 +165,9 @@
   ></neco-footer>
 
   <script type="module">
-    const main = document.querySelector("main") 
-    const nav = document.querySelector("neco-nav") 
+    const main   = document.querySelector("main") 
+    const nav    = document.querySelector("neco-nav") 
     const aTags  = nav.querySelectorAll("a")
-    console.log(aTags)
     aTags.forEach(v=>{
       v.onclick = (e)=>{
         const target = e.target
