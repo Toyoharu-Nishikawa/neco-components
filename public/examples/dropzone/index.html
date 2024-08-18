@@ -10,9 +10,9 @@
     }
   </script>
   <script type="module" >
-    import "neco-components/header.js"
-    import "neco-components/dropzone.js"
-    import "neco-components/footer.js"
+    import "neco-components/header/index.js"
+    import "neco-components/footer/index.js"
+    import "neco-components/dropzone/index.js"
   </script>
   <style>
 
@@ -46,7 +46,7 @@
     data-color='#3E5358'
   ></neco-header>
 
-  <main>
+  <my-main>
     <template shadowrootmode="open">
       <style>
         :host{
@@ -62,7 +62,7 @@
       <neco-dropzone>
       </neco-dropzone>
     </template>
-  </main>
+  </my-main>
 
   <neco-footer
     data-title='drop zone'

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <title>neco-components</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "neco-components/": "../../scripts/neco-components/"
+      }
+    }
+  </script>
+  <script type="module" >
+    import "neco-components/header/index.js"
+    import "neco-components/footer/index.js"
+    import "neco-components/button/index.js"
+    import "neco-components/icon/index.js"
+    import "neco-components/icon-button/index.js"
+    import "neco-components/file-reader-wrapper/index.js"
+  </script>
+  <style>
+    body{
+      width: 100vw;
+      height: 100vh;
+      font-family:  san-serif;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      display:grid;
+      grid-template-rows: 50px 1fr 30px;
+    }
+    neco-header{
+      grid-row: 1/2;
+    }
+    main{
+      grid-row: 2/3;
+    }
+    neco-footer{
+      grid-row: 3/4;
+    }
+  </style>
+</head>
+<body>
+  <neco-header
+    data-title='file reader wrapper'
+    data-color='#3E5358'
+  ></neco-header>
+
+  <my-main>
+    <template shadowrootmode="open">
+      <style>
+        :host{
+          padding: 30px;
+          display: flex;
+          gap : 30px;
+        }
+        div{
+          display:block;
+          width: 150px; 
+          height: 40px; 
+          background: yellow;
+          border: 1px solid red;
+          cursor: pointer;
+          text-align: center;
+          padding: 7px;
+          box-sizing: border-box;
+        }
+        neco-button{
+          display:block;
+          width: 150px; 
+          height: 40px; 
+        }
+        neco-icon{
+          display:block;
+          width: 40px; 
+          height: 40px; 
+        }
+        neco-icon-button{
+          display:block;
+          width: 150px; 
+          height: 40px; 
+        }
+
+      </style>
+      <neco-file-reader-wrapper name="btn1">
+        <div id="my-btn">read</div>
+      </neco-file-reader-wrapper>
+
+
+      <neco-file-reader-wrapper name="btn2">
+        <neco-button data-text="read"></neco-button>
+      </neco-file-reader-wrapper>
+
+      <neco-file-reader-wrapper name="btn3">
+        <neco-icon
+          data-href="./images/file_black.svg"
+          data-href-hover="./images/file_red.svg"
+        >
+        </neco-icon>
+      </neco-file-reader-wrapper>
+
+      <neco-file-reader-wrapper name="btn4">
+        <neco-icon-button 
+          data-text="read"
+          data-href="./images/file_black.svg"
+        >
+        </neco-icon-button>
+      </neco-file-reader-wrapper>
+
+    </template>
+  </my-main>
+
+  <neco-footer
+    data-title='file reader wrapper'
+    data-version='1.0.0'
+    data-auther='neco-components'
+    data-date-of-issue='2024'
+    data-color='#3E5358'
+  ></neco-footer>
+
+  <script type="module">
+    const main = document.querySelector("my-main")
+    const btn1 = main.shadowRoot.querySelector("neco-file-reader-wrapper[name=btn1]")
+    const btn2 = main.shadowRoot.querySelector("neco-file-reader-wrapper[name=btn2]")
+    const btn3 = main.shadowRoot.querySelector("neco-file-reader-wrapper[name=btn3]")
+    const btn4 = main.shadowRoot.querySelector("neco-file-reader-wrapper[name=btn4]")
+
+    btn1.onread = (files) => {console.log("btn1");console.log(files);}
+    btn2.onread = (files) => {console.log("btn2");console.log(files);}
+    btn3.onread = (files) => {console.log("btn3");console.log(files);}
+    btn4.onread = (files) => {console.log("btn4");console.log(files);}
+  </script>
+</body>
+</html>
+
