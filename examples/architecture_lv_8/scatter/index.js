@@ -73,6 +73,7 @@ export class CustomElem extends HTMLElement {
 
     template.setElem(this.graphElem, this.sheetElem, this.btnElem) 
     template.setIniData(INITIAL_DATA) 
+    template.setParentShadow(shadow)
 
     template.initialize()
     const data = this.template.getIniData()

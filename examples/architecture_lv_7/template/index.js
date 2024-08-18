@@ -1,3 +1,5 @@
+import {TAG_NAME as NI} from "neco-components/icon/index.js"
+
 const tag = import.meta.url.split("/")?.slice(3,-1)?.join("-") ?? "origin"
 export const TAG_NAME = "my-" + tag 
 const baseURL = import.meta.url.split("/").slice(0,-1).join("/")
@@ -15,18 +17,9 @@ const createHTML = () =>  `
     border-radius: 30px;
     box-sizing: border-box; 
   }
-  div {
-    display: block;
-    background-image: url(${baseURL}/images/close1.svg);
-    background-size: 30px;
+  ${NI} {
     grid-row: 2/3; 
     grid-column: 4/5; 
-    width: 30px;
-    height: 30px;
-  }
-  div:hover {
-    background-image: url(${baseURL}/images/close2.svg);
-    cursor: pointer;
   }
   main{
     grid-row: 3/4; 
@@ -34,7 +27,11 @@ const createHTML = () =>  `
   }
 </style>
 
-<div></div>
+<${NI} 
+  data-base-url = ${baseURL}
+  data-href="./images/close_black.svg"
+  data-href-hover="./images/close_red.svg"
+></${NI}>
 <main></main>
 `
 
@@ -61,7 +58,7 @@ export class CustomElem extends HTMLElement {
     const innerHTML = this.innerHTML
     main.setHTMLUnsafe(innerHTML)
 
-    this.closeBtn = shadow.querySelector("div")
+    this.closeBtn = shadow.querySelector(NI)
   }
   test(){
     console.log("test")
@@ -71,6 +68,9 @@ export class CustomElem extends HTMLElement {
     this.graphElem = graphElem
     this.sheetElem = sheetElem
     this.btnElem   = btnElem
+  }
+  setParentShadow(parentShadow){
+    this.parentShadow = parentShadow
   }
   setIniData(data){
     this.INITIAL_DATA = data
@@ -106,6 +106,9 @@ export class CustomElem extends HTMLElement {
       this.closeCallback(this)
     }
     this.shadow.host.remove()
+    if(this.parentShadow){
+      this.parentShadow.host.remove()
+    }
   }
   set onclose(func){
     this.closeCallback = func

@@ -1,7 +1,7 @@
 import {TAG_NAME as TB} from "neco-components/button/index.js"
 import {TAG_NAME as TS} from "./sheet/index.js"
 import {TAG_NAME as TG} from "./graph/index.js"
-import {TAG_NAME as TT} from "../template/card/index.js"
+import {TAG_NAME as TT} from "../../template/card/index.js"
 
 
 const tag = import.meta.url.split("/")?.slice(3,-1)?.join("-") ?? "origin"
@@ -74,6 +74,7 @@ export class CustomElem extends HTMLElement {
 
     template.setElem(this.graphElem, this.sheetElem, this.btnElem) 
     template.setIniData(INITIAL_DATA) 
+    template.setParentShadow(shadow)
 
     template.initialize()
     const data = this.template.getIniData()

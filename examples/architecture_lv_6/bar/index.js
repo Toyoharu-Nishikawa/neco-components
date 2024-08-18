@@ -58,10 +58,12 @@ export class CustomElem extends HTMLElement {
     console.log("!!! setHTML!!!", TAG_NAME)
     this.shadow = shadow
 
-    this.graphElem  = this.shadow.querySelector(TT).main.querySelector(TG)
-    this.sheetElem  = this.shadow.querySelector(TT).main.querySelector(TS)
-    this.btn        = this.shadow.querySelector(TT).main.querySelector(TB)
+    const template = this.shadow.querySelector(TT)
+    this.graphElem  = template.main.querySelector(TG)
+    this.sheetElem  = template.main.querySelector(TS)
+    this.btnElem    = template.main.querySelector(TB)
  
+    template.setParentShadow(shadow)
     this.initialize()
   
     const data = this.getIniData() 
@@ -73,7 +75,7 @@ export class CustomElem extends HTMLElement {
     this.sheetElem.initialize()
     this.graphElem.initialize()
     this.sheetElem.onafterchanges = this.bindData.bind(this)
-    this.btn.onclick              = this.reset.bind(this)
+    this.btnElem.onclick          = this.reset.bind(this)
   }
   setData(data){
     this.sheetElem.setData(data)

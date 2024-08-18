@@ -1,13 +1,10 @@
-import {TAG_NAME as TS} from "./scatter/index.js"
-import {TAG_NAME as TB} from "./bar/index.js"
-import {TAG_NAME as TT} from "./template/tile/index.js"
 import {TAG_NAME as TL} from "./template/layout/index.js"
 
 import {TAG_NAME as TH} from "./header/index.js"
 import {TAG_NAME as TF} from "./footer/index.js"
 import {TAG_NAME as TN} from "./nav/index.js"
 import {TAG_NAME as TA} from "./aside/index.js"
-//import {TAG_NAME as NB} from "neco-components/button/index.js"
+import {TAG_NAME as TM} from "./main/index.js"
 
 const tag = import.meta.url.split("/")?.slice(3,-1)?.join("-") ?? "origin"
 export const TAG_NAME = "my-" + tag 
@@ -57,15 +54,8 @@ export class CustomElem extends HTMLElement {
     const asideElem = document.createElement(TA)
     layoutElem.addElem("aside", asideElem)
 
-
-    const tileElem = document.createElement(TT)
-    layoutElem.addElem("main", tileElem)
-
-    const scatterElem = document.createElement(TS)
-    const barElem     = document.createElement(TB)
-    tileElem.addElem(scatterElem)
-    tileElem.addElem(barElem)
-
+    const mainElem = document.createElement(TM)
+    layoutElem.addElem("main", mainElem)
   }
   test(){
     console.log("test")
