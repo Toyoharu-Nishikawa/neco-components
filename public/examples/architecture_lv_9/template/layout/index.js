@@ -9,8 +9,8 @@ const createHTML = () =>  `
     width:  100%;
     height: 100%;
     display: grid;
-    grid-template-rows: 50px 30px 1fr 30px;
-    grid-template-columns: 200px 1fr;
+    grid-template-rows: 50px 30px minmax(0,1fr) 30px;
+    grid-template-columns: 200px minmax(0,1fr);
   }
   header{
     grid-row: 1/2;

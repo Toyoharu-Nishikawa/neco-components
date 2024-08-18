@@ -8,12 +8,6 @@ const tag = import.meta.url.split("/")?.slice(3,-1)?.join("-") ?? "origin"
 export const TAG_NAME = "my-" + tag 
 
 const createHTML = () =>  `
-<style>
-  :host{
-    width: 500px;
-    height: 500px;
-  }
-</style>
 <${TT}>
   <style>
     :host(main){
@@ -72,6 +66,7 @@ export class CustomElem extends HTMLElement {
 
     template.setElem(this.graphElem, this.sheetElem, this.btnElem) 
     template.setIniData(INITIAL_DATA) 
+    template.setParentShadow(shadow)
 
     template.initialize()
     const data = this.template.getIniData()

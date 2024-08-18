@@ -1,39 +1,24 @@
-import {TAG_NAME as NIB} from "neco-components/icon-button/index.js"
+import {TAG_NAME as TT} from "../template/tile/index.js"
+import {TAG_NAME as TS} from "./scatter/index.js"
+import {TAG_NAME as TB} from "./bar/index.js"
 
 const tag = import.meta.url.split("/")?.slice(3,-1)?.join("-") ?? "origin"
 export const TAG_NAME = "my-" + tag 
-const baseURL = import.meta.url.split("/").slice(0,-1).join("/")
 
 const createHTML = () =>`
 <style>
   :host{
-    padding: 30px;
-    display: flex;
-    flex-flow: column; 
-    gap: 30px;
-  }
-  ${NIB}{
-    width: 120px;
-    height: 40px;
-    --background: black;
-    --color: white;
+    width: 100%;
+    height: 100%;
   }
 </style>
-<${NIB}
-  data-base-url = ${baseURL + "../../"}
-  data-href="./images/plus.svg"
-  data-text="Scatter"
-></${NIB}>
-<${NIB}
-  data-base-url = ${baseURL + "../../"}
-  data-href="./images/plus.svg"
-  data-text="Bar"
-></${NIB}>
-<${NIB}
-  data-base-url = ${baseURL + "../../"}
-  data-href="./images/close_black.svg"
-  data-text="All"
-></${NIB}>
+<${TT} data-tile-size="500px">
+ <${TS}></${TS}>
+ <${TB}></${TB}>
+
+ <${TS}></${TS}>
+ <${TB}></${TB}>
+</${TT}>
 `
 
 export class CustomElem extends HTMLElement {

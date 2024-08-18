@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <title>neco-components</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "neco-components/": "../../scripts/neco-components/"
+      }
+    }
+  </script>
+  <script type="module" >
+    import "neco-components/header/index.js"
+    import "neco-components/footer/index.js"
+    import "neco-components/icon/index.js"
+  </script>
+  <style>
+    body{
+      width: 100vw;
+      height: 100vh;
+      font-family:  san-serif;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      display:grid;
+      grid-template-rows: 50px 1fr 30px;
+    }
+    neco-header{
+      grid-row: 1/2;
+    }
+    main{
+      grid-row: 2/3;
+    }
+    neco-footer{
+      grid-row: 3/4;
+    }
+  </style>
+</head>
+<body>
+  <neco-header
+    data-title='icon'
+    data-color='#3E5358'
+  ></neco-header>
+
+  <main>
+    <template shadowrootmode="open">
+      <style>
+        :host{
+          padding: 30px;
+          display:grid;
+          grid-template-rows: repeat(auto-fit, 100px);
+          grid-template-columns: repeat(auto-fit,100px);
+          gap : 30px;
+     /*     background: black;*/
+        }
+        neco-icon{
+          border: 1px solid gray;
+        }
+      </style>
+      <neco-icon data-href="./images/home.svg"></neco-icon>
+      <neco-icon data-href="./images/plus.svg"></neco-icon>
+      <neco-icon data-href="./images/minus.svg"></neco-icon>
+      <neco-icon data-href="./images/tools.svg"></neco-icon>
+      <neco-icon
+        data-href="./images/close_black.svg"
+        data-href-hover="./images/close_red.svg"
+      >
+      </neco-icon>
+      <neco-icon
+        data-href="./images/trashbox_black.svg"
+        data-href-hover="./images/trashbox_red.svg"
+      >
+      </neco-icon>
+      <neco-icon
+        data-href="./images/camera_black.svg"
+        data-href-hover="./images/camera_red.svg"
+      >
+      </neco-icon>
+
+    </template>
+  </main>
+
+  <neco-footer
+    data-title='icon'
+    data-version='1.0.0'
+    data-auther='neco-components'
+    data-date-of-issue='2024'
+    data-color='#3E5358'
+  ></neco-footer>
+</body>
+</html>
+

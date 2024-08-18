@@ -3,13 +3,17 @@ export const TAG_NAME = "my-" + tag
 const baseURL = import.meta.url.split("/").slice(0,-1).join("/")
 
 
-const createHTML = () =>  `
+const createHTML = (params) =>  `
 <style>
   :host{
+    height: 100%;
     padding: 30px;
-    display: flex;
-    flex-flow: row;
-    gap: 50px;
+    box-sizing: border-box;
+
+    display:grid;
+    grid-template-columns: repeat(auto-fill,minmax(${params.tileSize},1fr));
+    gap: ${params.gapSize};
+    overflow-y: scroll;
   }
 </style>
 `
@@ -25,9 +29,17 @@ export class CustomElem extends HTMLElement {
     let shadow = internals.shadowRoot
     if (!shadow) {
       shadow = this.attachShadow({mode: 'open'})
-      const HTML = createHTML()
-      shadow.setHTMLUnsafe(HTML) 
     }
+    const params = {
+      tileSize : this.dataset?.tileSize ?? "500px",
+      gapSize : this.dataset?.gapSize ?? "50px",
+    }
+
+    const templateHTML = createHTML(params)
+    const innerHTML    = this.innerHTML
+    const HTML = templateHTML + innerHTML
+    shadow.setHTMLUnsafe(HTML) 
+    
     console.log("!!! setHTML!!!", TAG_NAME)
     this.shadow = shadow
   }
