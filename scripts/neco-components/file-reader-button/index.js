@@ -1,6 +1,6 @@
 import {importFiles} from "../../filereader/index.js"
 
-const tagName = "neco-file-reader-button"
+export const TAG_NAME = "neco-file-reader-button"
 const template = (params) => `
 <style>
 :host{
@@ -57,7 +57,7 @@ div > span {
 </div>
 `
 
-export const customElem = class extends HTMLElement {
+export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
     this.shadow
@@ -90,4 +90,4 @@ export const customElem = class extends HTMLElement {
   }
 }
 
-customElements.define(tagName, customElem)
+customElements.define(TAG_NAME, CustomElem)

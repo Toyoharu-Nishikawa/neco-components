@@ -106,14 +106,14 @@ export const CustomElem = class extends HTMLElement {
     const HTML = createHTML(renderingParams)
     shadow.setHTMLUnsafe(HTML)
 
-    shadow.querySelector("div").onclick = this.clickHandler.bind(this)
+    const wholeElem = shadow.querySelector("div.whole")
+    wholeElem.onclick = this.clickHandler.bind(this)
   }
   set onclick(func){
     this.click = func
   }
   async clickHandler(e){
     e.stopPropagation()
-    const elem = this.shadow.querySelector("div")
     if(typeof this.click ==="function"){
       this.click(e)
     }

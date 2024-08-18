@@ -261,6 +261,7 @@ const createHTML = (params) => `
 <div id="plotly"></div>
 `
 
+
 export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
