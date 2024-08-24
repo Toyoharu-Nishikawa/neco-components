@@ -8,6 +8,7 @@ const createHTML = (params) => `
   --color: ${params.color};
   --background: ${params.background};
   --border: ${params.border};
+  --icon-height: 90%;
 }
 
 div.whole{
@@ -54,7 +55,7 @@ div.whole:hover:before { /* マウスホバー時に先程作成したbeforeを�
 
 div.iconArea{
   position: relative;
-  height: 90%;
+  height: var(--icon-height);
   aspect-ratio: 1;
   display: flex;
   justify-content: center;
