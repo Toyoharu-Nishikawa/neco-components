@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "ace-builds": "^1.33.1",
+    "ace-builds": "^1.36.0",
     "filereader": "^1.2.0",
     "handsontable": "^6.2.2",
     "jspreadsheet-ce": "^4.2.1",
@@ -9,7 +9,7 @@
     "tabulator-tables": "^6.2.1"
   },
   "name": "neco-components",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
