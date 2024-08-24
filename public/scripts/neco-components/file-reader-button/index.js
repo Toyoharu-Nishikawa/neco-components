@@ -6,44 +6,48 @@ const template = (params) => `
 :host{
   height: 100%;
   width: 100%;
+  display:block; 
+
+  --font-size           : initial;
+
+  --color               : black;
+  --background          : -webkit-linear-gradient(top, #ebebeb, #d5d5d5);
+  --border              : 1px solid #a9a9a9;
+  --border-radius       : 6px 6px 6px 6px;
+  --box-shadow          : 0 0 3px 0 rgba(0, 0, 0, 0.25);
+  --cursor              : pointer;
+
+  --color-hover         : var(--color);
+  --box-shadow-hover    : 0 3px 6px 0 rgba(0, 0, 0, 0.25);
+  --border-hover        : 1px solid gray;
+  --border-radius-hover : var(--border-radius);
+  --background-hover    : var(--background);
+  --transition          : none;
+
 }
 div {
-    /*
-  color: #3e5358;
-  border-radius: 1px;
-  border: 1px solid #1495b5;
-  border-radius: 6px 6px 6px 6px;
-  margin: 10px 20px 10px 50px;
-  width: 100px;
-  height: 28px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-*/
   height: 100%;
   width: 100%;
-  border: 1px solid #a9a9a9;
-  border-radius: 6px 6px 6px 6px;
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
-	box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.25);
 
-  background: -webkit-linear-gradient(top, #ebebeb, #d5d5d5);
-	color: #000;
-	cursor: pointer;
-
+  font-size     : var(--font-size);
+  color         : var(--color);
+  background    : var(--background);
+  border        : var(--border);
+  border-radius : var(--border-radius);
+  box-shadow    : var(--box-shadow);
+  cursor        : var(--cursor);
 }
 div:hover {
-    /*
-  background: #1495b5;
-  color: #F5FFFA;
-  transition: 1.2s;
-  cursor: pointer;
-*/
- 	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.25);
-  border: 1px solid gray;
+  color         : var(--color-hover);
+  background    : var(--background-hover);
+  border        : var(--border-hover);
+  border-radius : var(--border-radius-hover);
+  box-shadow    : var(--box-shadow-hover);
+  transition    : var(--transition);
 }
 div > span {
  user-select: none;
