@@ -103,10 +103,15 @@ export const customElem = class extends HTMLElement {
     })
     editor.$blockScrolling = Infinity
 
+    const runFunc = ()=>{
+      if(this.hasOwnProperty("runCallback")){
+        this.runCallback()
+      }
+    }
     editor.commands.addCommand({
       name:'run',
       bindKey: {win:'Shift-Return',mac:'Shift-Return'},
-      exec: this.runCallback,
+      exec: runFunc,
     })
     editor.commands.addCommand({
       name:'clearAll',
@@ -117,7 +122,6 @@ export const customElem = class extends HTMLElement {
     })
     //editor.setSession(ace.createEditSession("alert('works')"))
     if(isShadow){
-      console.log(editor)
       editor.renderer.attachToShadowRoot()
     }
   }
@@ -134,7 +138,8 @@ export const customElem = class extends HTMLElement {
     this.setValue(text)
   }
   set onrun(runCallback){
-    this.runCallback
+    console.log("set run callback")
+    this.runCallback = runCallback
   }
   setFontSize(fontSize){
     this.editor.setOptions({fontSize: fontSize })
