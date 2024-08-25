@@ -138,7 +138,6 @@ export const customElem = class extends HTMLElement {
     this.setValue(text)
   }
   set onrun(runCallback){
-    console.log("set run callback")
     this.runCallback = runCallback
   }
   setFontSize(fontSize){
