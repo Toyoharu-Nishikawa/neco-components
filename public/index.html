@@ -11,6 +11,19 @@
   </script>
   <script type="module" >
     import "neco-components/table-simple/index.js"
+    const main = async () => {
+      try{
+        const necoengine = await import("../necoengine/scripts/necoengine/index.js")
+        necoengine.login.setLoginButton()
+        necoengine.login.visit()
+      }
+      catch(e){
+        console.log("error",e.message)
+        console.log("necoengine is not alive")
+        initialize()
+      }
+    }
+    main() 
   </script>
   <style>
     body {
