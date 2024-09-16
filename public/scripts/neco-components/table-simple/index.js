@@ -194,7 +194,9 @@ export const CustomElem = class extends HTMLElement {
     //const dom = new DOMParser().parseFromString(template(styleParams), "text/html")
     //parentElement.appendChild(dom.head.querySelector("style"))
     //parentElement.appendChild(tableElem)
-    const HTML = createHTML(styleParams)
+    const templateHTML = createHTML(styleParams)
+    const innerHTML = this.innerHTML
+    const HTML = templateHTML+innerHTML
     shadow.setHTMLUnsafe(HTML)
     shadow.appendChild(tableElem)
 

@@ -45,7 +45,17 @@
     data-odd-background='#f0f0f0'
     data-even-background='white'
     data-header-background='gray'
-  ></neco-table-simple>
+  >
+   <style>
+     :host {
+       color: gray;
+       font-weight: bold;
+     }
+     tr:first-child {
+       color: white;
+     }
+   </style>
+  </neco-table-simple>
 
   <script type="module">
     const table = document.querySelector("neco-table-simple")
