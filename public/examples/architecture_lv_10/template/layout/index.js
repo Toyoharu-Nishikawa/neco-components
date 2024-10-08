@@ -38,11 +38,12 @@ const createHTML = () =>  `
     background: gray;
   }
 </style>
-<header></header>
-<nav></nav>
-<aside></aside>
-<main></main>
-<footer></footer>
+<header><slot name="header"></slot></header>
+<nav><slot name="nav"></slot></nav>
+<aside><slot name="aside"></slot></aside>
+<main><slot name="main"></slot></main>
+<footer><slot name="footer"></slot></footer>
+
 `
 
 export class CustomElem extends HTMLElement {
@@ -61,11 +62,11 @@ export class CustomElem extends HTMLElement {
     }
     console.log("!!! setHTML!!!", TAG_NAME)
     this.shadow = shadow
-    this.header = this.shadow.querySelector("header")
-    this.nav    = this.shadow.querySelector("nav")
-    this.aside  = this.shadow.querySelector("aside")
-    this.main   = this.shadow.querySelector("main")
-    this.footer = this.shadow.querySelector("footer")
+//    this.header = this.shadow.querySelector("header")
+//    this.nav    = this.shadow.querySelector("nav")
+//    this.aside  = this.shadow.querySelector("aside")
+//    this.main   = this.shadow.querySelector("main")
+//    this.footer = this.shadow.querySelector("footer")
   }
   test(){
     console.log("test")
@@ -89,12 +90,12 @@ export class CustomElem extends HTMLElement {
     footerElem.textContent = "footer"
     this.addElem("footer", footerElem)
   }
-  addElem(tag, elem){
-    this[tag].appendChild(elem)
-  }
-  removeElem(tag, elem){
-    this[tag].removeChild(elem)
-  }
+//  addElem(tag, elem){
+//    this[tag].appendChild(elem)
+//  }
+//  removeElem(tag, elem){
+//    this[tag].removeChild(elem)
+//  }
 
 }
 

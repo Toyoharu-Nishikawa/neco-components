@@ -17,6 +17,11 @@ const createHTML = () =>`
   }
 </style>
 <${TL}>
+  <${TH} slot="header"></${TH}>
+  <${TN} slot="nav"></${TN}>
+  <${TA} slot="aside"></${TA}>
+  <${TM} slot="main"></${TM}>
+  <${TF} slot="footer"></${TF}>
 </${TL}>
 `
 
@@ -42,23 +47,23 @@ export class CustomElem extends HTMLElement {
 
     const layoutElem = shadow.querySelector(TL)
 
-    this.headerElem = document.createElement(TH)
-    layoutElem.addElem("header", this.headerElem)
-
-    this.footerElem = document.createElement(TF)
-    layoutElem.addElem("footer", this.footerElem)
-
-    this.navElem = document.createElement(TN)
-    layoutElem.addElem("nav", this.navElem)
+    const headerSlot = layoutElem.shadow.querySelector('slot[name="header"]')
+    this.headerElem  = headerSlot.assignedElements()[0]
+ 
+    const footerSlot = layoutElem.shadow.querySelector('slot[name="footer"]')
+    this.footerElem  = footerSlot.assignedElements()[0]
+ 
+    const navSlot = layoutElem.shadow.querySelector('slot[name="nav"]')
+    this.navElem = navSlot.assignedElements()[0]
     this.navElem.setParentThis(this)
 
-    this.asideElem = document.createElement(TA)
-    layoutElem.addElem("aside", this.asideElem)
+    const asideSlot = layoutElem.shadow.querySelector('slot[name="aside"]') 
+    this.asideElem = asideSlot.assignedElements()[0] 
+    console.log(this.asideElem)
     this.asideElem.setParentThis(this)
 
-    this.mainElem = document.createElement(TM)
-    layoutElem.addElem("main", this.mainElem)
-
+    const mainSlot = layoutElem.shadow.querySelector('slot[name="main"]') 
+    this.mainElem  = mainSlot.assignedElements()[0] 
   }
   test(){
     console.log("test")

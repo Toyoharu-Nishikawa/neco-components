@@ -17,6 +17,11 @@ const createHTML = () =>`
   }
 </style>
 <${TL}>
+  <${TH} slot="header"></${TH}>
+  <${TN} slot="nav"></${TN}>
+  <${TA} slot="aside"></${TA}>
+  <${TM} slot="main"></${TM}>
+  <${TF} slot="footer"></${TF}>
 </${TL}>
 `
 
@@ -39,23 +44,6 @@ export class CustomElem extends HTMLElement {
     }
     console.log("!!! setHTML!!!", TAG_NAME)
     this.shadow = shadow
-
-    const layoutElem = shadow.querySelector(TL)
-
-    const headerElem = document.createElement(TH)
-    layoutElem.addElem("header", headerElem)
-
-    const footerElem = document.createElement(TF)
-    layoutElem.addElem("footer", footerElem)
-
-    const navElem = document.createElement(TN)
-    layoutElem.addElem("nav", navElem)
-
-    const asideElem = document.createElement(TA)
-    layoutElem.addElem("aside", asideElem)
-
-    const mainElem = document.createElement(TM)
-    layoutElem.addElem("main", mainElem)
   }
   test(){
     console.log("test")
