@@ -84,6 +84,8 @@ canvas{
 }
 .reset {
   user-select: none;
+  width: 50px;
+  text-align: center;
   position:absolute; top:15px; right:15px;
   background-color: gray;
   color: black;
@@ -93,6 +95,20 @@ canvas{
 .reset:hover {
   background-color: #AAAAAA;
 }
+.fit {
+  user-select: none;
+  width: 50px;
+  text-align: center;
+  position:absolute; top:15px; right:120px;
+  background-color: gray;
+  color: black;
+  cursor:pointer;
+  padding: 2px;
+}
+.fit:hover {
+  background-color: #AAAAAA;
+}
+
 </style>
 
 <div id="three"></div>
@@ -114,8 +130,8 @@ canvas{
       <div class="rightArrow"</div>
   </div>
 </div>
+<div class="fit">FIT</div>
 <div class="reset">RESET</div>
-
 `
 
 export const CustomElem = class extends HTMLElement {
@@ -191,7 +207,7 @@ export const CustomElem = class extends HTMLElement {
 
     scene.add(camera)
 
-    this.testCube()
+    //this.testCube()
     this.setViewCubeEvent()
     renderer.render(scene, camera)
     
@@ -244,6 +260,7 @@ export const CustomElem = class extends HTMLElement {
     const rightArrow  = shadow.querySelector("div.triangle >  .rightArrow") 
 
     const reset  = shadow.querySelector("div.reset") 
+    const fit    = shadow.querySelector("div.fit") 
 
     front.onclick = () => {
        controls.target.set(0, 0, 0)
@@ -331,6 +348,7 @@ export const CustomElem = class extends HTMLElement {
     reset.onclick = () => {
       controls.reset()
     }
+    fit.onclick = this.fit.bind(this)
   }
   rotateViewCube(){
     const shadow = this.shadow
@@ -359,6 +377,54 @@ export const CustomElem = class extends HTMLElement {
       ${this.epsilon( elements[15])}
     )`
     viewCubeFace.style.transform = matrix3d 
+  }
+  fit(e){
+    const d = 1.0
+    const scene   = this.scene
+    const THREE   = this.THREE
+    const camera    = this.camera
+    const controls  = this.controls
+    const tempGroup = new THREE.Group()
+    scene.traverse(obj => {
+      // for all mesh objects in scene
+      if(obj.type === 'Mesh'){
+          tempGroup.add(obj.clone())
+      }
+    })
+    const bbox = new THREE.Box3().setFromObject(tempGroup)
+    const center = new THREE.Vector3()
+    bbox.getCenter(center)
+    const bsphere = bbox.getBoundingSphere(new THREE.Sphere(center))
+    const radius = bsphere.radius
+
+    const D = radius*2
+    const verticalL   = camera.top   - camera.bottom
+    const horizontalL = camera.right - camera.left
+
+    const zoomV =  verticalL / D * d
+    const zoomH =  horizontalL / D * d
+    const zoom  = Math.min(zoomV,zoomH)
+    const vec   = camera.position.clone().sub(controls.target)
+    const newP  = vec.add(center)
+
+    camera.zoom = zoom
+    controls.target.copy(center)
+    camera.position.copy(newP)
+    camera.updateProjectionMatrix()
+
+
+    //const helper = new THREE.Box3Helper(bbox, new THREE.Color(0, 255, 0));
+    //scene.add(helper);
+
+    //const m = new THREE.MeshStandardMaterial({
+    //    color: 0xffffff,
+    //    opacity: 0.3,
+    //    transparent: true
+    //})
+    //const geometry = new THREE.SphereGeometry(radius, 32, 32)
+    //const sMesh = new THREE.Mesh(geometry, m)
+    //scene.add(sMesh)
+    //sMesh.position.copy(center)
   }
   testCube(){
     const mesh = new THREE.Mesh(
