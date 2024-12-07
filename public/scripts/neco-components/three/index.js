@@ -134,6 +134,20 @@ canvas{
 <div class="reset">RESET</div>
 `
 
+const getAxisAndAngelFromQuaternion = (q) =>{
+  const angle = 2 * Math.acos(q.w);
+  let s
+  if (1 - q.w * q.w < 0.000001) {
+    // test to avoid divide by zero, s is always positive due to sqrt
+    // if s close to zero then direction of axis not important
+    // http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/
+    s = 1;
+  } else {
+    s = Math.sqrt(1 - q.w * q.w);
+  }
+  return { axis: [q.x/s, q.y/s, q.z/s], angle }
+}
+
 export const CustomElem = class extends HTMLElement {
   constructor(){
     super()
@@ -379,7 +393,7 @@ export const CustomElem = class extends HTMLElement {
     viewCubeFace.style.transform = matrix3d 
   }
   fit(e){
-    const d = 1.0
+    const d = 0.98
     const scene   = this.scene
     const THREE   = this.THREE
     const camera    = this.camera
@@ -391,30 +405,77 @@ export const CustomElem = class extends HTMLElement {
           tempGroup.add(obj.clone())
       }
     })
+
     const bbox = new THREE.Box3().setFromObject(tempGroup)
+    //if(this.boxHelper) scene.remove(this.boxHelper)
+    //this.boxHelper = new THREE.Box3Helper(bbox, new THREE.Color(255, 255, 0));
+    //scene.add(this.boxHelper)
+
+    const bboxMax = bbox.max
+    const bboxMin = bbox.min
+    const points = [
+      new THREE.Vector3(bboxMin.x, bboxMin.y, bboxMin.z),
+      new THREE.Vector3(bboxMax.x, bboxMin.y, bboxMin.z), 
+      new THREE.Vector3(bboxMin.x, bboxMax.y, bboxMin.z),
+      new THREE.Vector3(bboxMax.x, bboxMax.y, bboxMin.z),
+      new THREE.Vector3(bboxMin.x, bboxMin.y, bboxMax.z),
+      new THREE.Vector3(bboxMax.x, bboxMin.y, bboxMax.z),
+      new THREE.Vector3(bboxMin.x, bboxMax.y, bboxMax.z),
+      new THREE.Vector3(bboxMax.x, bboxMax.y, bboxMax.z),
+    ]
+
+    /* method1 */
+    const calcZoomByMethod1 = (camera, boxPoints, d) => {
+      const projectionPoints = boxPoints.map(v=>v.clone().project(camera))
+      const xList = projectionPoints.map(v=>v.x)
+      const yList = projectionPoints.map(v=>v.y)
+      const xMin = Math.min(...xList)
+      const xMax = Math.max(...xList)
+      const yMin = Math.min(...yList)
+      const yMax = Math.max(...yList)
+      const dx = xMax - xMin
+      const dy = yMax - yMin
+      const magV =  2/dy*d 
+      const magH =  2/dx*d 
+      const zoomOld = camera.zoom
+      const zoomV = zoomOld*magV
+      const zoomH = zoomOld*magH
+      const zoom  = Math.min(zoomV,zoomH)
+      return zoom
+    }
+
+   
+    /* method2 */
+    const calcZoomByMethod2 = (camera, boxPoints, d) => {
+      const cameraQ = camera.quaternion.invert()
+      const pPoints = boxPoints.map(v=>v.clone().applyQuaternion(cameraQ)) 
+      const xList = pPoints.map(v=>v.x)
+      const yList = pPoints.map(v=>v.y)
+      const xMin = Math.min(...xList)
+      const xMax = Math.max(...xList)
+      const yMin = Math.min(...yList)
+      const yMax = Math.max(...yList)
+      const dx = xMax - xMin
+      const dy = yMax - yMin
+      const verticalL   = camera.top   - camera.bottom
+      const horizontalL = camera.right - camera.left
+      const zoomV =  verticalL   / dy * d
+      const zoomH =  horizontalL / dx * d
+      const zoom  = Math.min(zoomV,zoomH)
+      return zoom
+    }
+    
+    const zoom = calcZoomByMethod1(camera, points, d)
+
     const center = new THREE.Vector3()
     bbox.getCenter(center)
-    const bsphere = bbox.getBoundingSphere(new THREE.Sphere(center))
-    const radius = bsphere.radius
-
-    const D = radius*2
-    const verticalL   = camera.top   - camera.bottom
-    const horizontalL = camera.right - camera.left
-
-    const zoomV =  verticalL / D * d
-    const zoomH =  horizontalL / D * d
-    const zoom  = Math.min(zoomV,zoomH)
     const vec   = camera.position.clone().sub(controls.target)
     const newP  = vec.add(center)
 
-    camera.zoom = zoom
+    camera.zoom = zoom 
     controls.target.copy(center)
     camera.position.copy(newP)
     camera.updateProjectionMatrix()
-
-
-    //const helper = new THREE.Box3Helper(bbox, new THREE.Color(0, 255, 0));
-    //scene.add(helper);
 
     //const m = new THREE.MeshStandardMaterial({
     //    color: 0xffffff,
