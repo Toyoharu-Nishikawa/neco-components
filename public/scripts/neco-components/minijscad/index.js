@@ -19,6 +19,10 @@ export const CustomElem = class extends HTMLElement {
     super()
   }
   connectedCallback() {
+    const internals = this.attachInternals()
+    const isShadow = internals.shadowRoot
+    if(isShadow) return
+
     const shadow = this.attachShadow({mode: 'open'});
     this.shadow=shadow
     const HTML = createHTML()

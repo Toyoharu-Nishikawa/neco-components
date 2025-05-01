@@ -5,11 +5,11 @@
     "handsontable": "^6.2.2",
     "jspreadsheet-ce": "^4.2.1",
     "minijscad": "^2.9.3",
-    "plotly.js-dist-min": "^2.32.0",
+    "plotly.js-dist-min": "^3.0.1",
     "tabulator-tables": "^6.2.1"
   },
   "name": "neco-components",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
