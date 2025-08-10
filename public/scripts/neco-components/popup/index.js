@@ -100,7 +100,7 @@ const createHTML = (params) => `
   </div>
 </div>
 `
-//
+
 
 let Z_INDEX = 9999
 export const CustomElem = class extends HTMLElement {
@@ -167,6 +167,18 @@ export const CustomElem = class extends HTMLElement {
                            clientHeight < bottomEnd
           if(rangeOut){
             e.target.setPointerCapture(e.pointerId)
+            if(positionLeft<0){
+              childElem.style.left     = "0" + 'px'
+            }
+            if(positionTop  <0){
+              childElem.style.top      = "0" + 'px'
+            }
+            if(clientWidth < rightEnd){
+              childElem.style.left     = String(clientWidth - childWidth ) + 'px'
+            }
+            if(clientHeight < bottomEnd){
+              childElem.style.top      = String(clientHeight - childHeight ) + 'px'
+            }
             return
           }
           
@@ -179,8 +191,8 @@ export const CustomElem = class extends HTMLElement {
 
     let mouseIsDownForW = false
     let mouseIsDownForH = false
-    const Dmin = 2 
-    const Dmax = 8
+    const Dmin = 1 
+    const Dmax = 10 
     const mouseDown = (e) => {
       e.stopPropagation()
       e.preventDefault()
@@ -198,7 +210,7 @@ export const CustomElem = class extends HTMLElement {
       if(dw){
         mouseIsDownForW = true
       }
-      else if(dh){
+      if(dh){
         mouseIsDownForH = true
       }
     }
@@ -221,10 +233,13 @@ export const CustomElem = class extends HTMLElement {
       const dy = mainHeight - offsetY
       const dw = Dmin < dx && dx < Dmax 
       const dh = Dmin < dy && dy < Dmax
-      if(dw){
+      if(dw && dh){
+        mainElem.style.cursor = "nwse-resize"
+      }
+      else if(dw && !dh){
         mainElem.style.cursor = "ew-resize"
       }
-      else if(dh){
+      else if(!dw && dh){
         mainElem.style.cursor = "ns-resize"
       }
       else{
@@ -277,7 +292,7 @@ export const CustomElem = class extends HTMLElement {
     this.setQuerySelector()
   }
   resize(width, height){
-     const mainHeight = height - HEADER_HEIGHT
+    const mainHeight = height - HEADER_HEIGHT
     this.childElem.style.width=width+"px"
     this.childElem.style.height=height+"px"
     this.mainElem.style.height=mainHeight+"px"
