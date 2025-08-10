@@ -167,6 +167,18 @@ export const CustomElem = class extends HTMLElement {
                            clientHeight < bottomEnd
           if(rangeOut){
             e.target.setPointerCapture(e.pointerId)
+            if(positionLeft<0){
+              childElem.style.left     = "0" + 'px'
+            }
+            if(positionTop  <0){
+              childElem.style.top      = "0" + 'px'
+            }
+            if(clientWidth < rightEnd){
+              childElem.style.left     = String(clientWidth - childWidth ) + 'px'
+            }
+            if(clientHeight < bottomEnd){
+              childElem.style.top      = String(clientHeight - childHeight ) + 'px'
+            }
             return
           }
           
